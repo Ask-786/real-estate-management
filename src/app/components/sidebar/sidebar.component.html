@@ -1,9 +1,24 @@
-<mat-drawer-container class="h-screen w-screen bg-color-light" hasBackdrop="false">
-    <mat-drawer #drawer class="mat-drawer sm:hidden md:w-96 bg-color-dark pl-4 pt-2 color-light" mode="side"
-        opened="true">
+<mat-drawer-container class="h-screen w-screen bg-color-light" [hasBackdrop]="!screenWidth">
+    <mat-drawer #drawer class="mat-drawer lg:w-80 md:w-60 bg-color-dark color-light shadow-none flex items-center "
+        mode="side" [opened]="screenWidth">
+        <div>
+            <span class="w-5/6 p-5"> hello</span>
+            <app-button routerLink="map">
+                <mat-icon id="icon">map</mat-icon>
+                <span id="name">Map</span>
+            </app-button>
+            <app-button routerLink="properties">
+                <mat-icon id="icon">apartment</mat-icon>
+                <span id="name">Properties</span>
+            </app-button>
+            <app-button routerLink="auth/login">
+                <mat-icon id="icon">login</mat-icon>
+                <span id="name">Login</span>
+            </app-button>
+        </div>
     </mat-drawer>
     <mat-drawer-content class="pt-0">
-        <app-navbar class="w-full z-10"></app-navbar>
+        <app-navbar class="w-full z-10" (toggleSide)="drawer.toggle()"></app-navbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
