@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -7,7 +7,7 @@ import * as L from 'leaflet';
   styleUrls: ['./map-view.component.css'],
 })
 export class MapViewComponent implements OnInit {
-  private map: any;
+  private map!: L.Map;
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -36,8 +36,6 @@ export class MapViewComponent implements OnInit {
 
     tiles.addTo(this.map);
   }
-
-  constructor() {}
 
   ngOnInit(): void {
     this.initMap();

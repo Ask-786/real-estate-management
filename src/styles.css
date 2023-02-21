@@ -13,29 +13,29 @@ body {
 }
 
 .color-primary {
-  color: #0f4c75;
+  color: #395b64;
 }
 .bg-color-primary {
-  background-color: #0f4c75;
+  background-color: #395b64;
 }
 
 .color-accent {
-  color: #3282b8;
+  color: #a5c9ca;
 }
 .bg-color-accent {
-  background-color: #3282b8;
+  background-color: #a5c9ca;
 }
 
 .color-dark {
-  color: #1b262c;
+  color: #2c3333;
 }
 .bg-color-dark {
-  background-color: #1b262c;
+  background-color: #2c3333;
 }
 
 .color-light {
-  color: #bbe1fa;
+  color: #e7f6f2;
 }
 .bg-color-light {
-  background-color: #bbe1fa;
+  background-color: #e7f6f2;
 }

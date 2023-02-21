@@ -1,4 +1,4 @@
-<mat-drawer-container class="h-screen w-screen bg-color-light" [hasBackdrop]="!screenWidth">
+<mat-drawer-container class="h-screen w-screen bg-color-primary" [hasBackdrop]="!screenWidth">
     <mat-drawer #drawer class="mat-drawer lg:w-80 md:w-60 bg-color-dark color-light shadow-none flex items-center "
         mode="side" [opened]="screenWidth">
         <div>
@@ -17,8 +17,8 @@
             </app-button>
         </div>
     </mat-drawer>
-    <mat-drawer-content class="pt-0">
-        <app-navbar class="w-full z-10" (toggleSide)="drawer.toggle()"></app-navbar>
+    <mat-drawer-content>
+        <app-navbar class="w-full" (toggleSide)="drawer.toggle()"></app-navbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>

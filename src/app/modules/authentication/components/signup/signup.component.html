@@ -1,1 +1,21 @@
-<p>signup works!</p>
+<div
+    class="login-box absolute top-1/2 left-1/2 p-10 bg-color-dark shadow-zinc-900 shadow-lg lg:max-w-md w-5/6 md:w-4/6 rounded-lg">
+    <h1 class="mb-8">Register</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <p class="color-light">First Name</p>
+        <input type="text" class="w-full" formControlName="firstname" name="username" placeholder="Enter Username">
+        <p class="color-light">Last Name</p>
+        <input type="password" name="password" formControlName="lastname" placeholder="Enter Password">
+        <p class="color-light">Email</p>
+        <input type="password" name="password" formControlName="email" placeholder="Enter Password">
+        <p class="color-light">Phone</p>
+        <input type="password" name="password" formControlName="phone" placeholder="Enter Password">
+        <p class="color-light">Password</p>
+        <input type="password" formControlName="password" name="password" placeholder="Enter Password">
+        <input type="submit" class="mt-5 bg-color-primary hover:bg-color-light cursor-pointer" name="submit"
+            value="Register">
+        <a class="cursor-pointer mt-10">Forgot your password?</a>
+        <br>
+        <a class="cursor-pointer" routerLink="/auth/login">Already a user? Go to login.</a>
+    </form>
+</div>

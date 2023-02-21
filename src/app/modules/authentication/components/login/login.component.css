@@ -1,0 +1,76 @@
+.login-box {
+  transform: translate(-50%, -50%);
+}
+
+.login-box h1 {
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.login-box input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.login-box input[type="submit"] {
+  border: none;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 20px;
+}
+
+.login-box a {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.login-box a:hover {
+  text-decoration: underline;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+}
+
+.invit-only {
+  margin: 0px 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+.invit-only label {
+  display: flex;
+  align-items: center;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 50px;
+}
+
+.example-full-width {
+  width: 100%;
+}

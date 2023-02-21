@@ -10,6 +10,20 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  {
+    path: 'enquiry',
+    loadChildren: () =>
+      import('./modules/enquiries/enquiries.module').then(
+        (m) => m.EnquiriesModule
+      ),
+  },
+  {
+    path: 'property',
+    loadChildren: () =>
+      import('./modules/properties/properties.module').then(
+        (m) => m.PropertiesModule
+      ),
+  },
   { path: 'map', component: MapViewComponent },
 ];
 

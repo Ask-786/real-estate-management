@@ -1,1 +1,12 @@
-<p>login works!</p>
+<div class="login-box absolute top-1/2 left-1/2 p-10 bg-color-dark shadow-zinc-900 shadow-lg max-w-md rounded-lg">
+    <h1 class="mb-8">Login</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <p class="color-light">Username</p>
+        <input type="text" class="w-full" formControlName="username" name="username" placeholder="Enter Username">
+        <p class="color-light">Password</p>
+        <input type="password" name="password" placeholder="Enter Password" formControlName="password">
+        <input type="submit" class="mt-5 bg-color-primary hover:bg-black" name="submit" value="Login">
+        <a class="cursor-pointer mt-10">Forgot your password?</a><br>
+        <a class="cursor-pointer" routerLink="/auth/signup">Don't have an account? Go to Sign Up</a>
+    </form>
+</div>
