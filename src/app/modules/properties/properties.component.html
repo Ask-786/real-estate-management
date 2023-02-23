@@ -1,1 +1,7 @@
-<div *ngFor="let property of properties$ | async">{{property.price}}</div>
+<div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div *ngFor="let property of properties$ | async" class="m-3">
+        <app-property>
+            <h1>{{property.title}}</h1>
+        </app-property>
+    </div>
+</div>

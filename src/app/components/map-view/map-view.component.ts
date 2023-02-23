@@ -11,7 +11,7 @@ export class MapViewComponent implements OnInit {
 
   private initMap(): void {
     this.map = L.map('map', {
-      center: [76.365746, 11.151477],
+      center: [11.151477, 76.365746],
       zoom: 15,
       zoomControl: true,
       trackResize: true,

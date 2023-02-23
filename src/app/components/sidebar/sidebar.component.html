@@ -2,26 +2,29 @@
     <mat-drawer #drawer class="mat-drawer lg:w-80 md:w-60 bg-color-dark color-light shadow-none flex items-center "
         mode="side" [opened]="screenWidth">
         <div>
-            <span class="w-5/6 p-5"> hello</span>
+            <div class="w-11/12 mx-auto h-16 flex items-center justify-center overflow-hidden mt-2">
+                <img src="../../../assets//images/1000_F_355091812_ojjt6PIw3lAQYqrVPvPE5FTLpasxF2pu.jpg" alt="">
+            </div>
+
             <app-button routerLink="map">
                 <mat-icon id="icon">map</mat-icon>
-                <span id="name">Map</span>
+                <span id="name" class="flex items-center">Map</span>
             </app-button>
             <app-button routerLink="properties">
                 <mat-icon id="icon">apartment</mat-icon>
-                <span id="name">Properties</span>
+                <span id="name" class="flex items-center">Properties</span>
             </app-button>
             <app-button routerLink="auth/login">
                 <mat-icon id="icon">person</mat-icon>
-                <span id="name">Account</span>
+                <span id="name" class="flex items-center">Account</span>
             </app-button>
             <app-button routerLink="auth/login">
                 <mat-icon id="icon">login</mat-icon>
-                <span id="name">Login</span>
+                <span id="name" class="flex items-center">Login</span>
             </app-button>
         </div>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content class="relative">
         <app-navbar class="w-full" (toggleSide)="drawer.toggle()"></app-navbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
