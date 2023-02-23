@@ -18,11 +18,16 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'property',
+    path: 'properties',
     loadChildren: () =>
       import('./modules/properties/properties.module').then(
         (m) => m.PropertiesModule
       ),
+  },
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./modules/user/user.module').then((m) => m.UserModule),
   },
   { path: 'map', component: MapViewComponent },
 ];

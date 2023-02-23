@@ -1,3 +1,4 @@
+import { AuthGuardService } from './guards/auth.guard.service';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +14,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     NavbarComponent,
     MapViewComponent,
     ButtonComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
       autoPause: true,
     }),
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  toggleSideBar() {}
-}
+export class AppModule {}

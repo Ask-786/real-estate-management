@@ -1,6 +1,7 @@
+import { LoginForm } from './../../models/authentication.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { tap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 const httpOptions = {
@@ -13,8 +14,9 @@ const httpOptions = {
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  userLogin(userData: any) {
-    console.log('hello');
+  userLogin(
+    userData: Partial<LoginForm>
+  ): Observable<{ status: boolean; access_token: string }> {
     return this.http
       .post<{ status: boolean; access_token: string }>(
         `${environment.baseUrl}/auth/login`,

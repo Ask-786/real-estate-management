@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, HostListener } from '@angular/core';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
-  public screenWidth: any = window.innerWidth > 768;
+  public screenWidth: boolean = window.innerWidth > 768;
 
   @HostListener('window:resize', ['event'])
   onWindowResize() {

@@ -1,3 +1,5 @@
+import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from './login.service';
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -10,9 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnDestroy {
-  loginResponse!: Subscription;
+  loginResponse$!: Subscription;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
+
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -20,20 +27,19 @@ export class LoginComponent implements OnDestroy {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-    this.loginResponse = this.loginService
+    this.loginResponse$ = this.loginService
       .userLogin(this.loginForm.value)
       .subscribe({
-        next: (v) => {
-          console.log(v);
-          this.router.navigate(['map']);
+        next: () => {
+          this.router.navigateByUrl('map');
         },
         error: (e: HttpErrorResponse) => {
-          console.log(e.error.message);
+          this.dialog.open(DialogComponent, { data: e.error.message });
         },
       });
   }
 
   ngOnDestroy() {
-    this.loginResponse.unsubscribe();
+    if (this.loginResponse$) this.loginResponse$.unsubscribe();
   }
 }

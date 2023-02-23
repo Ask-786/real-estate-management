@@ -1,3 +1,4 @@
+import { SignUpForm } from './../../models/authentication.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
@@ -10,10 +11,10 @@ const httpOptions = {
 export class SignupService {
   constructor(private http: HttpClient) {}
 
-  registerUser(user: any) {
+  registerUser(userData: Partial<SignUpForm>) {
     return this.http.post(
       `${environment.baseUrl}/auth/signup`,
-      user,
+      userData,
       httpOptions
     );
   }
