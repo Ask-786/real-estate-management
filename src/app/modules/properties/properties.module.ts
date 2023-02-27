@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from './../material/material.module';
 import { PropertiesService } from './properties.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -5,18 +7,22 @@ import { PropertiesRoutingModule } from './properties-routing.module';
 
 import { PropertiesComponent } from './properties.component';
 import { PropertyComponent } from './components/property/property.component';
-
-//material
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { AddPropertyDialogComponent } from './components/add-property-dialog/add-property-dialog.component';
+import { PropertyDetailsComponent } from './components/property-details/property-details.component';
 
 @NgModule({
-  declarations: [PropertiesComponent, PropertyComponent],
+  declarations: [
+    PropertiesComponent,
+    PropertyComponent,
+    AddPropertyDialogComponent,
+    PropertyDetailsComponent,
+  ],
   imports: [
     CommonModule,
     PropertiesRoutingModule,
-    MatCardModule,
-    MatButtonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [PropertiesService],
 })

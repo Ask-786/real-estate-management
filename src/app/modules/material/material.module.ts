@@ -8,10 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 
 const material = [
   MatSidenavModule,
   MatDialogModule,
+  MatRadioModule,
+  MatCardModule,
   MatFormFieldModule,
   MatSelectModule,
   MatToolbarModule,

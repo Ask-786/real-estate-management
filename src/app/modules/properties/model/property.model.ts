@@ -5,7 +5,7 @@ export interface PropertyModelInterface {
   createdAt: string;
   updatedAt: string;
   _id: string;
-  propertyType: propertyTypeEnum;
+  propertyType: PropertyTypeEnum;
   owner: string;
   isAvailable: boolean;
   images: string[];
@@ -14,9 +14,11 @@ export interface PropertyModelInterface {
   address: propertyAddressInterface;
 }
 
-export enum propertyTypeEnum {
+export enum PropertyTypeEnum {
   land = 'land',
-  property = 'property',
+  residential = 'residential',
+  commercial = 'commercial',
+  industrial = 'industrial',
 }
 
 export interface coOrdinatesInterface {
@@ -31,4 +33,20 @@ export interface propertyAddressInterface {
   city: string;
   streetAddress: string;
   zipCode: string;
+}
+
+export interface AddPropertyInterface {
+  title: string | null;
+  price: number | null;
+  tags: string | null;
+  description: string | null;
+  lattitude: number | null;
+  longitude: number | null;
+  propertyType: string | null;
+  country: string | null;
+  state: string | null;
+  district: string | null;
+  city: string | null;
+  streetAddress: string | null;
+  zipCode: number | null;
 }

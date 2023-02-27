@@ -1,6 +1,6 @@
+import { AuthenticationService } from './../../authentication.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginService } from './login.service';
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -15,19 +15,19 @@ export class LoginComponent implements OnDestroy {
   loginResponse$!: Subscription;
 
   constructor(
-    private loginService: LoginService,
+    private authenticationService: AuthenticationService,
     private router: Router,
     private dialog: MatDialog
   ) {}
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-    this.loginResponse$ = this.loginService
+    this.loginResponse$ = this.authenticationService
       .userLogin(this.loginForm.value)
       .subscribe({
         next: () => {
