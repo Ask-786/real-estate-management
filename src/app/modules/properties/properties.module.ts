@@ -1,3 +1,5 @@
+import { reducers } from './store/reducers';
+import { StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../material/material.module';
 import { PropertiesService } from './properties.service';
@@ -23,6 +25,7 @@ import { PropertyDetailsComponent } from './components/property-details/property
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    StoreModule.forFeature('properties', reducers),
   ],
   providers: [PropertiesService],
 })

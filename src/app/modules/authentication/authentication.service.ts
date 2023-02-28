@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { tap, Observable } from 'rxjs';
+import { tap, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { LoginForm, SignUpForm } from './models/authentication.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -11,7 +11,17 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
+  private readonly TOKEN_NAME = 'access_token';
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(true);
+  isLoggedIn$: Observable<boolean> = this._isLoggedIn$.asObservable();
+
+  constructor(private http: HttpClient) {
+    this._isLoggedIn$.next(!!this.token);
+  }
+
+  get token() {
+    return localStorage.getItem(this.TOKEN_NAME);
+  }
 
   userLogin(
     userData: Partial<LoginForm>
@@ -25,7 +35,7 @@ export class AuthenticationService {
       .pipe(
         tap((response: { status: boolean; access_token: string }) => {
           if (response.status) {
-            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem(this.TOKEN_NAME, response.access_token);
           }
         })
       );
