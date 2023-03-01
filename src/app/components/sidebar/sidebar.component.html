@@ -24,8 +24,8 @@
             </app-button>
         </div>
     </mat-drawer>
-    <mat-drawer-content class="relative">
-        <app-navbar class="w-full" (toggleSide)="drawer.toggle()"></app-navbar>
+    <mat-drawer-content class="overflow-hidden">
+        <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>

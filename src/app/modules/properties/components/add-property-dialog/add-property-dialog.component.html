@@ -69,12 +69,12 @@
             </mat-form-field>
             <mat-form-field class="m-2 mt-0 ml-0 w-48 mb-0" appearance="outline">
                 <mat-label>Zip Code</mat-label>
-                <input type="text" formControlName="zipCode" matInput>
+                <input type="number" formControlName="zipCode" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
         </div>
 
-        <label id="example-radio-group-label" class="ml-4 mt-5">Pick your favorite season</label>
+        <label id="example-radio-group-label" class="ml-4 mt-5">Select Property Type</label>
         <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="propertyType"
             class="flex-col flex ml-4" [(ngModel)]="type">
             <mat-radio-button class="example-radio-button" *ngFor="let propertyType of propertyTypes"
@@ -85,5 +85,5 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions class="bg-color-dark">
-    <button mat-button form="myform" class="w-full bg-neutral-800">Next</button>
+    <button mat-button form="myform" class="w-full bg-neutral-800">Submit</button>
 </mat-dialog-actions>

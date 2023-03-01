@@ -1,4 +1,3 @@
-import { PropertyComponent } from './../../modules/properties/components/property/property.component';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';

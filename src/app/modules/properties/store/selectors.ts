@@ -12,7 +12,18 @@ export const propertiesSelector = createSelector(
   selectFeature,
   (state) => state.properties
 );
+
 export const errorSelector = createSelector(
   selectFeature,
   (state) => state.error
+);
+
+export const selectedPropertySelector = createSelector(
+  selectFeature,
+  (state) => state.selectedProperty
+);
+
+export const propertyPageSelector = createSelector(
+  selectFeature,
+  (state) => state.page
 );

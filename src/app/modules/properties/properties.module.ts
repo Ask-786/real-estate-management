@@ -1,3 +1,5 @@
+import { PropertiesEffects } from './store/effects';
+import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +28,7 @@ import { PropertyDetailsComponent } from './components/property-details/property
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forFeature('properties', reducers),
+    EffectsModule.forFeature([PropertiesEffects]),
   ],
   providers: [PropertiesService],
 })

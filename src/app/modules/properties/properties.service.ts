@@ -6,21 +6,38 @@ import {
   AddPropertyInterface,
   PropertyModelInterface,
 } from './model/property.model';
+import { select, Store } from '@ngrx/store';
+import * as PropertiesSelectors from './store/selectors';
+import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PropertiesService {
-  constructor(private http: HttpClient) {}
-
-  getProperties(): Observable<PropertyModelInterface[]> {
-    return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property`
+  propertiesPage$: Observable<number>;
+  constructor(
+    private http: HttpClient,
+    private store: Store<AppStateInterface>
+  ) {
+    this.propertiesPage$ = this.store.pipe(
+      select(PropertiesSelectors.propertyPageSelector)
     );
   }
 
-  addProperty(data: Partial<AddPropertyInterface>) {
-    return this.http.post<AddPropertyInterface>(
+  getProperties(): Observable<PropertyModelInterface[]> {
+    let propertiesePage;
+    this.propertiesPage$.subscribe({
+      next: (data: number) => {
+        propertiesePage = data;
+      },
+    });
+    return this.http.get<PropertyModelInterface[]>(
+      `${environment.baseUrl}/property?page=${propertiesePage}`
+    );
+  }
+
+  addProperty(data: AddPropertyInterface) {
+    return this.http.post<PropertyModelInterface>(
       `${environment.baseUrl}/property/add-property`,
       {
         title: data.title,
@@ -46,6 +63,8 @@ export class PropertiesService {
   }
 
   getOneProperty(id: string) {
-    return this.http.get(`${environment.baseUrl}/property/${id}`);
+    return this.http.get<PropertyModelInterface>(
+      `${environment.baseUrl}/property/${id}`
+    );
   }
 }

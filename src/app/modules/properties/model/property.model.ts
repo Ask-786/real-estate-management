@@ -36,17 +36,17 @@ export interface propertyAddressInterface {
 }
 
 export interface AddPropertyInterface {
-  title: string | null;
-  price: number | null;
-  tags: string | null;
-  description: string | null;
-  lattitude: number | null;
-  longitude: number | null;
-  propertyType: string | null;
-  country: string | null;
-  state: string | null;
-  district: string | null;
-  city: string | null;
-  streetAddress: string | null;
-  zipCode: number | null;
+  title: string;
+  price: number;
+  tags: string;
+  description: string;
+  lattitude: number;
+  longitude: number;
+  propertyType: string;
+  country: string;
+  state: string;
+  district: string;
+  city: string;
+  streetAddress: string;
+  zipCode: number;
 }
