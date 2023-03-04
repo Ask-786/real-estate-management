@@ -1,3 +1,4 @@
+import { NotificationService } from './../../../shared/services/notification.service';
 import { PropertiesService } from './../properties.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -8,7 +9,8 @@ import * as PropertiesActions from './actions';
 export class PropertiesEffects {
   constructor(
     private action$: Actions,
-    private propertyService: PropertiesService
+    private propertyService: PropertiesService,
+    private notificationService: NotificationService
   ) {}
 
   getProperty$ = createEffect(() =>
@@ -32,16 +34,20 @@ export class PropertiesEffects {
     this.action$.pipe(
       ofType(PropertiesActions.addProperty),
       mergeMap((action) => {
-        return this.propertyService.addProperty(action.propertyData).pipe(
-          map((property) => PropertiesActions.addPropertySuccess({ property })),
-          catchError((err) =>
-            of(
-              PropertiesActions.addPropertyFailure({
-                error: err.error.message,
-              })
+        return this.propertyService
+          .addProperty(action.propertyData, action.images)
+          .pipe(
+            map((property) =>
+              PropertiesActions.addPropertySuccess({ property })
+            ),
+            catchError((err) =>
+              of(
+                PropertiesActions.addPropertyFailure({
+                  error: err.error.message,
+                })
+              )
             )
-          )
-        );
+          );
       })
     )
   );
@@ -71,7 +77,7 @@ export class PropertiesEffects {
       this.action$.pipe(
         ofType(PropertiesActions.addPropertySuccess),
         tap(() => {
-          alert('Property Added Succesfully');
+          this.notificationService.sucess('Property Added Succesfully');
         })
       ),
     { dispatch: false }
@@ -82,7 +88,7 @@ export class PropertiesEffects {
       this.action$.pipe(
         ofType(PropertiesActions.addPropertyFailure),
         tap((action) => {
-          alert(action.error);
+          this.notificationService.warn(action.error);
         })
       ),
     { dispatch: false }

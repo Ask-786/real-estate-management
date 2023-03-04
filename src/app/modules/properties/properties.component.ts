@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import * as PropertiesSelectors from './store/selectors';
-import { fromEvent, Observable } from 'rxjs';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { PropertyModelInterface } from './model/property.model';
 import * as moment from 'moment';
 import { select, Store } from '@ngrx/store';
@@ -14,10 +14,13 @@ import { AddPropertyDialogComponent } from './components/add-property-dialog/add
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
 })
-export class PropertiesComponent implements OnInit {
+export class PropertiesComponent implements OnInit, OnDestroy {
   properties$: Observable<PropertyModelInterface[]>;
   error$: Observable<string | null>;
   isLoading$: Observable<boolean>;
+  mostBottomReached$: Observable<boolean>;
+  bottomReachedSubscription!: Subscription;
+
   moment = moment;
 
   constructor(
@@ -31,6 +34,9 @@ export class PropertiesComponent implements OnInit {
       select(PropertiesSelectors.propertiesSelector)
     );
     this.error$ = this.store.pipe(select(PropertiesSelectors.errorSelector));
+    this.mostBottomReached$ = this.store.pipe(
+      select(PropertiesSelectors.mostBottomReachedSelector)
+    );
   }
 
   ngOnInit(): void {
@@ -46,13 +52,25 @@ export class PropertiesComponent implements OnInit {
 
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
+    let isBottomReached;
     if (
       event.target.offsetHeight + event.target.scrollTop >=
-      event.target.scrollHeight - 1
+      event.target.scrollHeight
     ) {
-      setTimeout(() => {
-        this.store.dispatch(PropertiesActions.getProperties());
-      }, 200);
+      this.bottomReachedSubscription = this.mostBottomReached$.subscribe({
+        next: (bool: boolean) => {
+          isBottomReached = bool;
+        },
+      });
+      if (!isBottomReached) {
+        setTimeout(() => {
+          this.store.dispatch(PropertiesActions.getProperties());
+        }, 200);
+      }
     }
+  }
+  ngOnDestroy() {
+    if (this.bottomReachedSubscription)
+      this.bottomReachedSubscription.unsubscribe();
   }
 }

@@ -13,6 +13,9 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    if (request.headers.get('skip')) {
+      return next.handle(request);
+    }
     const tokenizedRequest = request.clone({
       setHeaders: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,

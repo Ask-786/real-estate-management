@@ -1,3 +1,5 @@
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from './../material/material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,6 +9,8 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { reducers } from './store/reducers';
+import { AuthenticationEffects } from './store/effects';
 
 @NgModule({
   declarations: [LoginComponent, SignupComponent, LogoutComponent],
@@ -15,6 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthenticationRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    StoreModule.forFeature('authentication', reducers),
+    EffectsModule.forFeature([AuthenticationEffects]),
   ],
   providers: [],
 })

@@ -5,4 +5,5 @@ export interface PropertyStateInterface {
   error: null | string;
   selectedProperty: null | PropertyModelInterface;
   page: number;
+  mostBottomReached: boolean;
 }

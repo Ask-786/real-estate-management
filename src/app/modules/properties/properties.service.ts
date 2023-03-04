@@ -36,7 +36,7 @@ export class PropertiesService {
     );
   }
 
-  addProperty(data: AddPropertyInterface) {
+  addProperty(data: AddPropertyInterface, images: string[]) {
     return this.http.post<PropertyModelInterface>(
       `${environment.baseUrl}/property/add-property`,
       {
@@ -48,7 +48,7 @@ export class PropertiesService {
           lattitude: data.lattitude,
           longitude: data.longitude,
         },
-        images: ['imageOne', 'imageTwo'],
+        images,
         propertyType: data.propertyType,
         address: {
           country: data.country,
@@ -64,7 +64,13 @@ export class PropertiesService {
 
   getOneProperty(id: string) {
     return this.http.get<PropertyModelInterface>(
-      `${environment.baseUrl}/property/${id}`
+      `${environment.baseUrl}/property/property/${id}`
+    );
+  }
+
+  gets3UploadUrl(): Observable<{ uploadUrl: string }> {
+    return this.http.get<{ uploadUrl: string }>(
+      `${environment.baseUrl}/property/get-s3-upload-url`
     );
   }
 }

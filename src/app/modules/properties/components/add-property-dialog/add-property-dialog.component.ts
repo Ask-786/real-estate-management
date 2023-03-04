@@ -1,13 +1,16 @@
+import { NotificationService } from './../../../../shared/services/notification.service';
+import { S3Service } from './../../../../shared/services/s3.service';
+import { PropertiesService } from './../../properties.service';
 import { Observable, Subscription } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PropertyTypeEnum } from './../../model/property.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import * as PropertiesActions from '../../store/actions';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesSelectors from '../../store/selectors';
+import * as PropertiesActions from '../../store/actions';
 
 @Component({
   selector: 'app-add-property-dialog',
@@ -20,19 +23,48 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   longitude!: number;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   propertyData!: FormGroup;
-  dialogRefSubscription!: Subscription;
   isLoading$: Observable<boolean>;
+
+  //Subscriptions
+  dialogRefSubscription!: Subscription;
+  getUploadUrlSubscription!: Subscription;
+  uploadImageSubscription!: Subscription;
+
+  imageOne!: File;
+  imageTwo!: File;
+  imageThree!: File;
+  imageFour!: File;
+
+  //Constants
+  BUTTON_COLOR = 'primary';
+  BUTTON_COLOR_LESS = 'none';
+
+  //Colors for buttons to input images
+  imageButtonOneColor = this.BUTTON_COLOR_LESS as string;
+  imageButtonTwoColor = this.BUTTON_COLOR_LESS as string;
+  imageButtonThreeColor = this.BUTTON_COLOR_LESS as string;
+  imageButtonFourColor = this.BUTTON_COLOR_LESS as string;
+
+  //Values for buttons to input images
+  imageButtonOneValue = 'Image 1' as string;
+  imageButtonTwoValue = 'Image 2' as string;
+  imageButtonThreeValue = 'Image 3' as string;
+  imageButtonFourValue = 'Image 4' as string;
 
   constructor(
     private dialog: MatDialog,
     private store: Store<AppStateInterface>,
-    public dialogRef: MatDialogRef<AddPropertyDialogComponent>
+    public dialogRef: MatDialogRef<AddPropertyDialogComponent>,
+    private propertiesService: PropertiesService,
+    private s3Service: S3Service,
+    private notificationService: NotificationService
   ) {
     this.isLoading$ = this.store.pipe(
       select(PropertiesSelectors.isLoadingSelector)
     );
   }
 
+  //Map Config to take co-ordinates
   openMap() {
     const dialogRef = this.dialog.open(MapDialogComponent, {
       data: { lat: this.lattitude, lng: this.longitude },
@@ -50,6 +82,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //Setting up form
     this.propertyData = new FormGroup({
       title: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
@@ -70,16 +103,107 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
-    if (this.propertyData.invalid) {
+  //Image Change Events
+  imageOneChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
       return;
     }
-    this.store.dispatch(
-      PropertiesActions.addProperty({ propertyData: this.propertyData.value })
-    );
-    this.dialogRef.close();
+    this.imageOne = input.files[0];
+    this.imageButtonOneColor = this.BUTTON_COLOR;
+    this.imageButtonOneValue = input.files[0].name;
   }
+
+  imageTwoChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+    this.imageTwo = input.files[0];
+    this.imageButtonTwoColor = this.BUTTON_COLOR;
+    this.imageButtonTwoValue = input.files[0].name;
+  }
+
+  imageThreeChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+    this.imageThree = input.files[0];
+    this.imageButtonThreeColor = this.BUTTON_COLOR;
+    this.imageButtonThreeValue = input.files[0].name;
+  }
+
+  imageFourChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+    this.imageFour = input.files[0];
+    this.imageButtonFourColor = this.BUTTON_COLOR;
+    this.imageButtonFourValue = input.files[0].name;
+  }
+
+  //On Submittingn form
+  onSubmit() {
+    if (this.propertyData.invalid) {
+      this.notificationService.warn('Fill the form in full');
+      return;
+    }
+
+    if (this.imageOne && this.imageTwo && this.imageThree && this.imageFour) {
+      const images: string[] = [];
+      const imagesArray = [
+        this.imageOne,
+        this.imageTwo,
+        this.imageThree,
+        this.imageFour,
+      ] as File[];
+
+      //Uploading images to s3 and adding property into database
+      imagesArray.forEach((el, index) => {
+        //uploading images to s3 with loop
+        this.getUploadUrlSubscription = this.propertiesService
+          .gets3UploadUrl()
+          .subscribe({
+            next: (data) =>
+              (this.uploadImageSubscription = this.s3Service
+                .uploadImages(data.uploadUrl, el)
+                .subscribe({
+                  next: () => {
+                    images.push(data.uploadUrl.split('?')[0]);
+                    if (index === 3) {
+                      //Dispatching the action to add the property to database after all images have been uploaded
+                      this.store.dispatch(
+                        PropertiesActions.addProperty({
+                          propertyData: this.propertyData.value,
+                          images,
+                        })
+                      );
+                      this.dialogRef.close();
+                    }
+                  },
+                  error: (err) => {
+                    this.notificationService.warn(err.error.message);
+                  },
+                })),
+            error: (err) => {
+              this.notificationService.warn(err.message);
+            },
+          });
+      });
+    } else {
+      this.notificationService.warn('Select all files');
+      return;
+    }
+  }
+
   ngOnDestroy() {
+    //Unsubscription
     if (this.dialogRefSubscription) this.dialogRefSubscription.unsubscribe();
+    if (this.uploadImageSubscription)
+      this.uploadImageSubscription.unsubscribe();
+    if (this.getUploadUrlSubscription)
+      this.uploadImageSubscription.unsubscribe();
   }
 }

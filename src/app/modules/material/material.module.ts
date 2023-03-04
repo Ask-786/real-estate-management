@@ -10,9 +10,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const material = [
+  MatProgressSpinnerModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatDialogModule,
   MatRadioModule,
   MatCardModule,

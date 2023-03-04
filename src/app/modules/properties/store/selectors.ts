@@ -27,3 +27,7 @@ export const propertyPageSelector = createSelector(
   selectFeature,
   (state) => state.page
 );
+export const mostBottomReachedSelector = createSelector(
+  selectFeature,
+  (state) => state.mostBottomReached
+);

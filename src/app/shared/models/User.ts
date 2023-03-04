@@ -4,4 +4,6 @@ export interface UserModelInterface {
   email: string;
   phone: number;
   password: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

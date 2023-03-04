@@ -1,3 +1,4 @@
+import { UserModelInterface } from './../../shared/models/User';
 import { Injectable } from '@angular/core';
 import { tap, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -7,6 +8,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
+interface loginRequestModelInterface {
+  status: boolean;
+  access_token: string;
+  user: UserModelInterface;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -23,17 +29,15 @@ export class AuthenticationService {
     return localStorage.getItem(this.TOKEN_NAME);
   }
 
-  userLogin(
-    userData: Partial<LoginForm>
-  ): Observable<{ status: boolean; access_token: string }> {
+  userLogin(userData: LoginForm): Observable<loginRequestModelInterface> {
     return this.http
-      .post<{ status: boolean; access_token: string }>(
+      .post<loginRequestModelInterface>(
         `${environment.baseUrl}/auth/login`,
         userData,
         httpOptions
       )
       .pipe(
-        tap((response: { status: boolean; access_token: string }) => {
+        tap((response: loginRequestModelInterface) => {
           if (response.status) {
             localStorage.setItem(this.TOKEN_NAME, response.access_token);
           }
@@ -41,11 +45,15 @@ export class AuthenticationService {
       );
   }
 
-  registerUser(userData: Partial<SignUpForm>) {
-    return this.http.post(
-      `${environment.baseUrl}/auth/signup`,
-      userData,
-      httpOptions
-    );
+  registerUser(userData: SignUpForm): Observable<{
+    status: boolean;
+    message: string;
+    user: UserModelInterface;
+  }> {
+    return this.http.post<{
+      status: boolean;
+      message: string;
+      user: UserModelInterface;
+    }>(`${environment.baseUrl}/auth/signup`, userData, httpOptions);
   }
 }

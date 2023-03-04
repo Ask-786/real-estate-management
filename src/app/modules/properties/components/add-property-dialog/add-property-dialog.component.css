@@ -1,3 +1,19 @@
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 1px;
+}
+
+.btn-1 {
+  display: block !important;
+}
+
+.btn-2 {
+  display: block !important;
+}
+
+.btn-3 {
+  display: block !important;
+}
+
+.btn-4 {
+  display: block !important;
 }

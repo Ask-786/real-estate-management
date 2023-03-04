@@ -1,87 +1,115 @@
 <h2 mat-dialog-title class="bg-color-dark">Add Property</h2>
 <mat-dialog-content class="bg-color-dark">
-    <form (submit)="onSubmit()" [formGroup]="propertyData" class="grid" id="myform">
+    <form (submit)="onSubmit()" [formGroup]="propertyData" class="grid p-2" id="myform">
 
-        <mat-form-field class="m-2 mb-0 ml-4 w-96 mt-7" appearance="outline">
-            <mat-label class="m-2">Title</mat-label>
+        <mat-form-field class="mb-0 mt-7 w-full" appearance="outline">
+            <mat-label>Title</mat-label>
             <input type="text" formControlName="title" matInput>
             <mat-error>Title is Required</mat-error>
         </mat-form-field>
-        <mat-form-field class="m-2 ml-4 w-96 mb-0" appearance="outline">
-            <mat-label class="m-2">Price</mat-label>
+        <mat-form-field class="w-full mb-0" appearance="outline">
+            <mat-label>Price</mat-label>
             <input type="number" formControlName="price" matInput>
             <mat-error>Title is Required</mat-error>
         </mat-form-field>
-        <mat-form-field class="m-2 ml-4 w-96 mb-0" appearance="outline">
-            <mat-label class="m-2">tags</mat-label>
+        <mat-form-field class="w-full mb-0" appearance="outline">
+            <mat-label>tags</mat-label>
             <input type="text" formControlName="tags" matInput>
             <mat-hint>
                 If there is morethan 1 tags Seperate it with Comma(,)
             </mat-hint>
         </mat-form-field>
-        <mat-form-field class="m-2 ml-4 w-96 mb-0" appearance="outline">
+        <mat-form-field class="w-full mb-0" appearance="outline">
             <mat-label class="m-2">Description</mat-label>
             <textarea cols="30" formControlName="description" rows="4" matInput></textarea>
             <mat-error>Title is Required</mat-error>
         </mat-form-field>
-        <mat-label class="m-2 ml-4 mt-5">Co-Ordinates</mat-label>
 
-        <div class="grid grid-cols-2">
-            <mat-form-field class="m-2 mt-0 ml-4 w-48 mb-0" appearance="outline">
+        <mat-label class="mt-5 mb-2">Co-Ordinates</mat-label>
+        <div class="grid md:grid-cols-2 gap-3">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>Lattitude</mat-label>
                 <input [(ngModel)]="lattitude" type="number" [value]="lattitude" formControlName="lattitude" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-0 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>Longitude</mat-label>
                 <input [(ngModel)]="longitude" type="number" formControlName="longitude" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <button mat-button (click)="openMap()" class="m-2 ml-4">Open Map</button>
+            <button mat-button (click)="openMap()" type="button">Open Map</button>
         </div>
 
-        <mat-label class="m-2 ml-4 mt-5">Address</mat-label>
-        <div class="grid grid-cols-2">
-            <mat-form-field class="m-2 mt-0 ml-4 w-48 mb-0" appearance="outline">
+        <mat-label class="mt-5 mb-2">Address</mat-label>
+        <div class="grid md:grid-cols-2 gap-3">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>Country</mat-label>
                 <input type="text" formControlName="country" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-0 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>State</mat-label>
                 <input type="text" formControlName="state" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-4 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>District</mat-label>
                 <input type="text" formControlName="district" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-0 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>City</mat-label>
                 <input type="text" formControlName="city" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-4 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>Street Address</mat-label>
                 <input type="text" formControlName="streetAddress" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
-            <mat-form-field class="m-2 mt-0 ml-0 w-48 mb-0" appearance="outline">
+            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
                 <mat-label>Zip Code</mat-label>
                 <input type="number" formControlName="zipCode" matInput>
                 <mat-error>Title is Required</mat-error>
             </mat-form-field>
         </div>
 
-        <label id="example-radio-group-label" class="ml-4 mt-5">Select Property Type</label>
+        <label id="example-radio-group-label" class="mt-5">Select Property Type</label>
         <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="propertyType"
-            class="flex-col flex ml-4" [(ngModel)]="type">
+            class="flex-col flex" [(ngModel)]="type">
             <mat-radio-button class="example-radio-button" *ngFor="let propertyType of propertyTypes"
                 [value]="propertyType.toLowerCase()">
                 {{propertyType}}
             </mat-radio-button>
         </mat-radio-group>
+        <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Type</label>
+        <div class="grid md:grid-cols-4 gap-1">
+
+            <input #imageOne type="file" name="file1" class="ml-4 hidden" (change)="imageOneChange($event)">
+            <button mat-raised-button type="button" (click)="imageOne.click()" [color]="imageButtonOneColor"
+                class="truncate">{{imageButtonOneValue}}<mat-icon [ngClass]="{'btn-1':imageButtonOneColor!== 'none'}"
+                    class="hidden">check
+                    circle</mat-icon></button>
+
+            <input #imageTwo type="file" name="file2" class="ml-4 hidden" (change)="imageTwoChange($event)">
+            <button mat-raised-button type="button" (click)="imageTwo.click()" [color]="imageButtonTwoColor"
+                class="truncate">{{imageButtonTwoValue}}<mat-icon [ngClass]="{'btn-2':imageButtonTwoColor!== 'none'}"
+                    class="hidden">check
+                    circle</mat-icon></button>
+
+            <input #imageThree type="file" name="file3" class="ml-4 hidden" (change)="imageThreeChange($event)">
+            <button mat-raised-button type="button" (click)="imageThree.click()" [color]="imageButtonThreeColor"
+                class="truncate">{{imageButtonThreeValue}}<mat-icon
+                    [ngClass]="{'btn-3':imageButtonThreeColor!== 'none'}" class="hidden">check
+                    circle</mat-icon></button>
+
+            <input #imageFour type="file" name="file4" class="ml-4 hidden max-w-full"
+                (change)="imageFourChange($event)">
+            <button mat-raised-button type="button" (click)="imageFour.click()" [color]="imageButtonFourColor"
+                class="truncate">{{imageButtonFourValue}}<mat-icon [ngClass]="{'btn-4':imageButtonFourColor !== 'none'}"
+                    class="hidden">check
+                    circle</mat-icon></button>
+        </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions class="bg-color-dark">

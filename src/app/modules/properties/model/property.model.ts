@@ -49,4 +49,5 @@ export interface AddPropertyInterface {
   city: string;
   streetAddress: string;
   zipCode: number;
+  images: string[];
 }

@@ -1,3 +1,6 @@
-
-
-
+.loader {
+  left: 45vw;
+  top: 45vh;
+  height: 10%;
+  width: 10%;
+}

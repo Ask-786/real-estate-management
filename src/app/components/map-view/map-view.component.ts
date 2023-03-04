@@ -1,3 +1,4 @@
+import { NotificationService } from './../../shared/services/notification.service';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -13,7 +14,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
   private map!: L.Map;
   propertySubscription!: Subscription;
 
-  constructor(private commonService: CommonService) {}
+  constructor(
+    private commonService: CommonService,
+    private notificationService: NotificationService
+  ) {}
 
   private initMap(properties: Observable<PropertyModelInterface[]>): void {
     this.map = L.map('map', {
@@ -55,7 +59,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
         });
       },
       error: (e) => {
-        alert(e.message);
+        this.notificationService.warn(e.message);
       },
     });
   }

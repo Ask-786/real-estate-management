@@ -6,6 +6,7 @@ export const initialState: PropertyStateInterface = {
   properties: [],
   error: null,
   selectedProperty: null,
+  mostBottomReached: false,
   page: 0,
 };
 
@@ -15,12 +16,23 @@ export const reducers = createReducer(
     ...state,
     isLoading: true,
   })),
-  on(PropertyActions.getPropertiesSuccess, (state, action) => ({
-    ...state,
-    isLoading: false,
-    page: state.page + 1,
-    properties: [...state.properties, ...action.properties],
-  })),
+  on(PropertyActions.getPropertiesSuccess, (state, action) => {
+    if (action.properties.length < 8) {
+      return {
+        ...state,
+        isLoading: false,
+        page: state.page + 1,
+        properties: [...state.properties, ...action.properties],
+        mostBottomReached: true,
+      };
+    }
+    return {
+      ...state,
+      isLoading: false,
+      page: state.page + 1,
+      properties: [...state.properties, ...action.properties],
+    };
+  }),
   on(PropertyActions.getPropertiesFailure, (state, action) => ({
     ...state,
     isLoading: false,

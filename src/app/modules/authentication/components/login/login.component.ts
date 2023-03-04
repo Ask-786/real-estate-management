@@ -1,45 +1,46 @@
-import { AuthenticationService } from './../../authentication.service';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Component, OnDestroy } from '@angular/core';
+import { UserModelInterface } from './../../../../shared/models/User';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Subscription, Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { AppStateInterface } from 'src/app/models/appState.interface';
+import * as AuthenticationActions from '../../store/actions';
+import * as AuthenticationSelectors from '../../store/selectors';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnDestroy {
-  loginResponse$!: Subscription;
+export class LoginComponent implements OnDestroy, OnInit {
+  registeredUser$: Observable<UserModelInterface | null>;
+  email: string | undefined;
+  loginForm!: FormGroup;
+  userSubscription!: Subscription;
 
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
+  constructor(private store: Store<AppStateInterface>) {
+    this.registeredUser$ = this.store.pipe(
+      select(AuthenticationSelectors.registeredUserSelector)
+    );
+  }
 
-  loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-  });
+  ngOnInit() {
+    this.userSubscription = this.registeredUser$.subscribe((registeredUser) => {
+      this.email = registeredUser?.email;
+    });
+    this.loginForm = new FormGroup({
+      username: new FormControl(this.email, [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+    });
+  }
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-    this.loginResponse$ = this.authenticationService
-      .userLogin(this.loginForm.value)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('map');
-        },
-        error: (e: HttpErrorResponse) => {
-          this.dialog.open(DialogComponent, { data: e.error.message });
-        },
-      });
+    this.store.dispatch(
+      AuthenticationActions.login({ loginData: this.loginForm.value })
+    );
   }
 
   ngOnDestroy() {
-    if (this.loginResponse$) this.loginResponse$.unsubscribe();
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }
