@@ -5,6 +5,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as AuthenticationActions from './actions';
 import { map, mergeMap, catchError, of, tap } from 'rxjs';
+import * as GlobalActions from '../../../shared/store/actions';
+import { Store } from '@ngrx/store';
+import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable()
 export class AuthenticationEffects {
@@ -12,45 +15,58 @@ export class AuthenticationEffects {
     private action$: Actions,
     private authService: AuthenticationService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private store: Store<AppStateInterface>
   ) {}
 
   login$ = createEffect(() =>
     this.action$.pipe(
       ofType(AuthenticationActions.login),
-      mergeMap((action) =>
-        this.authService.userLogin(action.loginData).pipe(
-          map((data) =>
-            AuthenticationActions.loginSuccess({
+      mergeMap((action) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.authService.userLogin(action.loginData).pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd());
+            return AuthenticationActions.loginSuccess({
               token: data.access_token,
               user: data.user,
-            })
-          ),
-          catchError((err) =>
-            of(AuthenticationActions.loginFailure({ error: err.error.message }))
-          )
-        )
-      )
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(
+              AuthenticationActions.loginFailure({ error: err.error.message })
+            );
+          })
+        );
+      })
     )
   );
   signup$ = createEffect(() =>
     this.action$.pipe(
       ofType(AuthenticationActions.signup),
-      mergeMap((action) =>
-        this.authService.registerUser(action.userData).pipe(
-          map((data) =>
-            AuthenticationActions.signupSuccess({
+      mergeMap((action) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.authService.registerUser(action.userData).pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd());
+            return AuthenticationActions.signupSuccess({
               successMsg: data.message,
               registeredUser: data.user,
-            })
-          ),
-          catchError((err) =>
-            of(
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(
               AuthenticationActions.signupFailure({ error: err.error.message })
-            )
-          )
-        )
-      )
+            );
+          })
+        );
+      })
     )
   );
 
@@ -73,6 +89,7 @@ export class AuthenticationEffects {
       ),
     { dispatch: false }
   );
+
   signupSuccessNotifications$ = createEffect(
     () =>
       this.action$.pipe(
@@ -84,6 +101,7 @@ export class AuthenticationEffects {
       ),
     { dispatch: false }
   );
+
   signupFailureNotifications$ = createEffect(
     () =>
       this.action$.pipe(

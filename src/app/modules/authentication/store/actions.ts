@@ -1,5 +1,5 @@
 import { LoginForm, SignUpForm } from './../models/authentication.model';
-import { UserModelInterface } from './../../../shared/models/User';
+import { UserModelInterface } from '../../../shared/models/user.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const login = createAction(

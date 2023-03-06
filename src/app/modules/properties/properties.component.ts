@@ -16,8 +16,6 @@ import { AddPropertyDialogComponent } from './components/add-property-dialog/add
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
   properties$: Observable<PropertyModelInterface[]>;
-  error$: Observable<string | null>;
-  isLoading$: Observable<boolean>;
   mostBottomReached$: Observable<boolean>;
   bottomReachedSubscription!: Subscription;
 
@@ -27,13 +25,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     private store: Store<AppStateInterface>,
     private dialog: MatDialog
   ) {
-    this.isLoading$ = this.store.pipe(
-      select(PropertiesSelectors.isLoadingSelector)
-    );
     this.properties$ = this.store.pipe(
       select(PropertiesSelectors.propertiesSelector)
     );
-    this.error$ = this.store.pipe(select(PropertiesSelectors.errorSelector));
     this.mostBottomReached$ = this.store.pipe(
       select(PropertiesSelectors.mostBottomReachedSelector)
     );
@@ -69,6 +63,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   ngOnDestroy() {
     if (this.bottomReachedSubscription)
       this.bottomReachedSubscription.unsubscribe();

@@ -1,4 +1,4 @@
-import { UserModelInterface } from './../../shared/models/User';
+import { UserModelInterface } from '../../shared/models/user.interface';
 import { Injectable } from '@angular/core';
 import { tap, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';

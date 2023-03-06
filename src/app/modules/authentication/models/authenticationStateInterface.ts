@@ -1,9 +1,8 @@
-import { UserModelInterface } from './../../../shared/models/User';
+import { UserModelInterface } from '../../../shared/models/user.interface';
 
 export interface AuthenticationStateInterface {
   isLoggedIn: boolean;
   token: string | null;
   user: UserModelInterface | null;
-  isLoading: boolean;
   registeredUser: UserModelInterface | null;
 }

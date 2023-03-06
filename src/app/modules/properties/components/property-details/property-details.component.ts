@@ -1,9 +1,11 @@
+import { AppStateInterface } from './../../../../models/appState.interface';
 import { PropertyModelInterface } from './../../model/property.model';
-import { PropertyStateInterface } from './../../model/propertyState.interface';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as PropertiesActions from '../../store/actions';
+import * as PropertieseSelectors from '../../store/selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-property-details',
@@ -12,15 +14,20 @@ import * as PropertiesActions from '../../store/actions';
 })
 export class PropertyDetailsComponent implements OnInit {
   propertyId!: string;
-  property!: PropertyModelInterface;
+  property$!: Observable<PropertyModelInterface | null>;
+
   constructor(
-    private store: Store<PropertyStateInterface>,
+    private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.propertyId = params['id'];
     });
+    this.property$ = this.store.pipe(
+      select(PropertieseSelectors.selectedPropertySelector)
+    );
   }
+
   ngOnInit() {
     this.store.dispatch(
       PropertiesActions.getOneProperty({ propertyId: this.propertyId })

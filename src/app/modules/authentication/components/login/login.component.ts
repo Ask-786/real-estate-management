@@ -1,4 +1,4 @@
-import { UserModelInterface } from './../../../../shared/models/User';
+import { UserModelInterface } from '../../../../shared/models/user.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';

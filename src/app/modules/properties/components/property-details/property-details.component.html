@@ -1,0 +1,4 @@
+<div class="m-5 bg-slate-800 rounded-md text-5xl">{{(property$ | async)?.title}}</div>
+<div class="m-5  rounded-md text-5xl p-5">
+    <img [src]="(property$ | async)?.images?.[0]" alt="" class="h-96">
+</div>

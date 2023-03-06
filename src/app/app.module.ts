@@ -17,6 +17,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.component';
+import { reducers } from './shared/store/reducers';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.co
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ Global: reducers }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

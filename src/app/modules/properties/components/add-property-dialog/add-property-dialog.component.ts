@@ -1,15 +1,14 @@
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from './../../properties.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PropertyTypeEnum } from './../../model/property.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as PropertiesSelectors from '../../store/selectors';
 import * as PropertiesActions from '../../store/actions';
 
 @Component({
@@ -23,7 +22,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   longitude!: number;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   propertyData!: FormGroup;
-  isLoading$: Observable<boolean>;
 
   //Subscriptions
   dialogRefSubscription!: Subscription;
@@ -58,11 +56,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     private propertiesService: PropertiesService,
     private s3Service: S3Service,
     private notificationService: NotificationService
-  ) {
-    this.isLoading$ = this.store.pipe(
-      select(PropertiesSelectors.isLoadingSelector)
-    );
-  }
+  ) {}
 
   //Map Config to take co-ordinates
   openMap() {
@@ -148,7 +142,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.propertyData.invalid) {
       this.notificationService.warn('Fill the form in full');
-      return;
+      // return;
     }
 
     if (this.imageOne && this.imageTwo && this.imageThree && this.imageFour) {
@@ -184,17 +178,20 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                     }
                   },
                   error: (err) => {
-                    this.notificationService.warn(err.error.message);
+                    console.log(err);
+                    this.notificationService.warn(
+                      `Image Upload: ${err.statusText}`
+                    );
                   },
                 })),
             error: (err) => {
-              this.notificationService.warn(err.message);
+              this.notificationService.warn(err.error.message);
             },
           });
       });
     } else {
       this.notificationService.warn('Select all files');
-      return;
+      // return;
     }
   }
 

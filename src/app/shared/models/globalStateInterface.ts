@@ -1,4 +1,4 @@
-export interface CommonStateInterface {
+export interface GlobalStateInterface {
   isLoading: boolean;
   error: string | null;
 }

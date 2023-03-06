@@ -12,8 +12,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const material = [
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
   MatSnackBarModule,

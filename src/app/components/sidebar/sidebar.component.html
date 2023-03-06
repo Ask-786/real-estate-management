@@ -15,6 +15,10 @@
                 <mat-icon id="icon">apartment</mat-icon>
                 <span id="name" class="flex items-center">Properties</span>
             </app-button>
+            <app-button routerLink="enquiries">
+                <mat-icon id="icon">chat</mat-icon>
+                <span id="name" class="flex items-center">Enquiries</span>
+            </app-button>
             <app-button routerLink="auth/login">
                 <mat-icon id="icon">person</mat-icon>
                 <span id="name" class="flex items-center">Account</span>
@@ -27,6 +31,7 @@
     </mat-drawer>
     <mat-drawer-content class="overflow-hidden">
         <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
