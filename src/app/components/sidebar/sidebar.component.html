@@ -29,9 +29,8 @@
             </app-button>
         </div>
     </mat-drawer>
-    <mat-drawer-content class="overflow-hidden">
-        <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
-        <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+    <mat-drawer-content class="">
+        <app-navbar (toggleSide)="drawer.toggle()" class="w-full"></app-navbar>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>

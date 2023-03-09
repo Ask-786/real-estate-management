@@ -13,6 +13,7 @@ import { PropertiesComponent } from './properties.component';
 import { PropertyComponent } from './components/property/property.component';
 import { AddPropertyDialogComponent } from './components/add-property-dialog/add-property-dialog.component';
 import { PropertyDetailsComponent } from './components/property-details/property-details.component';
+import { MaskImageDirective } from './directives/mask-image.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PropertyDetailsComponent } from './components/property-details/property
     PropertyComponent,
     AddPropertyDialogComponent,
     PropertyDetailsComponent,
+    MaskImageDirective,
   ],
   imports: [
     CommonModule,

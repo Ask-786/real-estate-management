@@ -7,7 +7,6 @@ import * as moment from 'moment';
 import { select, Store } from '@ngrx/store';
 import * as PropertiesActions from './store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import { AddPropertyDialogComponent } from './components/add-property-dialog/add-property-dialog.component';
 
 @Component({
   selector: 'app-properties',
@@ -39,9 +38,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   getPropertyUrl(id: string) {
     return `property/${id}`;
-  }
-  addProperty() {
-    this.dialog.open(AddPropertyDialogComponent);
   }
 
   @HostListener('scroll', ['$event'])

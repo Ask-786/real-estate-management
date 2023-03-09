@@ -1,3 +1,4 @@
+import { GlobalEffects } from './shared/store/effects';
 import { TokenInterceptor } from './token.interceptor';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { ButtonComponent } from './shared/components/button/button.component';
@@ -18,6 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.component';
 import { reducers } from './shared/store/reducers';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { reducers } from './shared/store/reducers';
     ButtonComponent,
     DialogComponent,
     MapDialogComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,8 +38,8 @@ import { reducers } from './shared/store/reducers';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    StoreModule.forRoot({ Global: reducers }),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({ global: reducers }),
+    EffectsModule.forRoot([GlobalEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),

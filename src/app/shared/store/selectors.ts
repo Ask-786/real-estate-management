@@ -6,8 +6,19 @@ export const isLoadingSelector = createSelector(
   selectFeature,
   (state) => state.isLoading
 );
-
 export const errorSelector = createSelector(
   selectFeature,
   (state) => state.error
+);
+export const userSelector = createSelector(
+  selectFeature,
+  (state) => state.user
+);
+export const tokenSelector = createSelector(
+  selectFeature,
+  (state) => state.token
+);
+export const isLoggedInSelector = createSelector(
+  selectFeature,
+  (state) => state.isLoggedIn
 );

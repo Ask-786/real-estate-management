@@ -1,10 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import { GlobalStateInterface } from '../models/globalStateInterface';
 import * as CommonActions from './actions';
+import * as GlobalActions from './actions';
 
 const initialState: GlobalStateInterface = {
   isLoading: false,
   error: null,
+  user: null,
+  isLoggedIn: false,
+  token: null,
 };
 
 export const reducers = createReducer(
@@ -14,6 +18,21 @@ export const reducers = createReducer(
   on(CommonActions.gotError, (state, action) => ({
     ...state,
     isLoading: false,
+    error: action.error,
+  })),
+  on(GlobalActions.checkAuth, (state) => ({ ...state })),
+  on(GlobalActions.checkAuthSuccess, (state, action) => ({
+    ...state,
+    user: action.user,
+    isLoggedIn: true,
+    token: action.token,
+  })),
+  on(GlobalActions.checkAuthFailure, (state, action) => ({
+    ...state,
+    user: null,
+    isLoading: false,
+    isLoggedIn: false,
+    token: null,
     error: action.error,
   }))
 );

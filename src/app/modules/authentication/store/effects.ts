@@ -26,6 +26,12 @@ export class AuthenticationEffects {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.authService.userLogin(action.loginData).pipe(
           map((data) => {
+            this.store.dispatch(
+              GlobalActions.checkAuthSuccess({
+                user: data.user,
+                token: data.access_token,
+              })
+            );
             this.store.dispatch(GlobalActions.loadingEnd());
             return AuthenticationActions.loginSuccess({
               token: data.access_token,
@@ -33,6 +39,10 @@ export class AuthenticationEffects {
             });
           }),
           catchError((err) => {
+            this.authService.removeToken();
+            this.store.dispatch(
+              GlobalActions.checkAuthFailure({ error: err.error.message })
+            );
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
@@ -44,6 +54,7 @@ export class AuthenticationEffects {
       })
     )
   );
+
   signup$ = createEffect(() =>
     this.action$.pipe(
       ofType(AuthenticationActions.signup),

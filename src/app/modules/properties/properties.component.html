@@ -1,21 +1,9 @@
 <div class="w-full">
-    <div class="bg-color-dark relative flex justify-between items-center w-full">
-        <form>
-            <mat-form-field class="m-2 ml-4 w-96 -mb-3" appearance="outline">
-                <mat-label class="m-2">Search</mat-label>
-                <span matPrefix>&nbsp;&nbsp;<mat-icon>search</mat-icon></span>
-                <input type="text" matInput>
-            </mat-form-field>
-        </form>
-        <button mat-raised-button class="mr-3 hidden sm:block" (click)="addProperty()">Add
-            Property</button>
-    </div>
-
-    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 h-screen overflow-auto"
+    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         (scroll)="onScroll($event)">
         <div *ngFor="let property of properties$ | async" class="m-3">
             <app-property>
-                <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of a Shiba Inu"
+                <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
                     class="h-56 w-full">
                 <h2 id="title" class="text-2xl font-medium">
                     {{property.title}}

@@ -1,7 +1,7 @@
 <h2 mat-dialog-title class="bg-color-dark">Add Property</h2>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
 <mat-dialog-content class="bg-color-dark">
     <form (submit)="onSubmit()" [formGroup]="propertyData" class="grid p-2" id="myform">
-
         <mat-form-field class="mb-0 mt-7 w-full" appearance="outline">
             <mat-label>Title</mat-label>
             <input type="text" formControlName="title" matInput>
@@ -76,13 +76,13 @@
 
         <label id="example-radio-group-label" class="mt-5">Select Property Type</label>
         <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="propertyType"
-            class="flex-col flex" [(ngModel)]="type">
+            class="flex-col flex">
             <mat-radio-button class="example-radio-button" *ngFor="let propertyType of propertyTypes"
                 [value]="propertyType.toLowerCase()">
                 {{propertyType}}
             </mat-radio-button>
         </mat-radio-group>
-        <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Type</label>
+        <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Images</label>
         <div class="grid md:grid-cols-4 gap-1">
 
             <input #imageOne type="file" name="file1" class="ml-4 hidden" (change)="imageOneChange($event)">

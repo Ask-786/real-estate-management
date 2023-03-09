@@ -25,8 +25,12 @@ export class AuthenticationService {
     this._isLoggedIn$.next(!!this.token);
   }
 
-  get token() {
+  get token(): string | null {
     return localStorage.getItem(this.TOKEN_NAME);
+  }
+
+  removeToken() {
+    localStorage.removeItem(this.TOKEN_NAME);
   }
 
   userLogin(userData: LoginForm): Observable<loginRequestModelInterface> {
@@ -55,5 +59,11 @@ export class AuthenticationService {
       message: string;
       user: UserModelInterface;
     }>(`${environment.baseUrl}/auth/signup`, userData, httpOptions);
+  }
+
+  checkAuth(): Observable<{ user: UserModelInterface; token: string }> {
+    return this.http.get<{ user: UserModelInterface; token: string }>(
+      `${environment.baseUrl}/auth/check-auth`
+    );
   }
 }

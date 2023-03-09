@@ -1,15 +1,16 @@
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from './../../properties.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PropertyTypeEnum } from './../../model/property.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesActions from '../../store/actions';
+import * as GlobalSelectors from '../../../../shared/store/selectors';
 
 @Component({
   selector: 'app-add-property-dialog',
@@ -22,6 +23,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   longitude!: number;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   propertyData!: FormGroup;
+  isLoading$: Observable<boolean>;
 
   //Subscriptions
   dialogRefSubscription!: Subscription;
@@ -56,7 +58,11 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     private propertiesService: PropertiesService,
     private s3Service: S3Service,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    this.isLoading$ = this.store.pipe(
+      select(GlobalSelectors.isLoadingSelector)
+    );
+  }
 
   //Map Config to take co-ordinates
   openMap() {
@@ -70,7 +76,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
         this.lattitude = data?.lat;
       },
       error: (err) => {
-        console.log(err);
+        this.notificationService.warn(err.message);
       },
     });
   }
@@ -160,12 +166,13 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
         this.getUploadUrlSubscription = this.propertiesService
           .gets3UploadUrl()
           .subscribe({
-            next: (data) =>
-              (this.uploadImageSubscription = this.s3Service
+            next: (data) => {
+              const imgUrl = data.uploadUrl.split('?')[0];
+              images.push(imgUrl);
+              this.uploadImageSubscription = this.s3Service
                 .uploadImages(data.uploadUrl, el)
                 .subscribe({
                   next: () => {
-                    images.push(data.uploadUrl.split('?')[0]);
                     if (index === 3) {
                       //Dispatching the action to add the property to database after all images have been uploaded
                       this.store.dispatch(
@@ -178,12 +185,12 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                     }
                   },
                   error: (err) => {
-                    console.log(err);
                     this.notificationService.warn(
                       `Image Upload: ${err.statusText}`
                     );
                   },
-                })),
+                });
+            },
             error: (err) => {
               this.notificationService.warn(err.error.message);
             },

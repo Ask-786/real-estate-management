@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NotificationService } from './../../../shared/services/notification.service';
 import { PropertiesService } from './../properties.service';
 import { Injectable } from '@angular/core';
@@ -13,7 +14,8 @@ export class PropertiesEffects {
     private action$: Actions,
     private propertyService: PropertiesService,
     private notificationService: NotificationService,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {}
 
   getProperties$ = createEffect(() =>
@@ -79,6 +81,9 @@ export class PropertiesEffects {
             return PropertiesActions.getOnePropertySuccess({ property });
           }),
           catchError((err) => {
+            this.router.navigateByUrl('properties');
+            this.notificationService.warn(err.error.message);
+
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );

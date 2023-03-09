@@ -1,8 +1,10 @@
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { MapViewComponent } from './components/map-view/map-view.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'map', pathMatch: 'full' },
   {
     path: 'auth',
     loadChildren: () =>
@@ -11,7 +13,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'enquiry',
+    path: 'enquiries',
     loadChildren: () =>
       import('./modules/enquiries/enquiries.module').then(
         (m) => m.EnquiriesModule
@@ -30,6 +32,7 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
   },
   { path: 'map', component: MapViewComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

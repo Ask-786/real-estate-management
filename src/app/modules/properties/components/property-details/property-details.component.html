@@ -1,4 +1,61 @@
-<div class="m-5 bg-slate-800 rounded-md text-5xl">{{(property$ | async)?.title}}</div>
-<div class="m-5  rounded-md text-5xl p-5">
-    <img [src]="(property$ | async)?.images?.[0]" alt="" class="h-96">
+<div class="md:w-9/12">
+    <div class="m-5 p-3 bg-color-dark rounded-md ">
+        <p class="font-bold text-2xl mb-3">{{(property$ | async)?.title}}</p>
+        <span class="rounded-md bg-emerald-900 p-1 pr-2 pl-2">Type: {{(property$ | async)?.propertyType}}</span>
+    </div>
+    <div class="m-5 p-3 rounded-md text-5xl bg-color-dark">
+        <img [src]="(property$ | async)?.images?.[selectedImage]" alt="">
+        <div class="grid grid-cols-4 gap-3 mt-5">
+            <img [src]="(property$ | async)?.images?.[0]" alt="" (click)="selectedImage = 0" appMaskImage>
+            <img [src]="(property$ | async)?.images?.[1]" alt="" (click)="selectedImage = 1">
+            <img [src]="(property$ | async)?.images?.[2]" alt="" (click)="selectedImage = 2">
+            <img [src]="(property$ | async)?.images?.[3]" alt="" (click)="selectedImage = 3">
+        </div>
+    </div>
+    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md ">
+        <h1>Description:</h1>
+        <br>
+        <p>{{(property$ | async)?.description}}</p>
+    </div>
+    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md ">
+        <h1>Tags</h1>
+        <br>
+        <div class="flex">
+            <span class="mr-3" *ngFor="let tag of (property$ | async)?.tags">{{tag}}</span>
+        </div>
+    </div>
+    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md ">
+        <h1>Price:</h1>
+        <br>
+        <p class="text-xl font-semibold">INR: {{(property$ | async)?.price}}</p>
+    </div>
+    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md" *ngIf="isLoggedIn$ | async">
+        <h1>Enquire for more information:</h1>
+        <br>
+        <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="mb-0 w-full" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" formControlName="title" matInput>
+                <mat-error>Title is Required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="mb-0 mt-3 w-full" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="text" formControlName="email" matInput>
+                <mat-error>Email is Required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="mb-5 mt-3 w-full" appearance="outline">
+                <mat-label>Content</mat-label>
+                <input type="text" formControlName="content" matInput>
+                <mat-error>Content is Required</mat-error>
+            </mat-form-field>
+            <label id="example-radio-group-label" class="mt-5">Topic</label>
+            <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="topic" class="flex-col flex">
+                <mat-radio-button class="example-radio-button" *ngFor="let topic of enquiryTopics"
+                    [value]="topic.toLowerCase().replace(' ','-')">
+                    {{topic}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <button mat-raised-button class="w-full mt-3">Submit</button>
+        </form>
+    </div>
 </div>
