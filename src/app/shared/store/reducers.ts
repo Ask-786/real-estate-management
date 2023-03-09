@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { GlobalStateInterface } from '../models/globalStateInterface';
 import * as CommonActions from './actions';
 import * as GlobalActions from './actions';
+import * as AuthenticationActions from '../../modules/authentication/store/actions';
 
 const initialState: GlobalStateInterface = {
   isLoading: false,
@@ -28,11 +29,17 @@ export const reducers = createReducer(
     token: action.token,
   })),
   on(GlobalActions.checkAuthFailure, (state, action) => ({
-    ...state,
     user: null,
     isLoading: false,
     isLoggedIn: false,
     token: null,
     error: action.error,
+  })),
+  on(AuthenticationActions.logout, (state) => ({
+    ...state,
+    user: null,
+    isLoading: false,
+    isLoggedIn: false,
+    token: null,
   }))
 );

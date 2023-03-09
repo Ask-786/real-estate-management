@@ -19,13 +19,22 @@
                 <mat-icon id="icon">chat</mat-icon>
                 <span id="name" class="flex items-center">Enquiries</span>
             </app-button>
-            <app-button routerLink="auth/login">
+            <app-button routerLink="user/profile" *ngIf="(isLoggedIn$ | async)">
                 <mat-icon id="icon">person</mat-icon>
                 <span id="name" class="flex items-center">Account</span>
             </app-button>
-            <app-button routerLink="auth/login">
+            <mat-divider class="w-5/6"></mat-divider>
+            <app-button routerLink="auth/signup" *ngIf="(isLoggedIn$ | async) === false">
+                <mat-icon id="icon">app_registration</mat-icon>
+                <span id="name" class="flex items-center">Register</span>
+            </app-button>
+            <app-button routerLink="auth/login" *ngIf="(isLoggedIn$ | async) === false">
                 <mat-icon id="icon">login</mat-icon>
                 <span id="name" class="flex items-center">Login</span>
+            </app-button>
+            <app-button *ngIf="(isLoggedIn$ | async)" (click)="onLogout()">
+                <mat-icon id="icon">logout</mat-icon>
+                <span id="name" class="flex items-center">Logout</span>
             </app-button>
         </div>
     </mat-drawer>

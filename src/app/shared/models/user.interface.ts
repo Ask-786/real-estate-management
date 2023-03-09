@@ -6,4 +6,5 @@ export interface UserModelInterface {
   password: string;
   createdAt?: string;
   updatedAt?: string;
+  _id?: string;
 }

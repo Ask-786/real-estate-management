@@ -29,7 +29,8 @@
         <br>
         <p class="text-xl font-semibold">INR: {{(property$ | async)?.price}}</p>
     </div>
-    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md" *ngIf="isLoggedIn$ | async">
+    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md"
+        *ngIf="(isLoggedIn$ | async) && (user$ | async)?._id !== (property$ | async)?.owner">
         <h1>Enquire for more information:</h1>
         <br>
         <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">

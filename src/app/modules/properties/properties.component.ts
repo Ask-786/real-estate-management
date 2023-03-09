@@ -1,4 +1,3 @@
-import { MatDialog } from '@angular/material/dialog';
 import * as PropertiesSelectors from './store/selectors';
 import { Observable, Subscription } from 'rxjs';
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
@@ -20,10 +19,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   moment = moment;
 
-  constructor(
-    private store: Store<AppStateInterface>,
-    private dialog: MatDialog
-  ) {
+  constructor(private store: Store<AppStateInterface>) {
     this.properties$ = this.store.pipe(
       select(PropertiesSelectors.propertiesSelector)
     );

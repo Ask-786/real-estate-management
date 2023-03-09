@@ -9,6 +9,7 @@ import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import { Observable } from 'rxjs';
+import { UserModelInterface } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-property-details',
@@ -18,9 +19,10 @@ import { Observable } from 'rxjs';
 export class PropertyDetailsComponent implements OnInit {
   selectedImage = 0 as number;
   propertyId!: string;
-  property$!: Observable<PropertyModelInterface | null>;
+  property$: Observable<PropertyModelInterface | null>;
   enquiryForm!: FormGroup;
   isLoggedIn$: Observable<boolean>;
+  user$: Observable<UserModelInterface | null>;
 
   enquiryTopics = [
     'Payment',
@@ -43,9 +45,10 @@ export class PropertyDetailsComponent implements OnInit {
     this.isLoggedIn$ = this.store.pipe(
       select(GlobalSelectors.isLoggedInSelector)
     );
+    this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(
       PropertiesActions.getOneProperty({ propertyId: this.propertyId })
     );
@@ -58,7 +61,7 @@ export class PropertyDetailsComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.enquiryForm.invalid) {
       this.notificationService.warn('Complete the form correctly');
     }

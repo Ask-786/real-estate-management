@@ -6,6 +6,7 @@ export const login = createAction(
   '[Authentication] Login',
   props<{ loginData: LoginForm }>()
 );
+export const logout = createAction('[Authentication] Logout');
 export const loginSuccess = createAction(
   '[Authentication] Login Success',
   props<{ token: string; user: UserModelInterface }>()

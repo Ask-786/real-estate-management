@@ -1,9 +1,9 @@
-import { NotificationService } from './../../shared/services/notification.service';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import * as L from 'leaflet';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-view',
@@ -14,12 +14,9 @@ export class MapViewComponent implements OnInit, OnDestroy {
   private map!: L.Map;
   propertySubscription!: Subscription;
 
-  constructor(
-    private commonService: CommonService,
-    private notificationService: NotificationService
-  ) {}
+  constructor(private commonService: CommonService) {}
 
-  private initMap(properties: Observable<PropertyModelInterface[]>): void {
+  private initMap(properties: PropertyModelInterface[]): void {
     this.map = L.map('map', {
       center: [11.151477, 76.365746],
       zoom: 15,
@@ -46,27 +43,25 @@ export class MapViewComponent implements OnInit, OnDestroy {
       });
     };
 
-    this.propertySubscription = properties.subscribe({
-      next: (property: PropertyModelInterface[]) => {
-        property.forEach((p) => {
-          L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
-            icon: icon(p.propertyType),
-          })
-            .addTo(this.map)
-            .bindPopup(p.title)
-            .openPopup();
-          tiles.addTo(this.map);
-        });
-      },
-      error: (e) => {
-        this.notificationService.warn(e.message);
-      },
-    });
+    if (properties.length > 0) {
+      properties.forEach((p) => {
+        L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
+          icon: icon(p.propertyType),
+        })
+          .addTo(this.map)
+          .bindPopup(p.title)
+          .openPopup();
+        tiles.addTo(this.map);
+      });
+    }
   }
 
   ngOnInit(): void {
-    const properties = this.commonService.getProperties();
-    this.initMap(properties);
+    this.propertySubscription = this.commonService
+      .getProperties()
+      .subscribe((properties) => {
+        this.initMap(properties);
+      });
   }
 
   ngOnDestroy() {

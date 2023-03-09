@@ -13,8 +13,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 const material = [
+  MatDividerModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
