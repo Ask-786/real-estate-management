@@ -1,3 +1,4 @@
+import { EnquiryEffects } from './../enquiries/store/effects';
 import { PropertiesEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
@@ -30,7 +31,7 @@ import { MaskImageDirective } from './directives/mask-image.directive';
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forFeature('properties', reducers),
-    EffectsModule.forFeature([PropertiesEffects]),
+    EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
   ],
   providers: [PropertiesService],
 })

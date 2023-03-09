@@ -1,14 +1,16 @@
-import { NotificationService } from './../../../../shared/services/notification.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppStateInterface } from './../../../../models/appState.interface';
-import { PropertyModelInterface } from './../../model/property.model';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { CreateEnquiryFormInterface } from './../../../enquiries/model/enquiryform.interface';
+import { NotificationService } from './../../../../shared/services/notification.service';
+import { AppStateInterface } from './../../../../models/appState.interface';
+import { PropertyModelInterface } from './../../model/property.model';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
-import { Observable } from 'rxjs';
+import * as EnquiriesActions from '../../../enquiries/store/actions';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 
 @Component({
@@ -18,11 +20,13 @@ import { UserModelInterface } from 'src/app/shared/models/user.interface';
 })
 export class PropertyDetailsComponent implements OnInit {
   selectedImage = 0 as number;
-  propertyId!: string;
   property$: Observable<PropertyModelInterface | null>;
   enquiryForm!: FormGroup;
   isLoggedIn$: Observable<boolean>;
   user$: Observable<UserModelInterface | null>;
+  propertyId!: string;
+  userId!: string | undefined;
+  propertyOwner!: string | undefined;
 
   enquiryTopics = [
     'Payment',
@@ -48,23 +52,35 @@ export class PropertyDetailsComponent implements OnInit {
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.store.dispatch(
       PropertiesActions.getOneProperty({ propertyId: this.propertyId })
     );
 
+    this.user$.subscribe((user) => {
+      this.userId = user?._id;
+    });
+
     this.enquiryForm = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      content: new FormControl(null, [Validators.required]),
-      topic: new FormControl(null, [Validators.required]),
+      title: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      content: new FormControl('', [Validators.required]),
+      topic: new FormControl('', [Validators.required]),
+      property: new FormControl(this.propertyId),
+      user: new FormControl(this.userId),
     });
   }
 
   onSubmit(): void {
     if (this.enquiryForm.invalid) {
-      this.notificationService.warn('Complete the form correctly');
+      return this.notificationService.warn('Complete the form correctly');
     }
-    console.log(this.enquiryForm.value);
+    const data: CreateEnquiryFormInterface = {
+      title: this.enquiryForm.value.title,
+      content: this.enquiryForm.value.content,
+      topic: this.enquiryForm.value.topic,
+      property: this.enquiryForm.value.property,
+    };
+    this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
   }
 }

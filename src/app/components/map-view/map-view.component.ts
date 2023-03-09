@@ -36,14 +36,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
       }
     );
 
-    const icon = (propertyType: string) => {
-      return L.icon({
-        iconUrl: `../../../assets//images/markers/marker-${propertyType}.svg`,
-        iconSize: [35, 35],
-      });
-    };
-
     if (properties.length > 0) {
+      const icon = (propertyType: string) => {
+        return L.icon({
+          iconUrl: `../../../assets//images/markers/marker-${propertyType}.svg`,
+          iconSize: [35, 35],
+        });
+      };
+
       properties.forEach((p) => {
         L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
           icon: icon(p.propertyType),

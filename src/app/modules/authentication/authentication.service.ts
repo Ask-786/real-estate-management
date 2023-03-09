@@ -8,11 +8,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
+
 interface loginRequestModelInterface {
   status: boolean;
   access_token: string;
   user: UserModelInterface;
 }
+
 @Injectable({
   providedIn: 'root',
 })
