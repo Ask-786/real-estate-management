@@ -11,6 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
 
 @Component({
   selector: 'app-add-property-dialog',
@@ -152,6 +153,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     }
 
     if (this.imageOne && this.imageTwo && this.imageThree && this.imageFour) {
+      this.store.dispatch(GlobalActions.loadingStart());
       const images: string[] = [];
       const imagesArray = [
         this.imageOne,

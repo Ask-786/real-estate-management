@@ -1,5 +1,13 @@
 <div class="map-container w-full h-full">
-    <div class="map-frame w-full h-full">
+    <div class="map-frame w-full h-full relative z-0">
         <div id="map" class="w-full h-full"></div>
+    </div>
+    <div class="w-full absolute top-20 flex items-center">
+        <span class="mx-auto p-2 w-2/3 rounded-md opacity-80 bg-zinc-800">
+            <mat-form-field class="mx-auto -mb-5 w-full opacity-100" appearance="outline">
+                <mat-label>Search Cities</mat-label>
+                <input matInput placeholder="Ex. Pizza" class="">
+            </mat-form-field>
+        </span>
     </div>
 </div>

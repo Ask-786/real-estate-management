@@ -30,8 +30,8 @@ export class NavbarComponent implements OnDestroy {
     );
   }
 
-  hasRoute(route: string) {
-    return this.router.url === route;
+  hasRoute(route: string[]) {
+    return route.some((el) => el === this.router.url);
   }
 
   toggleSideBar() {

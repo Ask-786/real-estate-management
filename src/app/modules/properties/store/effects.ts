@@ -47,7 +47,6 @@ export class PropertiesEffects {
     this.action$.pipe(
       ofType(PropertiesActions.addProperty),
       mergeMap((action) => {
-        this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService
           .addProperty(action.propertyData, action.images)
           .pipe(
@@ -92,6 +91,53 @@ export class PropertiesEffects {
                 error: err.error.message,
               })
             );
+          })
+        );
+      })
+    )
+  );
+
+  getOwnProperties$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.getOwnProperties),
+      mergeMap(() => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.getOwnProperties().pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd());
+            return PropertiesActions.getOwnPropertiesSuccess({
+              ownProperties: data,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.getOwnPropertiesFailure());
+          })
+        );
+      })
+    )
+  );
+
+  deletePropoerty$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.deleteProperty),
+      mergeMap((data) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.deleteProperty(data.id).pipe(
+          map(() => {
+            this.store.dispatch(GlobalActions.loadingEnd());
+            this.router.navigateByUrl('properties/own-properties');
+            this.notificationService.sucess('Property Deleted Successfully');
+            return PropertiesActions.deletePropertySuccess();
+          }),
+          catchError((err) => {
+            this.notificationService.warn(err.error.message);
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.deletePropertyFailure());
           })
         );
       })

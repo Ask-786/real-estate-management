@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
-export const selectFeature = (state: AppStateInterface) => state.properties;
+const selectFeature = (state: AppStateInterface) => state.properties;
 
 export const propertiesSelector = createSelector(
   selectFeature,
@@ -20,4 +20,8 @@ export const propertyPageSelector = createSelector(
 export const mostBottomReachedSelector = createSelector(
   selectFeature,
   (state) => state.mostBottomReached
+);
+export const ownPrpoertiesSelector = createSelector(
+  selectFeature,
+  (state) => state.ownProperties
 );

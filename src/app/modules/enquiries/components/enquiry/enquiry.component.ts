@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-enquiry',
   templateUrl: './enquiry.component.html',
-  styleUrls: ['./enquiry.component.css']
+  styleUrls: ['./enquiry.component.css'],
 })
-export class EnquiryComponent {
-
-}
+export class EnquiryComponent {}

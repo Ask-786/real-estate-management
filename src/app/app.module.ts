@@ -20,6 +20,7 @@ import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.component';
 import { reducers } from './shared/store/reducers';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { ProtectLoginService } from './guards/protectLogin.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
   ],
   providers: [
     AuthGuardService,
+    ProtectLoginService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

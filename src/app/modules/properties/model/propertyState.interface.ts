@@ -4,4 +4,5 @@ export interface PropertyStateInterface {
   selectedProperty: PropertyModelInterface | null;
   page: number;
   mostBottomReached: boolean;
+  ownProperties: PropertyModelInterface[];
 }

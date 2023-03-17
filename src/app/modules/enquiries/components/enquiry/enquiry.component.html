@@ -1,5 +1,20 @@
-<div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md ">
-    <h1>Price:</h1>
-    <br>
-    <p class="text-xl font-semibold">INR: 2000</p>
-</div>
+<mat-card class="bg-color-dark m-5">
+    <mat-card-header class="bg-color-dark">
+        <mat-card-title>
+            <div class="flex justify-between w-full">
+                <ng-content select="#title"></ng-content>
+                <button mat-button><mat-icon>more_vert</mat-icon></button>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="bg-color-dark">
+    </mat-card-content>
+    <mat-card-actions align="start" class="bg-color-dark">
+        <div class="flex justify-between w-full">
+            <ng-content select="#property" align="start"></ng-content>
+            <ng-content select="#senderEmail"></ng-content>
+            <ng-content select="#topic"></ng-content>
+            <ng-content select="#createdAt"></ng-content>
+        </div>
+    </mat-card-actions>
+</mat-card>

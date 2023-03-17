@@ -1,7 +1,11 @@
 <div class="md:w-9/12">
-    <div class="m-5 p-3 bg-color-dark rounded-md ">
-        <p class="font-bold text-2xl mb-3">{{(property$ | async)?.title}}</p>
+    <div class="m-5 p-3 bg-color-dark rounded-md relative">
+        <p class="font-medium text-2xl mb-3">{{(property$ | async)?.title}}</p>
         <span class="rounded-md bg-emerald-900 p-1 pr-2 pl-2">Type: {{(property$ | async)?.propertyType}}</span>
+        <button *ngIf="(user$ | async)?._id === (property$ | async)?.owner" mat-button (click)="onEdit()"
+            class="absolute right-3 top-3">Edit</button>
+        <button color="warn" *ngIf="(user$ | async)?._id === (property$ | async)?.owner" mat-button
+            class="absolute right-24 top-3" (click)="onDelete()">Delete</button>
     </div>
     <div class="m-5 p-3 rounded-md text-5xl bg-color-dark">
         <img [src]="(property$ | async)?.images?.[selectedImage]" alt="">

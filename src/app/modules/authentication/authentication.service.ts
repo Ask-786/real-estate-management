@@ -1,6 +1,6 @@
 import { UserModelInterface } from '../../shared/models/user.interface';
 import { Injectable } from '@angular/core';
-import { tap, Observable, BehaviorSubject } from 'rxjs';
+import { tap, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { LoginForm, SignUpForm } from './models/authentication.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -20,12 +20,8 @@ interface loginRequestModelInterface {
 })
 export class AuthenticationService {
   private readonly TOKEN_NAME = 'access_token';
-  private _isLoggedIn$ = new BehaviorSubject<boolean>(true);
-  isLoggedIn$: Observable<boolean> = this._isLoggedIn$.asObservable();
 
-  constructor(private http: HttpClient) {
-    this._isLoggedIn$.next(!!this.token);
-  }
+  constructor(private http: HttpClient) {}
 
   get token(): string | null {
     return localStorage.getItem(this.TOKEN_NAME);

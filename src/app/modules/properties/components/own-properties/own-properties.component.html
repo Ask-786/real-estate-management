@@ -1,6 +1,6 @@
-<div (scroll)="onScroll($event)">
+<div class="w-full">
     <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <div *ngFor="let property of properties$ | async" class="m-3">
+        <div *ngFor="let property of ownProperties$ | async" class="m-3">
             <app-property>
                 <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
                     class="h-56 w-full">
@@ -19,7 +19,7 @@
                 <span id="propertyType" class="pl-2 pr-2 bg-cyan-900 rounded-xl">
                     {{property.propertyType}}
                 </span>
-                <button mat-raised-button id="button" class="w-full" [routerLink]="getPropertyUrl(property._id)">View
+                <button mat-raised-button id="button" class="w-full" [routerLink]="getOwnPropertyUrl(property._id)">View
                     Property</button>
             </app-property>
         </div>

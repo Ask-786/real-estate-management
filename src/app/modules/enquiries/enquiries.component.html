@@ -1,1 +1,9 @@
-<app-enquiry></app-enquiry>
+<div *ngFor="let enquiry of (enquiries$ | async)">
+    <app-enquiry>
+        <span id="title">{{enquiry.title}}</span>
+        <span id="property" class="ml-2">{{enquiry.property}}</span>
+        <span id="senderEmail">{{enquiry.senderEmail}}</span>
+        <span id="topic">{{enquiry.topic}}</span>
+        <span id="createdAt">{{moment(enquiry.createdAt).format('LL')}}</span>
+    </app-enquiry>
+</div>

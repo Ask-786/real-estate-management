@@ -15,6 +15,9 @@ import { PropertyComponent } from './components/property/property.component';
 import { AddPropertyDialogComponent } from './components/add-property-dialog/add-property-dialog.component';
 import { PropertyDetailsComponent } from './components/property-details/property-details.component';
 import { MaskImageDirective } from './directives/mask-image.directive';
+import { OwnPropertiesComponent } from './components/own-properties/own-properties.component';
+import { EditPropertyDialogComponent } from './components/edit-property-dialog/edit-property-dialog.component';
+import { DeleteWarningComponent } from './components/delete-warning/delete-warning.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { MaskImageDirective } from './directives/mask-image.directive';
     AddPropertyDialogComponent,
     PropertyDetailsComponent,
     MaskImageDirective,
+    OwnPropertiesComponent,
+    EditPropertyDialogComponent,
+    DeleteWarningComponent,
   ],
   imports: [
     CommonModule,

@@ -41,3 +41,25 @@ export const getOnePropertyFailure = createAction(
   '[Properties] Get One Property Failure',
   props<{ error: string }>()
 );
+
+export const getOwnProperties = createAction('[Properties] Get Own Properties');
+
+export const getOwnPropertiesSuccess = createAction(
+  '[Properties] Get Own Properties Success',
+  props<{ ownProperties: PropertyModelInterface[] }>()
+);
+
+export const getOwnPropertiesFailure = createAction(
+  '[Properties] Get Own Properties Failure'
+);
+
+export const deleteProperty = createAction(
+  '[Properties] Delete Property',
+  props<{ id: string }>()
+);
+export const deletePropertySuccess = createAction(
+  '[Properties] Delete Property Success'
+);
+export const deletePropertyFailure = createAction(
+  '[Properties] Delete Property Failure'
+);

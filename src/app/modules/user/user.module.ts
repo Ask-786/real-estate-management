@@ -7,4 +7,5 @@ import { UserComponent } from './user.component';
   declarations: [UserComponent],
   imports: [CommonModule, UserRoutingModule],
 })
+
 export class UserModule {}

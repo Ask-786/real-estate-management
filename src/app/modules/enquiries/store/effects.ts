@@ -16,6 +16,7 @@ export class EnquiryEffects {
     private store: Store<AppStateInterface>,
     private notificationService: NotificationService
   ) {}
+
   createEnquiry$ = createEffect(() =>
     this.action$.pipe(
       ofType(EnquiryActions.createEnquiry),
@@ -47,7 +48,6 @@ export class EnquiryEffects {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.enquiriesService.getEnquiries().pipe(
           map((data) => {
-            console.log(data);
             this.store.dispatch(GlobalActions.loadingEnd());
             return EnquiryActions.getEnquiriesSuccess({
               enquiries: data.enquiries,

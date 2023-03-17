@@ -1,3 +1,4 @@
+import { MaterialModule } from './../material/material.module';
 import { EnquiryEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
@@ -12,9 +13,10 @@ import { EnquiryComponent } from './components/enquiry/enquiry.component';
 @NgModule({
   declarations: [EnquiriesComponent, EnquiryComponent],
   imports: [
+    MaterialModule,
     CommonModule,
     EnquiriesRoutingModule,
-    StoreModule.forFeature('enquiry', reducers),
+    StoreModule.forFeature('enquiries', reducers),
     EffectsModule.forFeature([EnquiryEffects]),
   ],
 })

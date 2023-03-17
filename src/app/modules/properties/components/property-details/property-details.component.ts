@@ -1,8 +1,11 @@
+import { DeleteWarningComponent } from './../delete-warning/delete-warning.component';
+import { EditPropertyDialogComponent } from './../edit-property-dialog/edit-property-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CreateEnquiryFormInterface } from './../../../enquiries/model/enquiryform.interface';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { AppStateInterface } from './../../../../models/appState.interface';
@@ -18,7 +21,7 @@ import { UserModelInterface } from 'src/app/shared/models/user.interface';
   templateUrl: './property-details.component.html',
   styleUrls: ['./property-details.component.css'],
 })
-export class PropertyDetailsComponent implements OnInit {
+export class PropertyDetailsComponent implements OnInit, OnDestroy {
   selectedImage = 0 as number;
   property$: Observable<PropertyModelInterface | null>;
   enquiryForm!: FormGroup;
@@ -27,6 +30,7 @@ export class PropertyDetailsComponent implements OnInit {
   propertyId!: string;
   userId!: string | undefined;
   propertyOwner!: string | undefined;
+  propertytSubscription!: Subscription;
 
   enquiryTopics = [
     'Payment',
@@ -38,7 +42,8 @@ export class PropertyDetailsComponent implements OnInit {
   constructor(
     private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.propertyId = params['id'];
@@ -82,5 +87,24 @@ export class PropertyDetailsComponent implements OnInit {
       property: this.enquiryForm.value.property,
     };
     this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
+  }
+
+  onDelete() {
+    let title: string | undefined;
+    let id: string | undefined;
+    this.propertytSubscription = this.property$.subscribe({
+      next: (data) => ((title = data?.title), (id = data?._id)),
+    });
+    this.dialog.open(DeleteWarningComponent, {
+      data: { title, id },
+    });
+  }
+
+  onEdit() {
+    this.dialog.open(EditPropertyDialogComponent);
+  }
+
+  ngOnDestroy() {
+    if (this.propertytSubscription) this.propertytSubscription.unsubscribe();
   }
 }

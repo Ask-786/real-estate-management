@@ -1,4 +1,4 @@
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import * as L from 'leaflet';
 
@@ -10,10 +10,7 @@ import * as L from 'leaflet';
 export class MapDialogComponent implements OnInit {
   private map!: L.Map;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: L.LatLng,
-    public dialogRef: MatDialogRef<MapDialogComponent>
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: L.LatLng) {}
 
   private initMap(): void {
     this.map = L.map('map', {

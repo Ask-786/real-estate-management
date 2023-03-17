@@ -1,3 +1,5 @@
+import { ProtectLoginService } from './guards/protectLogin.service';
+import { AuthGuardService } from './guards/auth.guard.service';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { MapViewComponent } from './components/map-view/map-view.component';
 import { NgModule } from '@angular/core';
@@ -11,6 +13,7 @@ const routes: Routes = [
       import('./modules/authentication/authentication.module').then(
         (m) => m.AuthenticationModule
       ),
+    canActivate: [ProtectLoginService],
   },
   {
     path: 'enquiries',
@@ -18,6 +21,7 @@ const routes: Routes = [
       import('./modules/enquiries/enquiries.module').then(
         (m) => m.EnquiriesModule
       ),
+    canActivate: [AuthGuardService],
   },
   {
     path: 'properties',
@@ -30,6 +34,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
+    canActivate: [AuthGuardService],
   },
   { path: 'map', component: MapViewComponent },
   { path: '**', component: NotFoundComponent },

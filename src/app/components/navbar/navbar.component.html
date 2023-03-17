@@ -1,20 +1,23 @@
-<div class="">
+<div>
+    <mat-toolbar class="bg-color-dark color-light">
+        <button mat-icon-button class="md:hidden block" (click)="toggleSideBar()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar>
+</div>
+<div *ngIf="hasRoute(['/properties','/properties/own-properties'])"
+    class="bg-color-dark flex flex-col sm:flex-row justify-start sm:justify-between sm:items-center">
+    <form>
+        <mat-form-field class="sm:m-2 w-11/12 h-20 md:w-96 -mb-3 sm:-mb-3" appearance="outline">
+            <mat-label class="m-2">Search</mat-label>
+            <span matPrefix>&nbsp;&nbsp;<mat-icon>search</mat-icon></span>
+            <input type="text" matInput>
+        </mat-form-field>
+    </form>
     <div>
-        <mat-toolbar class="bg-color-dark color-light">
-            <button mat-icon-button class="md:hidden block" (click)="toggleSideBar()">
-                <mat-icon>menu</mat-icon>
-            </button>
-        </mat-toolbar>
-    </div>
-    <div *ngIf="hasRoute('/properties')"
-        class="bg-color-dark flex flex-col sm:flex-row justify-start sm:justify-between sm:items-center">
-        <form>
-            <mat-form-field class="sm:m-2 w-11/12 h-20 md:w-96 -mb-3 sm:-mb-3" appearance="outline">
-                <mat-label class="m-2">Search</mat-label>
-                <span matPrefix>&nbsp;&nbsp;<mat-icon>search</mat-icon></span>
-                <input type="text" matInput>
-            </mat-form-field>
-        </form>
+        <button mat-raised-button class="mr-3" *ngIf="!hasRoute(['/properties/own-properties'])"
+            routerLink="properties/own-properties">Your
+            Properties</button>
         <button mat-raised-button class="mr-3" (click)="addProperty()">Add
             Property</button>
     </div>

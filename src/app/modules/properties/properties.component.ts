@@ -41,7 +41,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     let isBottomReached;
     if (
       event.target.offsetHeight + event.target.scrollTop >=
-      event.target.scrollHeight
+      event.target.scrollHeight - 1
     ) {
       this.bottomReachedSubscription = this.mostBottomReached$.subscribe({
         next: (bool: boolean) => {

@@ -1,4 +1,5 @@
-import { createReducer, on } from '@ngrx/store';
+import { PropertyModelInterface } from './../model/property.model';
+import { createReducer, on, select } from '@ngrx/store';
 import { PropertyStateInterface } from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
 export const initialState: PropertyStateInterface = {
@@ -6,6 +7,7 @@ export const initialState: PropertyStateInterface = {
   mostBottomReached: false,
   selectedProperty: null,
   page: 0,
+  ownProperties: [],
 };
 
 export const reducers = createReducer(
@@ -32,6 +34,7 @@ export const reducers = createReducer(
   on(PropertyActions.addPropertySuccess, (state, action) => ({
     ...state,
     properties: [...state.properties, action.property],
+    ownProperties: [...state.ownProperties, action.property],
   })),
   on(PropertyActions.getOneProperty, (state) => ({
     ...state,
@@ -40,5 +43,38 @@ export const reducers = createReducer(
   on(PropertyActions.getOnePropertySuccess, (state, action) => ({
     ...state,
     selectedProperty: action.property,
-  }))
+  })),
+  on(PropertyActions.getOwnPropertiesSuccess, (state, action) => ({
+    ...state,
+    ownProperties: action.ownProperties,
+  })),
+  on(PropertyActions.deletePropertySuccess, (state) => {
+    let newProperties: PropertyModelInterface[];
+    let newOwnProperties: PropertyModelInterface[];
+    const allIndex = state.properties.findIndex(
+      (el) => el._id === state.selectedProperty?._id
+    );
+    const ownIndex = state.ownProperties.findIndex(
+      (el) => el._id === state.selectedProperty?._id
+    );
+    if (allIndex !== -1) {
+      newProperties = state.properties.filter(
+        (el) => el._id !== state.selectedProperty?._id
+      );
+    } else {
+      newProperties = [...state.properties];
+    }
+    if (ownIndex !== -1) {
+      newOwnProperties = state.ownProperties.filter(
+        (el) => el._id !== state.selectedProperty?._id
+      );
+    } else {
+      newOwnProperties = [...state.ownProperties];
+    }
+    return {
+      ...state,
+      properties: newProperties,
+      ownProperties: newOwnProperties,
+    };
+  })
 );

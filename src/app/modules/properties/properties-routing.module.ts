@@ -1,3 +1,5 @@
+import { AuthGuardService } from './../../guards/auth.guard.service';
+import { OwnPropertiesComponent } from './components/own-properties/own-properties.component';
 import { PropertyDetailsComponent } from './components/property-details/property-details.component';
 import { PropertiesComponent } from './properties.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +11,12 @@ const routes: Routes = [
     component: PropertiesComponent,
   },
   { path: 'property/:id', component: PropertyDetailsComponent },
+  {
+    path: 'own-properties',
+    component: OwnPropertiesComponent,
+    canActivate: [AuthGuardService],
+  },
+  { path: 'own-properties/:id', component: PropertyDetailsComponent },
 ];
 
 @NgModule({

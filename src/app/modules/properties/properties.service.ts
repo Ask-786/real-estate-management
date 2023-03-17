@@ -37,7 +37,7 @@ export class PropertiesService {
   }
 
   addProperty(data: AddPropertyInterface, images: string[]) {
-    return this.http.post<PropertyModelInterface>(
+    return this.http.put<PropertyModelInterface>(
       `${environment.baseUrl}/property/add-property`,
       {
         title: data.title,
@@ -71,6 +71,18 @@ export class PropertiesService {
   gets3UploadUrl(): Observable<{ uploadUrl: string }> {
     return this.http.get<{ uploadUrl: string }>(
       `${environment.baseUrl}/property/get-s3-upload-url`
+    );
+  }
+
+  getOwnProperties(): Observable<PropertyModelInterface[]> {
+    return this.http.get<PropertyModelInterface[]>(
+      `${environment.baseUrl}/property/get-own-properties`
+    );
+  }
+
+  deleteProperty(id: string): Observable<{ deletedpropertyid: string }> {
+    return this.http.delete<{ deletedpropertyid: string }>(
+      `${environment.baseUrl}/property/property/${id}`
     );
   }
 }
