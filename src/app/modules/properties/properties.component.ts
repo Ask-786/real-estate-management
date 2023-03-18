@@ -29,7 +29,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(PropertiesActions.getProperties());
+    this.mostBottomReached$.subscribe({
+      next: (data) => {
+        if (!data) {
+          this.store.dispatch(PropertiesActions.getProperties());
+        }
+      },
+    });
   }
 
   getPropertyUrl(id: string) {

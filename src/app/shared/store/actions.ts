@@ -1,18 +1,21 @@
 import { createAction, props } from '@ngrx/store';
 import { UserModelInterface } from '../models/user.interface';
 
-export const loadingStart = createAction('[Gobal State] Loading Started');
-export const loadingEnd = createAction('[Global State] Loading Ended');
+export const loadingStart = createAction('[Gobal] Loading Started');
+export const loadingEnd = createAction(
+  '[Global] Loading Ended',
+  props<{ message?: string }>()
+);
 export const gotError = createAction(
-  '[Global State] Got Error',
+  '[Global] Got Error',
   props<{ error: string }>()
 );
-export const checkAuth = createAction('[Authentication] Check Authenticaion');
+export const checkAuth = createAction('[Global] Check Authenticaion');
 export const checkAuthSuccess = createAction(
-  '[Authentication] Check Authenticaion Success',
+  '[Global] Check Authenticaion Success',
   props<{ user: UserModelInterface; token: string }>()
 );
 export const checkAuthFailure = createAction(
-  '[Authentication] Check Authenticaion Failure',
+  '[Global] Check Authenticaion Failure',
   props<{ error: string }>()
 );

@@ -1,9 +1,9 @@
-<mat-card class="bg-color-dark m-5">
+<mat-card class="bg-color-dark m-5 relative">
     <mat-card-header class="bg-color-dark">
         <mat-card-title>
             <div class="flex justify-between w-full">
                 <ng-content select="#title"></ng-content>
-                <button mat-button><mat-icon>more_vert</mat-icon></button>
+                <button mat-icon-button class="absolute right-2 top-2"><mat-icon>more_vert</mat-icon></button>
             </div>
         </mat-card-title>
     </mat-card-header>

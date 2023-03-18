@@ -24,8 +24,5 @@ export class EnquiriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(EnquiriesActions.getEnquiries());
-    this.enquiries$.subscribe((data) => {
-      console.log(data);
-    });
   }
 }

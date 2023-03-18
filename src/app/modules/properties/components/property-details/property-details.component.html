@@ -6,6 +6,10 @@
             class="absolute right-3 top-3">Edit</button>
         <button color="warn" *ngIf="(user$ | async)?._id === (property$ | async)?.owner" mat-button
             class="absolute right-24 top-3" (click)="onDelete()">Delete</button>
+        <button mat-icon-button color="primary" *ngIf="(user$ | async)?._id !== (property$ | async)?.owner"
+            class="absolute right-3 top-3" (click)="onFavour()">
+            <mat-icon>favorite</mat-icon>
+        </button>
     </div>
     <div class="m-5 p-3 rounded-md text-5xl bg-color-dark">
         <img [src]="(property$ | async)?.images?.[selectedImage]" alt="">

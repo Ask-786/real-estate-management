@@ -1,9 +1,5 @@
 import { Store } from '@ngrx/store';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
 import * as PropertiesActions from '../../store/actions';
 

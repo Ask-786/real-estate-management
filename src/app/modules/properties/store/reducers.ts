@@ -1,5 +1,5 @@
 import { PropertyModelInterface } from './../model/property.model';
-import { createReducer, on, select } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { PropertyStateInterface } from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
 export const initialState: PropertyStateInterface = {
@@ -16,7 +16,6 @@ export const reducers = createReducer(
     if (action.properties.length < 8) {
       return {
         ...state,
-        page: state.page + 1,
         properties: [...state.properties, ...action.properties],
         mostBottomReached: true,
       };

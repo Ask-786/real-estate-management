@@ -1,3 +1,4 @@
+import { FavoritesStateInterface } from './../modules/favorites/model/favoritesState.interface';
 import { EnquiryStateInterface } from './../modules/enquiries/model/enquiryState.interface';
 import { GlobalStateInterface } from '../shared/models/globalStateInterface';
 import { AuthenticationStateInterface } from './../modules/authentication/models/authenticationStateInterface';
@@ -8,4 +9,5 @@ export interface AppStateInterface {
   authentication: AuthenticationStateInterface;
   global: GlobalStateInterface;
   enquiries: EnquiryStateInterface;
+  favorites: FavoritesStateInterface;
 }

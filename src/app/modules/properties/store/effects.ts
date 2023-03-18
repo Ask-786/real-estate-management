@@ -1,9 +1,8 @@
 import { Router } from '@angular/router';
-import { NotificationService } from './../../../shared/services/notification.service';
 import { PropertiesService } from './../properties.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 import * as PropertiesActions from './actions';
 import { Store } from '@ngrx/store';
 import * as GlobalActions from '../../../shared/store/actions';
@@ -13,7 +12,6 @@ export class PropertiesEffects {
   constructor(
     private action$: Actions,
     private propertyService: PropertiesService,
-    private notificationService: NotificationService,
     private store: Store,
     private router: Router
   ) {}
@@ -26,7 +24,7 @@ export class PropertiesEffects {
         return this.propertyService.getProperties().pipe(
           map(
             (properties) => {
-              this.store.dispatch(GlobalActions.loadingEnd());
+              this.store.dispatch(GlobalActions.loadingEnd({}));
               return PropertiesActions.getPropertiesSuccess({ properties });
             },
             catchError((err) => {
@@ -51,7 +49,9 @@ export class PropertiesEffects {
           .addProperty(action.propertyData, action.images)
           .pipe(
             map((property) => {
-              this.store.dispatch(GlobalActions.loadingEnd());
+              this.store.dispatch(
+                GlobalActions.loadingEnd({ message: `Added ${property.title}` })
+              );
               return PropertiesActions.addPropertySuccess({ property });
             }),
             catchError((err) => {
@@ -76,13 +76,11 @@ export class PropertiesEffects {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getOneProperty(property.propertyId).pipe(
           map((property) => {
-            this.store.dispatch(GlobalActions.loadingEnd());
+            this.store.dispatch(GlobalActions.loadingEnd({}));
             return PropertiesActions.getOnePropertySuccess({ property });
           }),
           catchError((err) => {
             this.router.navigateByUrl('properties');
-            this.notificationService.warn(err.error.message);
-
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
@@ -104,7 +102,7 @@ export class PropertiesEffects {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getOwnProperties().pipe(
           map((data) => {
-            this.store.dispatch(GlobalActions.loadingEnd());
+            this.store.dispatch(GlobalActions.loadingEnd({}));
             return PropertiesActions.getOwnPropertiesSuccess({
               ownProperties: data,
             });
@@ -127,13 +125,15 @@ export class PropertiesEffects {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.deleteProperty(data.id).pipe(
           map(() => {
-            this.store.dispatch(GlobalActions.loadingEnd());
+            this.store.dispatch(
+              GlobalActions.loadingEnd({
+                message: 'Property Deleted Successfully',
+              })
+            );
             this.router.navigateByUrl('properties/own-properties');
-            this.notificationService.sucess('Property Deleted Successfully');
             return PropertiesActions.deletePropertySuccess();
           }),
           catchError((err) => {
-            this.notificationService.warn(err.error.message);
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
@@ -142,27 +142,5 @@ export class PropertiesEffects {
         );
       })
     )
-  );
-
-  addPropertySuccess$ = createEffect(
-    () =>
-      this.action$.pipe(
-        ofType(PropertiesActions.addPropertySuccess),
-        tap(() => {
-          this.notificationService.sucess('Property Added Succesfully');
-        })
-      ),
-    { dispatch: false }
-  );
-
-  addPropertyError$ = createEffect(
-    () =>
-      this.action$.pipe(
-        ofType(PropertiesActions.addPropertyFailure),
-        tap((action) => {
-          this.notificationService.warn(action.error);
-        })
-      ),
-    { dispatch: false }
   );
 }

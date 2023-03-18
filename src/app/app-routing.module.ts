@@ -36,6 +36,21 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
     canActivate: [AuthGuardService],
   },
+  {
+    path: 'favorites',
+    loadChildren: () =>
+      import('./modules/favorites/favorites.module').then(
+        (m) => m.FavoritesModule
+      ),
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'discussions',
+    loadChildren: () =>
+      import('./modules/discussions/discussions.module').then(
+        (m) => m.DiscussionsModule
+      ),
+  },
   { path: 'map', component: MapViewComponent },
   { path: '**', component: NotFoundComponent },
 ];

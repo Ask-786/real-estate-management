@@ -1,3 +1,4 @@
+import { FavoritesEffects } from './../favorites/store/effects';
 import { EnquiryEffects } from './../enquiries/store/effects';
 import { PropertiesEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
@@ -37,7 +38,11 @@ import { DeleteWarningComponent } from './components/delete-warning/delete-warni
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forFeature('properties', reducers),
-    EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
+    EffectsModule.forFeature([
+      PropertiesEffects,
+      EnquiryEffects,
+      FavoritesEffects,
+    ]),
   ],
   providers: [PropertiesService],
 })

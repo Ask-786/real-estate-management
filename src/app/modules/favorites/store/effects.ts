@@ -1,62 +1,60 @@
 import { Store } from '@ngrx/store';
-import { EnquiriesService } from './../enquiries.service';
+import { FavoritesService } from './../favorites.service';
 import { map, mergeMap, catchError, of } from 'rxjs';
-import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import * as EnquiryActions from './actions';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import * as FavoritesActions from './actions';
 import * as GlobalActions from '../../../shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable()
-export class EnquiryEffects {
+export class FavoritesEffects {
   constructor(
     private action$: Actions,
-    private enquiriesService: EnquiriesService,
+    private favoriteService: FavoritesService,
     private store: Store<AppStateInterface>
   ) {}
 
-  createEnquiry$ = createEffect(() =>
+  favourProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.createEnquiry),
+      ofType(FavoritesActions.favourProperty),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
-        return this.enquiriesService.createEnquiry(data.data).pipe(
+        return this.favoriteService.favourProperty(data.id).pipe(
           map((data) => {
             this.store.dispatch(
-              GlobalActions.loadingEnd({ message: 'Successfully Enquired' })
+              GlobalActions.loadingEnd({ message: data.message })
             );
-            return EnquiryActions.createEnquirySuccess({
-              createdEnquiry: data.createdEnquiry,
-            });
+            return FavoritesActions.favourPropertySuccess();
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
-            return of(EnquiryActions.createEnquiryFailure());
+            return of(FavoritesActions.favourPropertyFailure());
           })
         );
       })
     )
   );
 
-  getEnquiries$ = createEffect(() =>
+  getFavorites$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.getEnquiries),
+      ofType(FavoritesActions.getFavorites),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
-        return this.enquiriesService.getEnquiries().pipe(
+        return this.favoriteService.getFavorites().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return EnquiryActions.getEnquiriesSuccess({
-              enquiries: data.enquiries,
+            return FavoritesActions.getFavoritesSuccess({
+              favProperties: data.favoriteProperties,
             });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
-            return of(EnquiryActions.getEnquiriesFailure());
+            return of(FavoritesActions.getFavoritesFailure());
           })
         );
       })

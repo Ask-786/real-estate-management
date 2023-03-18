@@ -14,6 +14,7 @@ import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as EnquiriesActions from '../../../enquiries/store/actions';
+import * as FavoritesActions from '../../../favorites/store/actions';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 
 @Component({
@@ -102,6 +103,18 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   onEdit() {
     this.dialog.open(EditPropertyDialogComponent);
+  }
+
+  onFavour() {
+    let id;
+    this.property$.subscribe({
+      next: (data) => {
+        if (data != null) {
+          id = data._id;
+        }
+      },
+    });
+    if (id) this.store.dispatch(FavoritesActions.favourProperty({ id }));
   }
 
   ngOnDestroy() {
