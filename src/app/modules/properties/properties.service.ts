@@ -85,4 +85,25 @@ export class PropertiesService {
       `${environment.baseUrl}/property/property/${id}`
     );
   }
+
+  favourProperty(id: string): Observable<{ result: unknown; message: string }> {
+    return this.http.patch<{ result: unknown; message: string }>(
+      `${environment.baseUrl}/favorites/add-to-favorites`,
+      {
+        propertyId: id,
+      }
+    );
+  }
+
+  getFavorites(): Observable<{ favoriteProperties: PropertyModelInterface[] }> {
+    return this.http.get<{ favoriteProperties: PropertyModelInterface[] }>(
+      `${environment.baseUrl}/favorites/get-favorites`
+    );
+  }
+
+  getFavoriteIds(): Observable<{ user: string; favoriteProperties: string[] }> {
+    return this.http.get<{ user: string; favoriteProperties: string[] }>(
+      `${environment.baseUrl}/favorites/get-favorite-ids`
+    );
+  }
 }

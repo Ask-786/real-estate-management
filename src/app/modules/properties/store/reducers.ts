@@ -8,6 +8,8 @@ export const initialState: PropertyStateInterface = {
   selectedProperty: null,
   page: 0,
   ownProperties: [],
+  favoriteIds: [],
+  favorites: [],
 };
 
 export const reducers = createReducer(
@@ -75,5 +77,13 @@ export const reducers = createReducer(
       properties: newProperties,
       ownProperties: newOwnProperties,
     };
-  })
+  }),
+  on(PropertyActions.getFavoritesSuccess, (state, action) => ({
+    ...state,
+    favorites: action.favProperties,
+  })),
+  on(PropertyActions.getFavoriteIdsSuccess, (state, action) => ({
+    ...state,
+    favoriteIds: action.favoriteProperties,
+  }))
 );

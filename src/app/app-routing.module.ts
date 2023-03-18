@@ -37,14 +37,6 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: 'favorites',
-    loadChildren: () =>
-      import('./modules/favorites/favorites.module').then(
-        (m) => m.FavoritesModule
-      ),
-    canActivate: [AuthGuardService],
-  },
-  {
     path: 'discussions',
     loadChildren: () =>
       import('./modules/discussions/discussions.module').then(

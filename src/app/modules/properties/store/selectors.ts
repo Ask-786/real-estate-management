@@ -25,3 +25,13 @@ export const ownPrpoertiesSelector = createSelector(
   selectFeature,
   (state) => state.ownProperties
 );
+
+export const favPropertiesSelector = createSelector(
+  selectFeature,
+  (state) => state.favorites
+);
+
+export const favoriteIdsSelector = createSelector(
+  selectFeature,
+  (state) => state.favoriteIds
+);

@@ -54,8 +54,37 @@ export const deleteProperty = createAction(
   props<{ id: string }>()
 );
 export const deletePropertySuccess = createAction(
-  '[Properties] Delete Property Success'
+  '[Favorites] Delete Property Success'
 );
 export const deletePropertyFailure = createAction(
-  '[Properties] Delete Property Failure'
+  '[properties] Delete Property Failure'
+);
+
+export const favourProperty = createAction(
+  '[Properties] Favour Property',
+  props<{ id: string }>()
+);
+export const favourPropertySuccess = createAction(
+  '[Properties] Favorite Property Success'
+);
+export const favourPropertyFailure = createAction(
+  '[Properties] Favorite Property Failure'
+);
+
+export const getFavorites = createAction('[Favorites] Get Favorite Properties');
+export const getFavoritesSuccess = createAction(
+  '[Properties] Get Favorite Properties Success',
+  props<{ favProperties: PropertyModelInterface[] }>()
+);
+export const getFavoritesFailure = createAction(
+  '[Properties] Get Favorite Properties Failure'
+);
+
+export const getFavoriteIds = createAction('[Favorites] Get Favorite Ids');
+export const getFavoriteIdsSuccess = createAction(
+  '[Properties] Get Favorite Ids Success',
+  props<{ user: string; favoriteProperties: string[] }>()
+);
+export const getFavoriteIdsFailure = createAction(
+  '[Properties] Get Favorite Ids Failure'
 );

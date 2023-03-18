@@ -1,4 +1,3 @@
-import { FavoritesEffects } from './../favorites/store/effects';
 import { EnquiryEffects } from './../enquiries/store/effects';
 import { PropertiesEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,6 +18,7 @@ import { MaskImageDirective } from './directives/mask-image.directive';
 import { OwnPropertiesComponent } from './components/own-properties/own-properties.component';
 import { EditPropertyDialogComponent } from './components/edit-property-dialog/edit-property-dialog.component';
 import { DeleteWarningComponent } from './components/delete-warning/delete-warning.component';
+import { FavPropertyComponent } from './components/fav-property/fav-property.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { DeleteWarningComponent } from './components/delete-warning/delete-warni
     OwnPropertiesComponent,
     EditPropertyDialogComponent,
     DeleteWarningComponent,
+    FavPropertyComponent,
   ],
   imports: [
     CommonModule,
@@ -38,11 +39,7 @@ import { DeleteWarningComponent } from './components/delete-warning/delete-warni
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forFeature('properties', reducers),
-    EffectsModule.forFeature([
-      PropertiesEffects,
-      EnquiryEffects,
-      FavoritesEffects,
-    ]),
+    EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
   ],
   providers: [PropertiesService],
 })

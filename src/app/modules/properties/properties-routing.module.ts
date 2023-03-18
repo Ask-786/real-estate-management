@@ -4,6 +4,7 @@ import { PropertyDetailsComponent } from './components/property-details/property
 import { PropertiesComponent } from './properties.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FavPropertyComponent } from './components/fav-property/fav-property.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,12 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   { path: 'own-properties/:id', component: PropertyDetailsComponent },
+  {
+    path: 'favorites',
+    component: FavPropertyComponent,
+    canActivate: [AuthGuardService],
+  },
+  { path: 'favorites/:id', component: PropertyDetailsComponent },
 ];
 
 @NgModule({

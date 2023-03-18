@@ -2,6 +2,7 @@
     <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <div *ngFor="let property of properties$ | async" class="m-3">
             <app-property>
+                <mat-icon *ngIf="" aria-hidden="false" fontIcon="favorite"></mat-icon>
                 <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
                     class="h-56 w-full">
                 <h2 id="title" class="text-2xl font-medium">

@@ -5,4 +5,6 @@ export interface PropertyStateInterface {
   page: number;
   mostBottomReached: boolean;
   ownProperties: PropertyModelInterface[];
+  favorites: PropertyModelInterface[];
+  favoriteIds: string[];
 }

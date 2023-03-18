@@ -143,4 +143,74 @@ export class PropertiesEffects {
       })
     )
   );
+
+  favourProperty$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.favourProperty),
+      mergeMap((data) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.favourProperty(data.id).pipe(
+          map((data) => {
+            this.store.dispatch(
+              GlobalActions.loadingEnd({ message: data.message })
+            );
+            return PropertiesActions.favourPropertySuccess();
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.favourPropertyFailure());
+          })
+        );
+      })
+    )
+  );
+
+  getFavorites$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.getFavorites),
+      mergeMap(() => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.getFavorites().pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd({}));
+            return PropertiesActions.getFavoritesSuccess({
+              favProperties: data.favoriteProperties,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.getFavoritesFailure());
+          })
+        );
+      })
+    )
+  );
+
+  getFavoriteIds$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.getFavoriteIds),
+      mergeMap(() => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.getFavoriteIds().pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd({}));
+            return PropertiesActions.getFavoriteIdsSuccess({
+              user: data.user,
+              favoriteProperties: data.favoriteProperties,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.getFavoritesFailure());
+          })
+        );
+      })
+    )
+  );
 }

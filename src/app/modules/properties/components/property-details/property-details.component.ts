@@ -10,12 +10,11 @@ import { CreateEnquiryFormInterface } from './../../../enquiries/model/enquiryfo
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { AppStateInterface } from './../../../../models/appState.interface';
 import { PropertyModelInterface } from './../../model/property.model';
+import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as EnquiriesActions from '../../../enquiries/store/actions';
-import * as FavoritesActions from '../../../favorites/store/actions';
-import { UserModelInterface } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-property-details',
@@ -114,7 +113,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
         }
       },
     });
-    if (id) this.store.dispatch(FavoritesActions.favourProperty({ id }));
+    if (id) this.store.dispatch(PropertiesActions.favourProperty({ id }));
   }
 
   ngOnDestroy() {
