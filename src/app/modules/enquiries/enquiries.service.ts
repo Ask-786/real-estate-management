@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   CreateEnquiryFormInterface,
   EnquiryModelInterface,
+  PropertyPopulatedEnquiryModelInterface,
 } from './model/enquiryform.interface';
 import { Injectable } from '@angular/core';
 
@@ -27,9 +28,11 @@ export class EnquiriesService {
     );
   }
 
-  getEnquiries(): Observable<{ enquiries: EnquiryModelInterface[] }> {
-    return this.http.get<{ enquiries: EnquiryModelInterface[] }>(
-      `${environment.baseUrl}/enquiry/get-enquiries`
-    );
+  getEnquiries(): Observable<{
+    enquiries: PropertyPopulatedEnquiryModelInterface[];
+  }> {
+    return this.http.get<{
+      enquiries: PropertyPopulatedEnquiryModelInterface[];
+    }>(`${environment.baseUrl}/enquiry/get-enquiries`);
   }
 }

@@ -86,9 +86,22 @@ export class PropertiesService {
     );
   }
 
-  favourProperty(id: string): Observable<{ result: unknown; message: string }> {
-    return this.http.patch<{ result: unknown; message: string }>(
+  favourProperty(
+    id: string
+  ): Observable<{ result: unknown; message: string; id: string }> {
+    return this.http.patch<{ result: unknown; message: string; id: string }>(
       `${environment.baseUrl}/favorites/add-to-favorites`,
+      {
+        propertyId: id,
+      }
+    );
+  }
+
+  unFavourProperty(
+    id: string
+  ): Observable<{ result: unknown; message: string; id: string }> {
+    return this.http.patch<{ result: unknown; message: string; id: string }>(
+      `${environment.baseUrl}/favorites/remove-from-favorites`,
       {
         propertyId: id,
       }

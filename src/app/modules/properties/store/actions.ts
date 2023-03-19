@@ -65,10 +65,23 @@ export const favourProperty = createAction(
   props<{ id: string }>()
 );
 export const favourPropertySuccess = createAction(
-  '[Properties] Favorite Property Success'
+  '[Properties] Favor Property Success',
+  props<{ id: string }>()
 );
 export const favourPropertyFailure = createAction(
-  '[Properties] Favorite Property Failure'
+  '[Properties] Favor Property Failure'
+);
+
+export const unFavourProperty = createAction(
+  '[Properties] Unfavour Property',
+  props<{ id: string }>()
+);
+export const unFavourPropertySuccess = createAction(
+  '[Properties] Unfavor Property Success',
+  props<{ id: string }>()
+);
+export const unFavourPropertyFailure = createAction(
+  '[Properties] Unfavor Property Failure'
 );
 
 export const getFavorites = createAction('[Favorites] Get Favorite Properties');

@@ -1,4 +1,4 @@
-import { EnquiryModelInterface } from './model/enquiryform.interface';
+import { PropertyPopulatedEnquiryModelInterface } from './model/enquiryform.interface';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
   styleUrls: ['./enquiries.component.css'],
 })
 export class EnquiriesComponent implements OnInit {
-  enquiries$: Observable<EnquiryModelInterface[]>;
+  enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
   moment = moment;
 
   constructor(private store: Store<AppStateInterface>) {

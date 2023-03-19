@@ -1,5 +1,9 @@
-import { EnquiryModelInterface } from './enquiryform.interface';
+import {
+  EnquiryModelInterface,
+  PropertyPopulatedEnquiryModelInterface,
+} from './enquiryform.interface';
+
 export interface EnquiryStateInterface {
-  enquiries: EnquiryModelInterface[];
+  enquiries: PropertyPopulatedEnquiryModelInterface[];
   ownEnquiries: EnquiryModelInterface[];
 }

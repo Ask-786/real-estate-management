@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { CreateEnquiryFormInterface } from './../../../enquiries/model/enquiryform.interface';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { AppStateInterface } from './../../../../models/appState.interface';
@@ -31,6 +31,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   userId!: string | undefined;
   propertyOwner!: string | undefined;
   propertytSubscription!: Subscription;
+  isFavorite$: Observable<boolean>;
 
   enquiryTopics = [
     'Payment',
@@ -48,19 +49,23 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe((params) => {
       this.propertyId = params['id'];
     });
-    this.property$ = this.store.pipe(
-      select(PropertieseSelectors.selectedPropertySelector)
-    );
+    this.property$ = this.store
+      .pipe(select(PropertieseSelectors.selectedPropertySelector))
+      .pipe(map((property) => property.property));
     this.isLoggedIn$ = this.store.pipe(
       select(GlobalSelectors.isLoggedInSelector)
     );
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
+    this.isFavorite$ = this.store
+      .pipe(select(PropertieseSelectors.selectedPropertySelector))
+      .pipe(map((data) => data.isFavorite));
   }
 
   ngOnInit() {
     this.store.dispatch(
       PropertiesActions.getOneProperty({ propertyId: this.propertyId })
     );
+    this.store.dispatch(PropertiesActions.getFavoriteIds());
 
     this.user$.subscribe((user) => {
       this.userId = user?._id;
@@ -114,6 +119,18 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       },
     });
     if (id) this.store.dispatch(PropertiesActions.favourProperty({ id }));
+  }
+
+  onUnFavour() {
+    let id;
+    this.property$.subscribe({
+      next: (data) => {
+        if (data != null) {
+          id = data._id;
+        }
+      },
+    });
+    if (id) this.store.dispatch(PropertiesActions.unFavourProperty({ id }));
   }
 
   ngOnDestroy() {

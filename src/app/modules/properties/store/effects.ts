@@ -154,13 +154,36 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.loadingEnd({ message: data.message })
             );
-            return PropertiesActions.favourPropertySuccess();
+            return PropertiesActions.favourPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );
             return of(PropertiesActions.favourPropertyFailure());
+          })
+        );
+      })
+    )
+  );
+
+  unFavourProperty$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.unFavourProperty),
+      mergeMap((data) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.unFavourProperty(data.id).pipe(
+          map((data) => {
+            this.store.dispatch(
+              GlobalActions.loadingEnd({ message: data.message })
+            );
+            return PropertiesActions.unFavourPropertySuccess({ id: data.id });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.unFavourPropertyFailure());
           })
         );
       })

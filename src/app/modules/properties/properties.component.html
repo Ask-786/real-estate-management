@@ -2,11 +2,12 @@
     <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <div *ngFor="let property of properties$ | async" class="m-3">
             <app-property>
-                <mat-icon *ngIf="" aria-hidden="false" fontIcon="favorite"></mat-icon>
                 <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
                     class="h-56 w-full">
-                <h2 id="title" class="text-2xl font-medium">
+                <h2 id="title" class="text-2xl font-medium flex items-center">
                     {{property.title}}
+                    <mat-icon *ngIf="(favoriteIds$ | async)?.includes(property._id)" color="primary" fontIcon="favorite"
+                        class="ml-2"></mat-icon>
                 </h2>
                 <span id="createdAt" i class="text-stone-400 text-sm">
                     {{moment(property.createdAt).format('LL')}}

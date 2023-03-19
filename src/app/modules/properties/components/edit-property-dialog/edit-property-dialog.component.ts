@@ -2,7 +2,7 @@ import { NotificationService } from './../../../../shared/services/notification.
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { PropertyModelInterface } from './../../model/property.model';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -55,9 +55,9 @@ export class EditPropertyDialogComponent implements OnInit {
     private dialog: MatDialog,
     private notificationService: NotificationService
   ) {
-    this.property$ = this.store.pipe(
-      select(PropertySelectors.selectedPropertySelector)
-    );
+    this.property$ = this.store
+      .pipe(select(PropertySelectors.selectedPropertySelector))
+      .pipe(map((property) => property.property));
     this.isLoading$ = this.store.pipe(
       select(GlobalSelectors.isLoadingSelector)
     );

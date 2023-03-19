@@ -1,11 +1,19 @@
 import { PropertyModelInterface } from './../model/property.model';
 import { createReducer, on } from '@ngrx/store';
-import { PropertyStateInterface } from './../model/propertyState.interface';
+import {
+  PropertyStateInterface,
+  selectedPropertyInterface,
+} from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
+
+const initialSelectedProperty: selectedPropertyInterface = {
+  property: null,
+  isFavorite: false,
+};
 export const initialState: PropertyStateInterface = {
   properties: [],
   mostBottomReached: false,
-  selectedProperty: null,
+  selectedProperty: initialSelectedProperty,
   page: 0,
   ownProperties: [],
   favoriteIds: [],
@@ -41,10 +49,25 @@ export const reducers = createReducer(
     ...state,
     isLoading: true,
   })),
-  on(PropertyActions.getOnePropertySuccess, (state, action) => ({
-    ...state,
-    selectedProperty: action.property,
-  })),
+  on(PropertyActions.getOnePropertySuccess, (state, action) => {
+    if (state.favoriteIds.includes(action.property._id)) {
+      return {
+        ...state,
+        selectedProperty: {
+          isFavorite: true,
+          property: action.property,
+        },
+      };
+    } else {
+      return {
+        ...state,
+        selectedProperty: {
+          isFavorite: false,
+          property: action.property,
+        },
+      };
+    }
+  }),
   on(PropertyActions.getOwnPropertiesSuccess, (state, action) => ({
     ...state,
     ownProperties: action.ownProperties,
@@ -53,21 +76,21 @@ export const reducers = createReducer(
     let newProperties: PropertyModelInterface[];
     let newOwnProperties: PropertyModelInterface[];
     const allIndex = state.properties.findIndex(
-      (el) => el._id === state.selectedProperty?._id
+      (el) => el._id === state.selectedProperty?.property?._id
     );
     const ownIndex = state.ownProperties.findIndex(
-      (el) => el._id === state.selectedProperty?._id
+      (el) => el._id === state.selectedProperty?.property?._id
     );
     if (allIndex !== -1) {
       newProperties = state.properties.filter(
-        (el) => el._id !== state.selectedProperty?._id
+        (el) => el._id === state.selectedProperty?.property?._id
       );
     } else {
       newProperties = [...state.properties];
     }
     if (ownIndex !== -1) {
       newOwnProperties = state.ownProperties.filter(
-        (el) => el._id !== state.selectedProperty?._id
+        (el) => el._id === state.selectedProperty?.property?._id
       );
     } else {
       newOwnProperties = [...state.ownProperties];
@@ -85,5 +108,15 @@ export const reducers = createReducer(
   on(PropertyActions.getFavoriteIdsSuccess, (state, action) => ({
     ...state,
     favoriteIds: action.favoriteProperties,
+  })),
+  on(PropertyActions.favourPropertySuccess, (state, action) => ({
+    ...state,
+    selectedProperty: { ...state.selectedProperty, isFavorite: true },
+    favoriteIds: [...state.favoriteIds, action.id],
+  })),
+  on(PropertyActions.unFavourPropertySuccess, (state, action) => ({
+    ...state,
+    selectedProperty: { ...state.selectedProperty, isFavorite: false },
+    favoriteIds: state.favoriteIds.filter((el) => el !== action.id),
   }))
 );

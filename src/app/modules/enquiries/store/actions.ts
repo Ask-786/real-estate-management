@@ -1,6 +1,7 @@
 import {
   CreateEnquiryFormInterface,
   EnquiryModelInterface,
+  PropertyPopulatedEnquiryModelInterface,
 } from './../model/enquiryform.interface';
 import { createAction, props } from '@ngrx/store';
 
@@ -19,7 +20,7 @@ export const createEnquiryFailure = createAction(
 export const getEnquiries = createAction('[Enquiries] Get Enquiries');
 export const getEnquiriesSuccess = createAction(
   '[Enquiries] Get Enquiries Success',
-  props<{ enquiries: EnquiryModelInterface[] }>()
+  props<{ enquiries: PropertyPopulatedEnquiryModelInterface[] }>()
 );
 export const getEnquiriesFailure = createAction(
   '[Enquiries] Get Enquiries Failure'
