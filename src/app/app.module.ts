@@ -12,7 +12,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MaterialModule } from './modules/material/material.module';
 import { MapViewComponent } from './components/map-view/map-view.component';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,6 +21,8 @@ import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.co
 import { reducers } from './shared/store/reducers';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ProtectLoginService } from './guards/protectLogin.service';
+import { AppStateInterface } from './models/appState.interface';
+import * as GlobalActions from './shared/store/actions'
 
 @NgModule({
   declarations: [
@@ -54,4 +56,8 @@ import { ProtectLoginService } from './guards/protectLogin.service';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private store:Store<AppStateInterface>){
+    this.store.dispatch(GlobalActions.checkAuth())
+  }
+}
