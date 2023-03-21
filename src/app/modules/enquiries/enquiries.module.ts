@@ -9,9 +9,12 @@ import { CommonModule } from '@angular/common';
 import { EnquiriesRoutingModule } from './enquiries-routing.module';
 import { EnquiriesComponent } from './enquiries.component';
 import { EnquiryComponent } from './components/enquiry/enquiry.component';
+import { EnquiryDetailsComponent } from './components/enquiry-details/enquiry-details.component';
+import { EnquiryReplayDialogComponent } from './components/enquiry-replay-dialog/enquiry-replay-dialog.component';
+import { DiscussionComponent } from './components/discussion/discussion.component';
 
 @NgModule({
-  declarations: [EnquiriesComponent, EnquiryComponent],
+  declarations: [EnquiriesComponent, EnquiryComponent, EnquiryDetailsComponent, EnquiryReplayDialogComponent, DiscussionComponent],
   imports: [
     MaterialModule,
     CommonModule,

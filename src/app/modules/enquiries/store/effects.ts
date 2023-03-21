@@ -62,4 +62,27 @@ export class EnquiryEffects {
       })
     )
   );
+
+  getOneEnquiry$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(EnquiryActions.getOneEnquiry),
+      mergeMap((data) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.enquiriesService.getOneEnquiry(data.id).pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd({}));
+            return EnquiryActions.getOneEnquirySuccess({
+              enquiry: data.enquiry,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(EnquiryActions.getOneEnquiryFailure());
+          })
+        );
+      })
+    )
+  );
 }

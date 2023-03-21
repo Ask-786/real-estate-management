@@ -16,6 +16,7 @@ export class NavbarComponent implements OnDestroy {
   @Output() toggleSide = new EventEmitter();
   isPropertiesRoute!: boolean;
   isLoggedIn$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
   isLoggedInSubscriber!: Subscription;
 
   title!: string;
@@ -27,6 +28,9 @@ export class NavbarComponent implements OnDestroy {
   ) {
     this.isLoggedIn$ = this.store.pipe(
       select(GlobalSelectors.isLoggedInSelector)
+    );
+    this.isLoading$ = this.store.pipe(
+      select(GlobalSelectors.isLoadingSelector)
     );
   }
 

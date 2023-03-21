@@ -7,3 +7,7 @@ export const enquiriesSelector = createSelector(
   selectFeature,
   (state) => state.enquiries
 );
+export const selectedEnquirySelector = createSelector(
+  selectFeature,
+  (state) => state.selectedEnquiry
+);

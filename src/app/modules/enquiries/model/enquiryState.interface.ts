@@ -6,4 +6,5 @@ import {
 export interface EnquiryStateInterface {
   enquiries: PropertyPopulatedEnquiryModelInterface[];
   ownEnquiries: EnquiryModelInterface[];
+  selectedEnquiry: PropertyPopulatedEnquiryModelInterface | null;
 }

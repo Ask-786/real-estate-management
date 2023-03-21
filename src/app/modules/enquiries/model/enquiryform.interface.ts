@@ -17,6 +17,7 @@ export interface EnquiryModelInterface {
   createdAt: Date;
   updatedAt: Date;
 }
+
 export interface PropertyPopulatedEnquiryModelInterface {
   _id: string;
   title: string;

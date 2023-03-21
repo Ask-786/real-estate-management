@@ -26,8 +26,12 @@ export class EnquiriesComponent implements OnInit {
     this.store.dispatch(EnquiriesActions.getEnquiries());
   }
 
-  getRoute(id: string){
-    alert(id)
-    return `/properties/property/${id}`
+  getPropertyRoute(id: string): string {
+    return `../properties/property/${id}`
   }
+
+  getEnquiryRoute(id: string): string {
+    return `enquiry/${id}`
+  }
+
 }

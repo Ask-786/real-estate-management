@@ -1,0 +1,28 @@
+<div class="h-full">
+    <div class="p-3">
+        <mat-card class="mb-2">
+            <mat-card-header class="bg-color-dark">
+                <mat-card-title>{{(selectedEnquiry$ | async)?.property?.title}}</mat-card-title>
+                <mat-card-subtitle>{{(selectedEnquiry$ | async)?.property?.propertyType}}</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <mat-card>
+            <mat-card-header class="bg-color-dark">
+                <mat-card-title>{{(selectedEnquiry$|async)?.title}}</mat-card-title>
+                <mat-card-subtitle>{{moment((selectedEnquiry$|async)?.createdAt).format("LL")}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="min-h-[4rem] bg-color-dark">
+                <p class="mt-4">{{(selectedEnquiry$|async)?.content}}</p>
+            </mat-card-content>
+            <mat-card-actions align="start" class="bg-color-dark text-neutral-400 text-sm pl-4">
+                <p>{{(selectedEnquiry$|async)?.senderEmail}}</p>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="flex justify-end pr-3">
+        <button (click)="replayDialogOpen()" mat-stroked-button><mat-icon>reply</mat-icon>Reply</button>
+    </div>
+    <div class="">
+        <app-discussion></app-discussion>
+    </div>
+</div>

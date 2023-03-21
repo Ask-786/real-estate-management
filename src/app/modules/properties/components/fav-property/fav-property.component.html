@@ -1,5 +1,5 @@
 <div class="w-full">
-    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         <div *ngFor="let property of favProperties$ | async" class="m-3">
             <app-property>
                 <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"

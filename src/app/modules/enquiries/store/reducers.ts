@@ -5,6 +5,7 @@ import * as EnquiryActions from './actions';
 const initialState: EnquiryStateInterface = {
   enquiries: [],
   ownEnquiries: [],
+  selectedEnquiry: null,
 };
 
 export const reducers = createReducer(
@@ -12,5 +13,9 @@ export const reducers = createReducer(
   on(EnquiryActions.getEnquiriesSuccess, (state, action) => ({
     ...state,
     enquiries: action.enquiries,
+  })),
+  on(EnquiryActions.getOneEnquirySuccess, (state, action) => ({
+    ...state,
+    selectedEnquiry: action.enquiry,
   }))
 );

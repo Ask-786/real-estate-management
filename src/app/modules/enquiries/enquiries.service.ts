@@ -35,4 +35,12 @@ export class EnquiriesService {
       enquiries: PropertyPopulatedEnquiryModelInterface[];
     }>(`${environment.baseUrl}/enquiry/get-enquiries`);
   }
+
+  getOneEnquiry(
+    id: string
+  ): Observable<{ enquiry: PropertyPopulatedEnquiryModelInterface }> {
+    return this.http.get<{ enquiry: PropertyPopulatedEnquiryModelInterface }>(
+      `${environment.baseUrl}/enquiry/enquiry/${id}`
+    );
+  }
 }

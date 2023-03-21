@@ -21,15 +21,11 @@
             <mat-icon id="icon">chat</mat-icon>
             <span id="name" class="flex items-center">Enquiries</span>
         </app-button>
-        <app-button routerLink="discussions">
-            <mat-icon id="icon">chat</mat-icon>
-            <span id="name" class="flex items-center">Discussions</span>
-        </app-button>
+        <mat-divider class="justify-start w-11/12 lg:mx-3  md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"></mat-divider>
         <app-button routerLink="user/profile">
             <mat-icon id="icon">person</mat-icon>
             <span id="name" class="flex items-center">Account</span>
         </app-button>
-        <mat-divider class="justify-start w-11/12 lg:mx-3  md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"></mat-divider>
         <app-button routerLink="auth/signup" *ngIf="(isLoggedIn$ | async) === false">
             <mat-icon id="icon">app_registration</mat-icon>
             <span id="name" class="flex items-center">Register</span>
@@ -44,7 +40,9 @@
         </app-button>
     </mat-drawer>
     <mat-drawer-content>
-        <app-navbar (toggleSide)="drawer.toggle()" class="w-full"></app-navbar>
-        <router-outlet></router-outlet>
+        <div class="relative h-screen">
+            <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
+            <router-outlet></router-outlet>
+        </div>
     </mat-drawer-content>
 </mat-drawer-container>
