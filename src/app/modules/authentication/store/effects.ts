@@ -1,5 +1,4 @@
 import { Router } from '@angular/router';
-import { AuthenticationService } from './../authentication.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as AuthenticationActions from './actions';
@@ -7,6 +6,7 @@ import { map, mergeMap, catchError, of } from 'rxjs';
 import * as GlobalActions from '../../../shared/store/actions';
 import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
 export class AuthenticationEffects {

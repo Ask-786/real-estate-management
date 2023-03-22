@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-import { environment } from './../../../environments/environment.development';
+import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   CreateEnquiryFormInterface,
   EnquiryModelInterface,
   PropertyPopulatedEnquiryModelInterface,
-} from './model/enquiryform.interface';
+} from '../model/enquiryform.interface';
 import { Injectable } from '@angular/core';
 
 const httpOptions = {

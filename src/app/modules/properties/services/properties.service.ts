@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 import {
   AddPropertyInterface,
   PropertyModelInterface,
-} from './model/property.model';
+} from '../model/property.model';
 import { select, Store } from '@ngrx/store';
-import * as PropertiesSelectors from './store/selectors';
+import * as PropertiesSelectors from '../store/selectors';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable({

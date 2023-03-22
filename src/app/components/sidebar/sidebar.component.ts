@@ -1,10 +1,10 @@
-import { AuthenticationService } from './../../modules/authentication/authentication.service';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, HostListener, OnDestroy } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as GlobalSelectors from '../../shared/store/selectors';
 import * as AuthenticationActions from '../../modules/authentication/store/actions';
+import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 
 @Component({
   selector: 'app-sidebar',

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { PropertiesService } from './../properties.service';
+import { PropertiesService } from '../services/properties.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';

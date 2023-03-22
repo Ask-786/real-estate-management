@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { EnquiriesService } from './../enquiries.service';
+import { EnquiriesService } from '../services/enquiries.service';
 import { map, mergeMap, catchError, of } from 'rxjs';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';

@@ -1,3 +1,5 @@
+import { EnquiryDiscussionService } from './services/enquiry-discussion.service';
+import { FormsModule } from '@angular/forms';
 import { MaterialModule } from './../material/material.module';
 import { EnquiryEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
@@ -12,15 +14,27 @@ import { EnquiryComponent } from './components/enquiry/enquiry.component';
 import { EnquiryDetailsComponent } from './components/enquiry-details/enquiry-details.component';
 import { EnquiryReplayDialogComponent } from './components/enquiry-replay-dialog/enquiry-replay-dialog.component';
 import { DiscussionComponent } from './components/discussion/discussion.component';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
-  declarations: [EnquiriesComponent, EnquiryComponent, EnquiryDetailsComponent, EnquiryReplayDialogComponent, DiscussionComponent],
+  declarations: [
+    EnquiriesComponent,
+    EnquiryComponent,
+    EnquiryDetailsComponent,
+    EnquiryReplayDialogComponent,
+    DiscussionComponent,
+  ],
   imports: [
     MaterialModule,
     CommonModule,
     EnquiriesRoutingModule,
+    FormsModule,
+    SocketIoModule.forRoot(config),
     StoreModule.forFeature('enquiries', reducers),
     EffectsModule.forFeature([EnquiryEffects]),
   ],
+  providers: [EnquiryDiscussionService],
 })
 export class EnquiriesModule {}

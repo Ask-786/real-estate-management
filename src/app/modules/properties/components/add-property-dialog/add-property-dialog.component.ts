@@ -1,6 +1,6 @@
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { S3Service } from './../../../../shared/services/s3.service';
-import { PropertiesService } from './../../properties.service';
+import { PropertiesService } from '../../services/properties.service';
 import { Subscription, Observable } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';

@@ -1,10 +1,10 @@
 import { NotificationService } from './../services/notification.service';
-import { AuthenticationService } from './../../modules/authentication/authentication.service';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as GlobalActions from './actions';
+import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 
 @Injectable()
 export class GlobalEffects {
