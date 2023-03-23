@@ -1,11 +1,19 @@
-import { EnquiryStateInterface } from './../model/enquiryState.interface';
+import {
+  EnquiryStateInterface,
+  SelectedEnquiryDataInterface,
+} from './../model/enquiryState.interface';
 import { createReducer, on } from '@ngrx/store';
 import * as EnquiryActions from './actions';
 
+const selectedEnquiryInitialState: SelectedEnquiryDataInterface = {
+  enquiry: null,
+  discussons: [],
+};
+
 const initialState: EnquiryStateInterface = {
   enquiries: [],
-  ownEnquiries: [],
-  selectedEnquiry: null,
+  userEnquiries: [],
+  selectedEnquiry: selectedEnquiryInitialState,
 };
 
 export const reducers = createReducer(
@@ -14,8 +22,31 @@ export const reducers = createReducer(
     ...state,
     enquiries: action.enquiries,
   })),
-  on(EnquiryActions.getOneEnquirySuccess, (state, action) => ({
+  on(EnquiryActions.getOneEnquirySuccess, (state, action) => {
+    return {
+      ...state,
+      selectedEnquiry: {
+        enquiry: action.enquiry,
+        discussons: action.discussions,
+      },
+    };
+  }),
+  on(EnquiryActions.getUserEnquiriesSuccess, (state, action) => ({
     ...state,
-    selectedEnquiry: action.enquiry,
+    userEnquiries: action.enquiries,
+  })),
+  on(EnquiryActions.gotNewMessage, (state, action) => ({
+    ...state,
+    selectedEnquiry: {
+      ...state.selectedEnquiry,
+      discussons: [...state.selectedEnquiry.discussons, action.newMessage],
+    },
+  })),
+  on(EnquiryActions.sentNewMessage, (state, action) => ({
+    ...state,
+    selectedEnquiry: {
+      ...state.selectedEnquiry,
+      discussons: [...state.selectedEnquiry.discussons, action.newMessage],
+    },
   }))
 );

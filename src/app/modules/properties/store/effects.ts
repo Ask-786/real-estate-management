@@ -19,9 +19,9 @@ export class PropertiesEffects {
   getProperties$ = createEffect(() =>
     this.action$.pipe(
       ofType(PropertiesActions.getProperties),
-      mergeMap(() => {
+      mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
-        return this.propertyService.getProperties().pipe(
+        return this.propertyService.getProperties(data.page).pipe(
           map(
             (properties) => {
               this.store.dispatch(GlobalActions.loadingEnd({}));

@@ -16,7 +16,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   properties$: Observable<PropertyModelInterface[]>;
   mostBottomReached$: Observable<boolean>;
   bottomReachedSubscription!: Subscription;
+  bottomReached!: boolean;
   favoriteIds$: Observable<string[]>;
+  propertyPage$: Observable<number>;
+  propertyPage!: number;
+  propertyPageSubscription!: Subscription;
 
   moment = moment;
 
@@ -30,17 +34,24 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.favoriteIds$ = this.store.pipe(
       select(PropertiesSelectors.favoriteIdsSelector)
     );
+    this.propertyPage$ = this.store.pipe(
+      select(PropertiesSelectors.propertyPageSelector)
+    );
   }
 
   ngOnInit(): void {
-    let isBottomReached;
-    this.mostBottomReached$.subscribe({
+    this.bottomReachedSubscription = this.mostBottomReached$.subscribe({
       next: (data) => {
-        isBottomReached = data;
+        this.bottomReached = data;
       },
     });
-    if (!isBottomReached) {
-      this.store.dispatch(PropertiesActions.getProperties());
+    this.propertyPageSubscription = this.propertyPage$.subscribe((data) => {
+      this.propertyPage = data;
+    });
+    if (!this.bottomReached) {
+      this.store.dispatch(
+        PropertiesActions.getProperties({ page: this.propertyPage })
+      );
       this.store.dispatch(PropertiesActions.getFavoriteIds());
     }
   }
@@ -51,19 +62,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
-    let isBottomReached;
     if (
       event.target.offsetHeight + event.target.scrollTop >=
       event.target.scrollHeight - 1
     ) {
-      this.bottomReachedSubscription = this.mostBottomReached$.subscribe({
-        next: (bool: boolean) => {
-          isBottomReached = bool;
-        },
-      });
-      if (!isBottomReached) {
+      if (!this.bottomReached) {
         setTimeout(() => {
-          this.store.dispatch(PropertiesActions.getProperties());
+          this.store.dispatch(
+            PropertiesActions.getProperties({ page: this.propertyPage })
+          );
         }, 200);
       }
     }

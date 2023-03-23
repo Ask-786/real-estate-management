@@ -1,3 +1,4 @@
+import { EnquiryDiscussionInterface } from './../model/enquiryDiscussion.interfact';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -36,11 +37,29 @@ export class EnquiriesService {
     }>(`${environment.baseUrl}/enquiry/get-enquiries`);
   }
 
-  getOneEnquiry(
-    id: string
-  ): Observable<{ enquiry: PropertyPopulatedEnquiryModelInterface }> {
-    return this.http.get<{ enquiry: PropertyPopulatedEnquiryModelInterface }>(
-      `${environment.baseUrl}/enquiry/enquiry/${id}`
+  getUserEnquiries(): Observable<{
+    enquiries: PropertyPopulatedEnquiryModelInterface[];
+  }> {
+    return this.http.get<{
+      enquiries: PropertyPopulatedEnquiryModelInterface[];
+    }>(`${environment.baseUrl}/enquiry/get-user-enquiries`);
+  }
+
+  getOneEnquiry(id: string): Observable<{
+    enquiry: PropertyPopulatedEnquiryModelInterface;
+    discussions: EnquiryDiscussionInterface[];
+  }> {
+    return this.http.get<{
+      enquiry: PropertyPopulatedEnquiryModelInterface;
+      discussions: EnquiryDiscussionInterface[];
+    }>(`${environment.baseUrl}/enquiry/enquiry/${id}`);
+  }
+
+  getDiscussions(
+    enquiryId: string
+  ): Observable<{ discussions: EnquiryDiscussionInterface[] }> {
+    return this.http.get<{ discussions: EnquiryDiscussionInterface[] }>(
+      `${environment.baseUrl}/enquiry/get-discussions/${enquiryId}`
     );
   }
 }

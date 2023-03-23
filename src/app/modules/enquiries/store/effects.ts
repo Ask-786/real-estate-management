@@ -1,6 +1,7 @@
+import { EnquiryDiscussionService } from './../services/enquiry-discussion.service';
 import { Store } from '@ngrx/store';
 import { EnquiriesService } from '../services/enquiries.service';
-import { map, mergeMap, catchError, of } from 'rxjs';
+import { map, mergeMap, catchError, of, tap } from 'rxjs';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as EnquiryActions from './actions';
@@ -12,7 +13,8 @@ export class EnquiryEffects {
   constructor(
     private action$: Actions,
     private enquiriesService: EnquiriesService,
-    private store: Store<AppStateInterface>
+    private store: Store<AppStateInterface>,
+    private enquiryDiscussionService: EnquiryDiscussionService
   ) {}
 
   createEnquiry$ = createEffect(() =>
@@ -73,6 +75,7 @@ export class EnquiryEffects {
             this.store.dispatch(GlobalActions.loadingEnd({}));
             return EnquiryActions.getOneEnquirySuccess({
               enquiry: data.enquiry,
+              discussions: data.discussions,
             });
           }),
           catchError((err) => {
@@ -84,5 +87,43 @@ export class EnquiryEffects {
         );
       })
     )
+  );
+
+  getUserEnquiries$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(EnquiryActions.getUserEnquiries),
+      mergeMap(() => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.enquiriesService.getUserEnquiries().pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd({}));
+            return EnquiryActions.getUserEnquiriesSuccess({
+              enquiries: data.enquiries,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(EnquiryActions.getUserEnquiriesFailure());
+          })
+        );
+      })
+    )
+  );
+
+  sendNewMessage$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(EnquiryActions.sentNewMessage),
+        tap((data) =>
+          this.enquiryDiscussionService.sendMessage(
+            data.newMessage.message,
+            data.newMessage.enquiry,
+            data.newMessage.sender
+          )
+        )
+      ),
+    { dispatch: false }
   );
 }

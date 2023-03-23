@@ -1,3 +1,4 @@
+import { EnquiryDiscussionInterface } from './../model/enquiryDiscussion.interfact';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
@@ -8,11 +9,19 @@ import { Socket } from 'ngx-socket-io';
 export class EnquiryDiscussionService {
   constructor(private socket: Socket) {}
 
-  sendMessage(message: string): void {
-    this.socket.emit('sendMessage', message);
+  sendMessage(message: string, enquiryId: string, senderId: string): void {
+    return this.socket.emit('sendMessage', { message, enquiryId, senderId });
   }
 
-  getNewMessage(): Observable<string> {
-    return this.socket.fromEvent<string>('newMessage');
+  getNewMessage(): Observable<EnquiryDiscussionInterface> {
+    return this.socket.fromEvent<EnquiryDiscussionInterface>('receiveMessage');
+  }
+
+  joinRoom(roomId: string) {
+    this.socket.emit('join-room', roomId);
+  }
+
+  leaveRoom(roomId: string) {
+    this.socket.emit('leave-room', roomId);
   }
 }

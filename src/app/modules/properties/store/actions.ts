@@ -4,7 +4,10 @@ import {
 } from './../model/property.model';
 import { createAction, props } from '@ngrx/store';
 
-export const getProperties = createAction('[Properties] Get Properties');
+export const getProperties = createAction(
+  '[Properties] Get Properties',
+  props<{ page: number }>()
+);
 export const getPropertiesSuccess = createAction(
   '[Properties] Get Properties Success',
   props<{ properties: PropertyModelInterface[] }>()

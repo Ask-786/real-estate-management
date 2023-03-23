@@ -32,6 +32,9 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   propertyOwner!: string | undefined;
   propertytSubscription!: Subscription;
   isFavorite$: Observable<boolean>;
+  activatedRouteSubscription: Subscription;
+  userSubscription!: Subscription;
+  property!: PropertyModelInterface | null;
 
   enquiryTopics = [
     'Payment',
@@ -46,9 +49,11 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private dialog: MatDialog
   ) {
-    this.activatedRoute.params.subscribe((params) => {
-      this.propertyId = params['id'];
-    });
+    this.activatedRouteSubscription = this.activatedRoute.params.subscribe(
+      (params) => {
+        this.propertyId = params['id'];
+      }
+    );
     this.property$ = this.store
       .pipe(select(PropertieseSelectors.selectedPropertySelector))
       .pipe(map((property) => property.property));
@@ -67,7 +72,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch(PropertiesActions.getFavoriteIds());
 
-    this.user$.subscribe((user) => {
+    this.userSubscription = this.user$.subscribe((user) => {
       this.userId = user?._id;
     });
 
@@ -78,6 +83,9 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       topic: new FormControl('', [Validators.required]),
       property: new FormControl(this.propertyId),
       user: new FormControl(this.userId),
+    });
+    this.propertytSubscription = this.property$.subscribe((data) => {
+      this.property = data;
     });
   }
 
@@ -110,30 +118,25 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   }
 
   onFavour() {
-    let id;
-    this.property$.subscribe({
-      next: (data) => {
-        if (data != null) {
-          id = data._id;
-        }
-      },
-    });
-    if (id) this.store.dispatch(PropertiesActions.favourProperty({ id }));
+    if (this.property) {
+      this.store.dispatch(
+        PropertiesActions.favourProperty({ id: this.property._id })
+      );
+    }
   }
 
   onUnFavour() {
-    let id;
-    this.property$.subscribe({
-      next: (data) => {
-        if (data != null) {
-          id = data._id;
-        }
-      },
-    });
-    if (id) this.store.dispatch(PropertiesActions.unFavourProperty({ id }));
+    if (this.property) {
+      this.store.dispatch(
+        PropertiesActions.unFavourProperty({ id: this.property._id })
+      );
+    }
   }
 
   ngOnDestroy() {
     if (this.propertytSubscription) this.propertytSubscription.unsubscribe();
+    if (this.activatedRouteSubscription)
+      this.activatedRouteSubscription.unsubscribe();
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }

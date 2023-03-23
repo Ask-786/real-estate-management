@@ -19,6 +19,7 @@ import { OwnPropertiesComponent } from './components/own-properties/own-properti
 import { EditPropertyDialogComponent } from './components/edit-property-dialog/edit-property-dialog.component';
 import { DeleteWarningComponent } from './components/delete-warning/delete-warning.component';
 import { FavPropertyComponent } from './components/fav-property/fav-property.component';
+import { EnquiriesModule } from '../enquiries/enquiries.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { FavPropertyComponent } from './components/fav-property/fav-property.com
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    EnquiriesModule,
     StoreModule.forFeature('properties', reducers),
     EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
   ],

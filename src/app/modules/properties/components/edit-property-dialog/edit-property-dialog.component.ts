@@ -5,7 +5,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
 import { PropertyModelInterface } from './../../model/property.model';
 import { Store, select } from '@ngrx/store';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertySelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
@@ -15,7 +21,7 @@ import * as GlobalSelectors from '../../../../shared/store/selectors';
   templateUrl: './edit-property-dialog.component.html',
   styleUrls: ['./edit-property-dialog.component.css'],
 })
-export class EditPropertyDialogComponent implements OnInit {
+export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   property$: Observable<PropertyModelInterface | null>;
   propertyData!: FormGroup;
   isLoading$: Observable<boolean>;
@@ -23,6 +29,7 @@ export class EditPropertyDialogComponent implements OnInit {
   longitude!: number | undefined;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   dialogRefSubscription!: Subscription;
+  propertySubscription!: Subscription;
 
   @ViewChild('imageOneDisplay') imageOneDisplay!: ElementRef;
   @ViewChild('imageTwoDisplay') imageTwoDisplay!: ElementRef;
@@ -64,7 +71,7 @@ export class EditPropertyDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.property$.subscribe({
+    this.propertySubscription = this.property$.subscribe({
       next: (property) => {
         this.lattitude = property?.coOrdinates.lattitude;
         this.longitude = property?.coOrdinates.longitude;
@@ -182,4 +189,9 @@ export class EditPropertyDialogComponent implements OnInit {
   }
 
   onSubmit() {}
+
+  ngOnDestroy(): void {
+    if (this.propertySubscription) this.propertySubscription.unsubscribe();
+    if (this.dialogRefSubscription) this.dialogRefSubscription.unsubscribe();
+  }
 }

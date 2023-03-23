@@ -15,6 +15,7 @@ import { EnquiryDetailsComponent } from './components/enquiry-details/enquiry-de
 import { EnquiryReplayDialogComponent } from './components/enquiry-replay-dialog/enquiry-replay-dialog.component';
 import { DiscussionComponent } from './components/discussion/discussion.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { UserEnquiriesComponent } from './components/user-enquiries/user-enquiries.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -25,6 +26,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     EnquiryDetailsComponent,
     EnquiryReplayDialogComponent,
     DiscussionComponent,
+    UserEnquiriesComponent,
   ],
   imports: [
     MaterialModule,

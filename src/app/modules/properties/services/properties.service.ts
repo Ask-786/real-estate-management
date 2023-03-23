@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -15,6 +15,9 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 })
 export class PropertiesService {
   propertiesPage$: Observable<number>;
+  propertyPageSubscription: Subscription;
+  propertyPage!: number;
+
   constructor(
     private http: HttpClient,
     private store: Store<AppStateInterface>
@@ -22,17 +25,16 @@ export class PropertiesService {
     this.propertiesPage$ = this.store.pipe(
       select(PropertiesSelectors.propertyPageSelector)
     );
-  }
-
-  getProperties(): Observable<PropertyModelInterface[]> {
-    let propertiesePage;
-    this.propertiesPage$.subscribe({
+    this.propertyPageSubscription = this.propertiesPage$.subscribe({
       next: (data: number) => {
-        propertiesePage = data;
+        this.propertyPage = data;
       },
     });
+  }
+
+  getProperties(page: number): Observable<PropertyModelInterface[]> {
     return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property?page=${propertiesePage}`
+      `${environment.baseUrl}/property?page=${this.propertyPage}`
     );
   }
 

@@ -1,7 +1,7 @@
 import { EnquiryReplayDialogComponent } from './../enquiry-replay-dialog/enquiry-replay-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PropertyPopulatedEnquiryModelInterface } from './../../model/enquiryform.interface';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -18,22 +18,22 @@ import * as EnquiriesSelectors from '../../store/selectors';
 export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   moment = moment;
   enquiryId!: string;
-  enquiryIdSubscription!: Subscription;
   selectedEnquiry$: Observable<PropertyPopulatedEnquiryModelInterface | null>;
+  activeParamsSubscription: Subscription;
 
   constructor(
     private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog
   ) {
-    this.activatedRoute.params.subscribe({
+    this.activeParamsSubscription = this.activatedRoute.params.subscribe({
       next: (params) => {
         this.enquiryId = params['id'];
       },
     });
-    this.selectedEnquiry$ = this.store.pipe(
-      select(EnquiriesSelectors.selectedEnquirySelector)
-    );
+    this.selectedEnquiry$ = this.store
+      .pipe(select(EnquiriesSelectors.selectedEnquirySelector))
+      .pipe(map((data) => data?.enquiry));
   }
 
   ngOnInit() {
@@ -45,6 +45,7 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.enquiryIdSubscription) this.enquiryIdSubscription.unsubscribe();
+    if (this.activeParamsSubscription)
+      this.activeParamsSubscription.unsubscribe();
   }
 }

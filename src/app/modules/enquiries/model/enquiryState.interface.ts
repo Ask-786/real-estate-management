@@ -1,10 +1,13 @@
-import {
-  EnquiryModelInterface,
-  PropertyPopulatedEnquiryModelInterface,
-} from './enquiryform.interface';
+import { EnquiryDiscussionInterface } from './enquiryDiscussion.interfact';
+import { PropertyPopulatedEnquiryModelInterface } from './enquiryform.interface';
 
 export interface EnquiryStateInterface {
   enquiries: PropertyPopulatedEnquiryModelInterface[];
-  ownEnquiries: EnquiryModelInterface[];
-  selectedEnquiry: PropertyPopulatedEnquiryModelInterface | null;
+  userEnquiries: PropertyPopulatedEnquiryModelInterface[];
+  selectedEnquiry: SelectedEnquiryDataInterface;
+}
+
+export interface SelectedEnquiryDataInterface {
+  enquiry: PropertyPopulatedEnquiryModelInterface | null;
+  discussons: EnquiryDiscussionInterface[];
 }

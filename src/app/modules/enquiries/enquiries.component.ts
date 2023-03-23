@@ -27,11 +27,10 @@ export class EnquiriesComponent implements OnInit {
   }
 
   getPropertyRoute(id: string): string {
-    return `../properties/property/${id}`
+    return `../properties/property/${id}`;
   }
 
   getEnquiryRoute(id: string): string {
-    return `enquiry/${id}`
+    return `enquiry/${id}`;
   }
-
 }
