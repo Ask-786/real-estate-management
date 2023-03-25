@@ -4,10 +4,17 @@
     </div>
     <div class="w-full absolute top-20 flex items-center">
         <span class="mx-auto p-2 w-2/3 rounded-md opacity-80 bg-zinc-800">
-            <mat-form-field class="mx-auto -mb-5 w-full opacity-100" appearance="outline">
-                <mat-label>Search Cities</mat-label>
-                <input matInput placeholder="Ex. Pizza" class="">
-            </mat-form-field>
+            <form class="example-form">
+                <mat-form-field class="mx-auto -mb-5 w-full opacity-100" appearance="outline">
+                    <mat-label>Search Cities</mat-label>
+                    <input matInput type="text" (input)="getLocations($event)" placeholder="Search Cities" class="">
+                </mat-form-field>
+            </form>
+            <div *ngIf="locations.length > 0">
+                <mat-option (onSelectionChange)="onSelect(location.center)" *ngFor="let location of locations">
+                    {{location.place_name}}
+                </mat-option>
+            </div>
         </span>
     </div>
 </div>

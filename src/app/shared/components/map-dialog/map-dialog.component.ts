@@ -1,6 +1,9 @@
+import { CommonService } from './../../../components/common.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import * as L from 'leaflet';
+import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-map-dialog',
@@ -8,9 +11,14 @@ import * as L from 'leaflet';
   styleUrls: ['./map-dialog.component.css'],
 })
 export class MapDialogComponent implements OnInit {
+  locations: MapLocationsInterface[] = [];
+  myControl = new FormControl('');
   private map!: L.Map;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: L.LatLng) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: L.LatLng,
+    private commonService: CommonService
+  ) {}
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -38,6 +46,22 @@ export class MapDialogComponent implements OnInit {
       this.data = this.map.mouseEventToLatLng(e.originalEvent);
       L.marker(this.data).addTo(this.map).openPopup();
     });
+  }
+
+  getLocations(event: Event) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    if (query && query.length > 3) {
+      this.commonService.getLocations(query).subscribe((data) => {
+        this.locations = data;
+      });
+    } else if (query === '') {
+      this.locations = [];
+    }
+  }
+
+  onSelect(center: [number, number]) {
+    this.map.flyTo([center[1], center[0]]);
+    this.locations = [];
   }
 
   ngOnInit(): void {

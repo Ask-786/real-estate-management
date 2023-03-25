@@ -1,3 +1,8 @@
+import { FormControl } from '@angular/forms';
+import {
+  MapLocationsInterface,
+  GeomertryInterface,
+} from './../../models/mapLocations.interface';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -11,6 +16,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./map-view.component.css'],
 })
 export class MapViewComponent implements OnInit, OnDestroy {
+  locations: MapLocationsInterface[] = [];
+  myControl = new FormControl('');
   private map!: L.Map;
   propertySubscription!: Subscription;
 
@@ -62,6 +69,22 @@ export class MapViewComponent implements OnInit, OnDestroy {
       .subscribe((properties) => {
         this.initMap(properties);
       });
+  }
+
+  getLocations(event: Event) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    if (query && query.length > 3) {
+      this.commonService.getLocations(query).subscribe((data) => {
+        this.locations = data;
+      });
+    } else if (query === '') {
+      this.locations = [];
+    }
+  }
+
+  onSelect(center: [number, number]) {
+    this.map.flyTo([center[1], center[0]]);
+    this.locations = [];
   }
 
   ngOnDestroy() {
