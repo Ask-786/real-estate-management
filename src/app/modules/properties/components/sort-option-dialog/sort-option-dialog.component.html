@@ -1,0 +1,22 @@
+<mat-card class="min-w-[15rem]">
+    <mat-card-header class="bg-color-dark pb-3 text-white">
+        <mat-card-title>Sort By:</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="bg-color-dark pt-3 pb-3 text-white">
+        <form #radioGroup="ngForm">
+            <mat-radio-group [(ngModel)]="favoriteSeason" name="sortOption">
+                <div class="flex flex-col">
+                    <mat-radio-button *ngFor="let season of seasons" [value]="season">
+                        {{season}}
+                    </mat-radio-button>
+                </div>
+            </mat-radio-group>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="bg-color-dark" align="end">
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-button (click)="onOk(radioGroup.value)">Ok</button>
+    </mat-card-actions>
+</mat-card>

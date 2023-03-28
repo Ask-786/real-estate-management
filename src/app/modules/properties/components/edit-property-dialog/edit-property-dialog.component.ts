@@ -1,6 +1,8 @@
+import { S3Service } from './../../../../shared/services/s3.service';
+import { PropertiesService } from './../../services/properties.service';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
 import { PropertyModelInterface } from './../../model/property.model';
@@ -15,6 +17,9 @@ import {
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertySelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
+import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
+import * as PropertiesActions from '../../store/actions';
 
 @Component({
   selector: 'app-edit-property-dialog',
@@ -29,7 +34,11 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   longitude!: number | undefined;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   dialogRefSubscription!: Subscription;
+  getUploadUrlSubscription!: Subscription;
+  uploadImageSubscription!: Subscription;
   propertySubscription!: Subscription;
+  isHidden = true as boolean;
+  propertyId!: string;
 
   @ViewChild('imageOneDisplay') imageOneDisplay!: ElementRef;
   @ViewChild('imageTwoDisplay') imageTwoDisplay!: ElementRef;
@@ -58,7 +67,10 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   imageButtonFourValue = 'Image 4' as string;
 
   constructor(
+    private s3Service: S3Service,
+    private propertiesService: PropertiesService,
     private store: Store<AppStateInterface>,
+    public dialogRef: MatDialogRef<AddPropertyDialogComponent>,
     private dialog: MatDialog,
     private notificationService: NotificationService
   ) {
@@ -73,42 +85,45 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.propertySubscription = this.property$.subscribe({
       next: (property) => {
-        this.lattitude = property?.coOrdinates.lattitude;
-        this.longitude = property?.coOrdinates.longitude;
-        this.propertyData = new FormGroup({
-          title: new FormControl(property?.title, [Validators.required]),
-          price: new FormControl(property?.price, [Validators.required]),
-          tags: new FormControl(property?.tags.join(',')),
-          description: new FormControl(property?.description, [
-            Validators.required,
-            Validators.minLength(10),
-          ]),
-          lattitude: new FormControl(property?.coOrdinates.lattitude, [
-            Validators.required,
-          ]),
-          longitude: new FormControl(property?.coOrdinates.longitude, [
-            Validators.required,
-          ]),
-          propertyType: new FormControl(property?.propertyType, [
-            Validators.required,
-          ]),
-          country: new FormControl(property?.address.country, [
-            Validators.required,
-          ]),
-          state: new FormControl(property?.address.state, [
-            Validators.required,
-          ]),
-          district: new FormControl(property?.address.district, [
-            Validators.required,
-          ]),
-          city: new FormControl(property?.address.city, [Validators.required]),
-          streetAddress: new FormControl(property?.address.streetAddress, [
-            Validators.required,
-          ]),
-          zipCode: new FormControl(property?.address.zipCode, [
-            Validators.required,
-          ]),
-        });
+        if (property) {
+          this.propertyId = property._id;
+          this.lattitude = property.coOrdinates.lattitude;
+          this.longitude = property.coOrdinates.longitude;
+          this.propertyData = new FormGroup({
+            title: new FormControl(property.title, [Validators.required]),
+            price: new FormControl(property.price, [Validators.required]),
+            tags: new FormControl(property.tags.join(',')),
+            description: new FormControl(property.description, [
+              Validators.required,
+              Validators.minLength(10),
+            ]),
+            lattitude: new FormControl(property.coOrdinates.lattitude, [
+              Validators.required,
+            ]),
+            longitude: new FormControl(property.coOrdinates.longitude, [
+              Validators.required,
+            ]),
+            propertyType: new FormControl(property.propertyType, [
+              Validators.required,
+            ]),
+            country: new FormControl(property.address.country, [
+              Validators.required,
+            ]),
+            state: new FormControl(property.address.state, [
+              Validators.required,
+            ]),
+            district: new FormControl(property.address.district, [
+              Validators.required,
+            ]),
+            city: new FormControl(property.address.city, [Validators.required]),
+            streetAddress: new FormControl(property.address.streetAddress, [
+              Validators.required,
+            ]),
+            zipCode: new FormControl(property.address.zipCode, [
+              Validators.required,
+            ]),
+          });
+        }
       },
     });
     //Setting up form
@@ -188,7 +203,82 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {}
+  toggleImages() {
+    this.isHidden = !this.isHidden;
+  }
+
+  onSubmit() {
+    if (this.propertyData.invalid) {
+      this.notificationService.warn('Fill the form in full');
+      return;
+    }
+
+    if (
+      this.imageOne &&
+      this.imageTwo &&
+      this.imageThree &&
+      this.imageFour &&
+      !this.isHidden
+    ) {
+      this.store.dispatch(GlobalActions.loadingStart());
+      const images: string[] = [];
+      const imagesArray = [
+        this.imageOne,
+        this.imageTwo,
+        this.imageThree,
+        this.imageFour,
+      ] as File[];
+
+      //Uploading images to s3 and adding property into database
+      imagesArray.forEach((el, index) => {
+        //uploading images to s3 with loop
+        this.getUploadUrlSubscription = this.propertiesService
+          .gets3UploadUrl()
+          .subscribe({
+            next: (data) => {
+              const imgUrl = data.uploadUrl.split('?')[0];
+              images.push(imgUrl);
+              this.uploadImageSubscription = this.s3Service
+                .uploadImages(data.uploadUrl, el)
+                .subscribe({
+                  next: () => {
+                    if (index === 3) {
+                      //Dispatching the action to add the property to database after all images have been uploaded
+                      this.store.dispatch(
+                        PropertiesActions.updateProperty({
+                          id: this.propertyId,
+                          propertyData: this.propertyData.value,
+                          images,
+                        })
+                      );
+                      this.dialogRef.close();
+                    }
+                  },
+                  error: (err) => {
+                    this.notificationService.warn(
+                      `Image Upload: ${err.statusText}`
+                    );
+                  },
+                });
+            },
+            error: (err) => {
+              this.notificationService.warn(err.error.message);
+            },
+          });
+      });
+    } else if (this.isHidden) {
+      this.store.dispatch(
+        PropertiesActions.updateProperty({
+          id: this.propertyId,
+          propertyData: this.propertyData.value,
+        })
+      );
+      this.dialogRef.close();
+    } else {
+      this.notificationService.warn('Select all files');
+      return;
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.propertySubscription) this.propertySubscription.unsubscribe();

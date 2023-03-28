@@ -24,7 +24,8 @@ export class MapDialogComponent implements OnInit {
     this.map = L.map('map', {
       center: [11.151477, 76.365746],
       zoom: 15,
-      zoomControl: true,
+      minZoom: 12,
+      zoomControl: false,
       trackResize: true,
       keyboard: false,
       bounceAtZoomLimits: false,

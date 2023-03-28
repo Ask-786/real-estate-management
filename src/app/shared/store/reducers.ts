@@ -10,10 +10,15 @@ const initialState: GlobalStateInterface = {
   user: null,
   isLoggedIn: false,
   token: null,
+  header: 'map',
 };
 
 export const reducers = createReducer(
   initialState,
+  on(CommonActions.setHeader, (state, action) => ({
+    ...state,
+    header: action.header,
+  })),
   on(CommonActions.loadingStart, (state) => ({ ...state, isLoading: true })),
   on(CommonActions.loadingEnd, (state) => ({ ...state, isLoading: false })),
   on(CommonActions.gotError, (state, action) => ({
@@ -29,6 +34,7 @@ export const reducers = createReducer(
     token: action.token,
   })),
   on(GlobalActions.checkAuthFailure, (state, action) => ({
+    ...state,
     user: null,
     isLoading: false,
     isLoggedIn: false,

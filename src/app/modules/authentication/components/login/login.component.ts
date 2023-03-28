@@ -6,6 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as AuthenticationActions from '../../store/actions';
 import * as AuthenticationSelectors from '../../store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Login' }));
     this.userSubscription = this.registeredUser$.subscribe((registeredUser) => {
       this.email = registeredUser?.email;
     });

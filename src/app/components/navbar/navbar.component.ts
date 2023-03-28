@@ -1,9 +1,6 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { Component, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { AddPropertyDialogComponent } from 'src/app/modules/properties/components/add-property-dialog/add-property-dialog.component';
+import { Component, EventEmitter, Output } from '@angular/core';
 import * as GlobalSelectors from '../../shared/store/selectors';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
@@ -12,46 +9,30 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnDestroy {
+export class NavbarComponent {
   @Output() toggleSide = new EventEmitter();
   isPropertiesRoute!: boolean;
-  isLoggedIn$: Observable<boolean>;
   isLoading$: Observable<boolean>;
-  isLoggedInSubscriber!: Subscription;
+  header$: Observable<string>;
 
   title!: string;
 
-  constructor(
-    private dialog: MatDialog,
-    private router: Router,
-    private store: Store<AppStateInterface>
-  ) {
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector)
-    );
+  constructor(private store: Store<AppStateInterface>) {
     this.isLoading$ = this.store.pipe(
       select(GlobalSelectors.isLoadingSelector)
     );
+    this.header$ = this.store.pipe(select(GlobalSelectors.selectHeader));
   }
 
-  hasRoute(route: string[]) {
-    return route.some((el) => el === this.router.url);
+  toPascalCase(string: string | undefined) {
+    if (string)
+      return string.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+        return g1.toUpperCase() + g2.toLowerCase();
+      });
+    else return '';
   }
 
   toggleSideBar() {
     this.toggleSide.emit();
-  }
-  addProperty() {
-    this.isLoggedInSubscriber = this.isLoggedIn$.subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
-        this.dialog.open(AddPropertyDialogComponent);
-      } else {
-        this.router.navigateByUrl('auth/login');
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.isLoggedInSubscriber) this.isLoggedInSubscriber.unsubscribe();
   }
 }

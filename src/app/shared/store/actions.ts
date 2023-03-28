@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { UserModelInterface } from '../models/user.interface';
 
+export const setHeader = createAction(
+  '[Gobal] Set Header',
+  props<{ header: string }>()
+);
 export const loadingStart = createAction('[Gobal] Loading Started');
 export const loadingEnd = createAction(
   '[Global] Loading Ended',

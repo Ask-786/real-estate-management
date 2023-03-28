@@ -149,7 +149,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.propertyData.invalid) {
       this.notificationService.warn('Fill the form in full');
-      // return;
+      return;
     }
 
     if (this.imageOne && this.imageTwo && this.imageThree && this.imageFour) {

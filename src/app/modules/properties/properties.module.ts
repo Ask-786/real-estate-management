@@ -20,6 +20,9 @@ import { EditPropertyDialogComponent } from './components/edit-property-dialog/e
 import { DeleteWarningComponent } from './components/delete-warning/delete-warning.component';
 import { FavPropertyComponent } from './components/fav-property/fav-property.component';
 import { EnquiriesModule } from '../enquiries/enquiries.module';
+import { AllPropertiesComponent } from './components/all-properties/all-properties.component';
+import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
+import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { EnquiriesModule } from '../enquiries/enquiries.module';
     EditPropertyDialogComponent,
     DeleteWarningComponent,
     FavPropertyComponent,
+    AllPropertiesComponent,
+    SortOptionDialogComponent,
+    FilterOptionDialogComponent,
   ],
   imports: [
     CommonModule,

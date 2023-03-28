@@ -17,7 +17,10 @@ import { DiscussionComponent } from './components/discussion/discussion.componen
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { UserEnquiriesComponent } from './components/user-enquiries/user-enquiries.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = {
+  url: 'http://localhost:3000/chat',
+  options: {},
+};
 
 @NgModule({
   declarations: [

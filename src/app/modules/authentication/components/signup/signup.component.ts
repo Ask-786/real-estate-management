@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as AuthenticationActions from '../../store/actions';
+import * as GlobalActions from '../../../../shared/store/actions';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +15,7 @@ export class SignupComponent implements OnInit {
   constructor(public dialog: MatDialog, private store: Store) {}
 
   ngOnInit() {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Register' }));
     this.registerForm = new FormGroup({
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),

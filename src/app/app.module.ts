@@ -1,9 +1,11 @@
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { GlobalEffects } from './shared/store/effects';
 import { TokenInterceptor } from './token.interceptor';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +24,7 @@ import { reducers } from './shared/store/reducers';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ProtectLoginService } from './guards/protectLogin.service';
 import { AppStateInterface } from './models/appState.interface';
-import * as GlobalActions from './shared/store/actions'
+import * as GlobalActions from './shared/store/actions';
 
 @NgModule({
   declarations: [
@@ -36,11 +38,13 @@ import * as GlobalActions from './shared/store/actions'
     NotFoundComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    NotificationsModule,
     StoreModule.forRoot({ global: reducers }),
     EffectsModule.forRoot([GlobalEffects]),
     StoreDevtoolsModule.instrument({
@@ -57,7 +61,7 @@ import * as GlobalActions from './shared/store/actions'
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private store:Store<AppStateInterface>){
-    this.store.dispatch(GlobalActions.checkAuth())
+  constructor(private store: Store<AppStateInterface>) {
+    this.store.dispatch(GlobalActions.checkAuth());
   }
 }

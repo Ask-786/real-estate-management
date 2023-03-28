@@ -69,6 +69,36 @@ export class PropertiesEffects {
     )
   );
 
+  updateProperty$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.updateProperty),
+      mergeMap((action) => {
+        return this.propertyService
+          .updateProperty(action.id, action.propertyData, action.images)
+          .pipe(
+            map((newProperty) => {
+              this.store.dispatch(
+                GlobalActions.loadingEnd({
+                  message: `Updated ${newProperty.title}`,
+                })
+              );
+              return PropertiesActions.UpdatePropertySuccess({ newProperty });
+            }),
+            catchError((err) => {
+              this.store.dispatch(
+                GlobalActions.gotError({ error: err.error.message })
+              );
+              return of(
+                PropertiesActions.UpdatePropertyFailure({
+                  error: err.error.message,
+                })
+              );
+            })
+          );
+      })
+    )
+  );
+
   getOneProperty$ = createEffect(() =>
     this.action$.pipe(
       ofType(PropertiesActions.getOneProperty),
@@ -231,6 +261,29 @@ export class PropertiesEffects {
               GlobalActions.gotError({ error: err.error.message })
             );
             return of(PropertiesActions.getFavoritesFailure());
+          })
+        );
+      })
+    )
+  );
+
+  searchProperties$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(PropertiesActions.searchProperties),
+      mergeMap((data) => {
+        this.store.dispatch(GlobalActions.loadingStart());
+        return this.propertyService.searchProperties(data.searchValue).pipe(
+          map((data) => {
+            this.store.dispatch(GlobalActions.loadingEnd({}));
+            return PropertiesActions.searchPropertiesSuccess({
+              searchResult: data,
+            });
+          }),
+          catchError((err) => {
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(PropertiesActions.searchPropertiesFailure());
           })
         );
       })

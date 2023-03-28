@@ -14,8 +14,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRippleModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const material = [
+  MatCheckboxModule,
+  MatRippleModule,
+  MatAutocompleteModule,
   MatDividerModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,

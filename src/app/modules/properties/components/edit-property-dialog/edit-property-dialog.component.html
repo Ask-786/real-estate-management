@@ -82,41 +82,47 @@
                 {{propertyType}}
             </mat-radio-button>
         </mat-radio-group>
-        <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Images</label>
-        <div class="grid md:grid-cols-4 gap-1">
-            <div class="flex flex-col">
-                <input #imageOne type="file" name="file1" class="ml-4 hidden" (change)="imageOneChange($event)">
-                <img #imageOneDisplay [src]="(property$ | async)?.images?.[0]" alt="">
-                <button mat-raised-button type="button" (click)="imageOne.click()" [color]="imageButtonOneColor"
-                    class="truncate">{{imageButtonOneValue}}<mat-icon
-                        [ngClass]="{'btn-1':imageButtonOneColor!== 'none'}" class="hidden">check
-                        circle</mat-icon></button>
-            </div>
-            <div class="flex flex-col">
-                <input #imageTwo type="file" name="file2" class="ml-4 hidden" (change)="imageTwoChange($event)">
-                <img #imageTwoDisplay [src]="(property$ | async)?.images?.[1]" alt="">
-                <button mat-raised-button type="button" (click)="imageTwo.click()" [color]="imageButtonTwoColor"
-                    class="truncate">{{imageButtonTwoValue}}<mat-icon
-                        [ngClass]="{'btn-2':imageButtonTwoColor!== 'none'}" class="hidden">check
-                        circle</mat-icon></button>
-            </div>
-            <div class="flex flex-col">
-                <input #imageThree type="file" name="file3" class="ml-4 hidden" (change)="imageThreeChange($event)">
-                <img #imageThreeDisplay [src]="(property$ | async)?.images?.[2]" alt="">
-                <button mat-raised-button type="button" (click)="imageThree.click()" [color]="imageButtonThreeColor"
-                    class="truncate">{{imageButtonThreeValue}}<mat-icon
-                        [ngClass]="{'btn-3':imageButtonThreeColor!== 'none'}" class="hidden">check
-                        circle</mat-icon></button>
-            </div>
-            <div class="flex flex-col">
-                <input #imageFour type="file" name="file4" class="ml-4 hidden max-w-full"
-                    (change)="imageFourChange($event)">
-                <img #imageFourDisplay [src]="(property$ | async)?.images?.[3]" alt="">
-                <button mat-raised-button type="button" (click)="imageFour.click()" [color]="imageButtonFourColor"
-                    class="truncate">{{imageButtonFourValue}}<mat-icon
-                        [ngClass]="{'btn-4':imageButtonFourColor !== 'none'}" class="hidden">check
-                        circle</mat-icon></button>
+        <div>
+            <button (click)="toggleImages()" type="button" mat-flat-button class="m-4">Change Images</button>
+            <span>(If You change images, you have to select all four)</span>
+        </div>
+        <div [hidden]="isHidden">
+            <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Images</label>
+            <div class="grid md:grid-cols-4 gap-1">
+                <div class="flex flex-col">
+                    <input #imageOne type="file" name="file1" class="ml-4 hidden" (change)="imageOneChange($event)">
+                    <img #imageOneDisplay [src]="(property$ | async)?.images?.[0]" alt="">
+                    <button mat-raised-button type="button" (click)="imageOne.click()" [color]="imageButtonOneColor"
+                        class="truncate">{{imageButtonOneValue}}<mat-icon
+                            [ngClass]="{'btn-1':imageButtonOneColor!== 'none'}" class="hidden">check
+                            circle</mat-icon></button>
+                </div>
+                <div class="flex flex-col">
+                    <input #imageTwo type="file" name="file2" class="ml-4 hidden" (change)="imageTwoChange($event)">
+                    <img #imageTwoDisplay [src]="(property$ | async)?.images?.[1]" alt="">
+                    <button mat-raised-button type="button" (click)="imageTwo.click()" [color]="imageButtonTwoColor"
+                        class="truncate">{{imageButtonTwoValue}}<mat-icon
+                            [ngClass]="{'btn-2':imageButtonTwoColor!== 'none'}" class="hidden">check
+                            circle</mat-icon></button>
+                </div>
+                <div class="flex flex-col">
+                    <input #imageThree type="file" name="file3" class="ml-4 hidden" (change)="imageThreeChange($event)">
+                    <img #imageThreeDisplay [src]="(property$ | async)?.images?.[2]" alt="">
+                    <button mat-raised-button type="button" (click)="imageThree.click()" [color]="imageButtonThreeColor"
+                        class="truncate">{{imageButtonThreeValue}}<mat-icon
+                            [ngClass]="{'btn-3':imageButtonThreeColor!== 'none'}" class="hidden">check
+                            circle</mat-icon></button>
+                </div>
+                <div class="flex flex-col">
+                    <input #imageFour type="file" name="file4" class="ml-4 hidden max-w-full"
+                        (change)="imageFourChange($event)">
+                    <img #imageFourDisplay [src]="(property$ | async)?.images?.[3]" alt="">
+                    <button mat-raised-button type="button" (click)="imageFour.click()" [color]="imageButtonFourColor"
+                        class="truncate">{{imageButtonFourValue}}<mat-icon
+                            [ngClass]="{'btn-4':imageButtonFourColor !== 'none'}" class="hidden">check
+                            circle</mat-icon></button>
 
+                </div>
             </div>
         </div>
     </form>

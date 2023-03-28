@@ -36,6 +36,14 @@ const routes: Routes = [
       import('./modules/user/user.module').then((m) => m.UserModule),
     canActivate: [AuthGuardService],
   },
+  {
+    path: 'notifications',
+    loadChildren: () =>
+      import('./modules/notifications/notifications.module').then(
+        (m) => m.NotificationsModule
+      ),
+    canActivate: [AuthGuardService],
+  },
   { path: 'map', component: MapViewComponent },
   { path: '**', component: NotFoundComponent },
 ];

@@ -45,6 +45,38 @@ export const reducers = createReducer(
     properties: [...state.properties, action.property],
     ownProperties: [...state.ownProperties, action.property],
   })),
+  on(PropertyActions.UpdatePropertySuccess, (state, action) => {
+    let newProperties: PropertyModelInterface[];
+    let newOwnProperties: PropertyModelInterface[];
+    const allIndex = state.properties.findIndex(
+      (el) => el._id === state.selectedProperty?.property?._id
+    );
+    const ownIndex = state.ownProperties.findIndex(
+      (el) => el._id === state.selectedProperty?.property?._id
+    );
+    if (allIndex !== -1) {
+      newProperties = [...state.properties];
+      newProperties[allIndex] = action.newProperty;
+    } else {
+      newProperties = [...state.properties];
+    }
+    if (ownIndex !== -1) {
+      newOwnProperties = [...state.ownProperties];
+      newOwnProperties[ownIndex] = action.newProperty;
+    } else {
+      newOwnProperties = [...state.ownProperties];
+    }
+
+    return {
+      ...state,
+      properties: newProperties,
+      ownProperties: newOwnProperties,
+      selectedProperty: {
+        ...state.selectedProperty,
+        property: action.newProperty,
+      },
+    };
+  }),
   on(PropertyActions.getOneProperty, (state) => ({
     ...state,
     isLoading: true,
@@ -83,14 +115,14 @@ export const reducers = createReducer(
     );
     if (allIndex !== -1) {
       newProperties = state.properties.filter(
-        (el) => el._id === state.selectedProperty?.property?._id
+        (el) => el._id !== state.selectedProperty?.property?._id
       );
     } else {
       newProperties = [...state.properties];
     }
     if (ownIndex !== -1) {
       newOwnProperties = state.ownProperties.filter(
-        (el) => el._id === state.selectedProperty?.property?._id
+        (el) => el._id !== state.selectedProperty?.property?._id
       );
     } else {
       newOwnProperties = [...state.ownProperties];
@@ -118,5 +150,9 @@ export const reducers = createReducer(
     ...state,
     selectedProperty: { ...state.selectedProperty, isFavorite: false },
     favoriteIds: state.favoriteIds.filter((el) => el !== action.id),
+  })),
+  on(PropertyActions.searchPropertiesSuccess, (state, action) => ({
+    ...state,
+    properties: action.searchResult,
   }))
 );

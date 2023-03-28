@@ -1,11 +1,10 @@
+import { Store } from '@ngrx/store';
 import { FormControl } from '@angular/forms';
-import {
-  MapLocationsInterface,
-  GeomertryInterface,
-} from './../../models/mapLocations.interface';
+import { MapLocationsInterface } from './../../models/mapLocations.interface';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * as GlobalActions from '../../shared/store/actions';
 
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -21,13 +20,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
   private map!: L.Map;
   propertySubscription!: Subscription;
 
-  constructor(private commonService: CommonService) {}
+  constructor(private commonService: CommonService, private store: Store) {}
 
   private initMap(properties: PropertyModelInterface[]): void {
     this.map = L.map('map', {
       center: [11.151477, 76.365746],
       zoom: 15,
-      zoomControl: true,
+      minZoom: 12,
+      zoomControl: false,
       trackResize: true,
       keyboard: false,
       bounceAtZoomLimits: false,
@@ -61,9 +61,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
         tiles.addTo(this.map);
       });
     }
+
+    this.map.on('moveend', () => {
+      console.log(this.map.getCenter());
+    });
   }
 
   ngOnInit(): void {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Map' }));
     this.propertySubscription = this.commonService
       .getProperties()
       .subscribe((properties) => {

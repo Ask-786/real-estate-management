@@ -14,6 +14,7 @@ import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
 import * as EnquiriesActions from '../../../enquiries/store/actions';
 
 @Component({
@@ -68,6 +69,9 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(
+      GlobalActions.setHeader({ header: 'Property Details' })
+    );
+    this.store.dispatch(
       PropertiesActions.getOneProperty({ propertyId: this.propertyId })
     );
     this.store.dispatch(PropertiesActions.getFavoriteIds());
@@ -100,6 +104,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       property: this.enquiryForm.value.property,
     };
     this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
+    this.enquiryForm.reset();
   }
 
   onDelete() {

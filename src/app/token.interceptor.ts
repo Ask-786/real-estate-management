@@ -14,6 +14,9 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     if (request.headers.get('skip')) {
+      request = request.clone({
+        headers: request.headers.delete('skip'),
+      });
       return next.handle(request);
     }
     const tokenizedRequest = request.clone({

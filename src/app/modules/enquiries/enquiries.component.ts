@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import * as EnquiriesActions from './store/actions';
 import * as EnquiriesSelectors from './store/selectors';
+import * as GlobalActions from '../../shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as moment from 'moment';
 
@@ -23,6 +24,7 @@ export class EnquiriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Enquiries' }));
     this.store.dispatch(EnquiriesActions.getEnquiries());
   }
 

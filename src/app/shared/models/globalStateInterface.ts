@@ -5,4 +5,5 @@ export interface GlobalStateInterface {
   user: UserModelInterface | null;
   isLoggedIn: boolean;
   token: string | null;
+  header: string;
 }

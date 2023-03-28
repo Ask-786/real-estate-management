@@ -6,6 +6,7 @@ import { PropertyModelInterface } from '../../model/property.model';
 import * as moment from 'moment';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertiesSelectors from '../../store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
 
 @Component({
   selector: 'app-fav-property',
@@ -23,6 +24,7 @@ export class FavPropertyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Favorites' }));
     this.store.dispatch(PropertiesActions.getFavorites());
   }
 

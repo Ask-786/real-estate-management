@@ -5,6 +5,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as moment from 'moment';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertiesSelectors from '../../store/selectors';
+import * as GlobalActions from '../../../../shared/store/actions';
 import { PropertyModelInterface } from '../../model/property.model';
 
 @Component({
@@ -23,6 +24,7 @@ export class OwnPropertiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Your Properties' }));
     this.store.dispatch(PropertiesActions.getOwnProperties());
   }
 

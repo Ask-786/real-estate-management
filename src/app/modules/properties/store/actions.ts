@@ -30,6 +30,19 @@ export const addPropertyFailure = createAction(
   props<{ error: string }>()
 );
 
+export const updateProperty = createAction(
+  '[Properties] Update Property',
+  props<{ id: string; propertyData: AddPropertyInterface; images?: string[] }>()
+);
+export const UpdatePropertySuccess = createAction(
+  '[Properties] Update Property Success',
+  props<{ newProperty: PropertyModelInterface }>()
+);
+export const UpdatePropertyFailure = createAction(
+  '[Properties] Update Property Failure',
+  props<{ error: string }>()
+);
+
 export const getOneProperty = createAction(
   '[Properties] Get One Property',
   props<{ propertyId: string }>()
@@ -103,4 +116,15 @@ export const getFavoriteIdsSuccess = createAction(
 );
 export const getFavoriteIdsFailure = createAction(
   '[Properties] Get Favorite Ids Failure'
+);
+export const searchProperties = createAction(
+  '[Properties] Search Properties',
+  props<{ searchValue: string }>()
+);
+export const searchPropertiesSuccess = createAction(
+  '[Properties] Search Properties Success',
+  props<{ searchResult: PropertyModelInterface[] }>()
+);
+export const searchPropertiesFailure = createAction(
+  '[Properties] Search Properties Failure'
 );
