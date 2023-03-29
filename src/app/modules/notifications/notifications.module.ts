@@ -12,9 +12,10 @@ import { NotificationsRoutingModule } from './notifications-routing.module';
 import { NotificationComponent } from './components/notification/notification.component';
 import { NotificationsComponent } from './notifications.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
 
 const config: SocketIoConfig = {
-  url: 'http://localhost:3000/notification',
+  url: `${environment.baseUrl}/notification`,
   options: {},
 };
 
