@@ -251,12 +251,17 @@ export class PropertiesEffects {
         return this.propertyService.getFavoriteIds().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return PropertiesActions.getFavoriteIdsSuccess({
-              user: data.user,
-              favoriteProperties: data.favoriteProperties,
-            });
+            if (data !== null) {
+              return PropertiesActions.getFavoriteIdsSuccess({
+                user: data.user,
+                favoriteProperties: data.favoriteProperties,
+              });
+            } else {
+              return PropertiesActions.getFavoriteIdsFailure();
+            }
           }),
           catchError((err) => {
+            console.log(err);
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );

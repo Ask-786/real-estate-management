@@ -2,9 +2,9 @@ import { MapLocationsInterface } from './../models/mapLocations.interface';
 import { MapTilerResponseInterface } from './../models/mapTilerResponse.interface';
 import { map, Observable } from 'rxjs';
 import { PropertyModelInterface } from './../modules/properties/model/property.model';
-import { environment } from './../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({

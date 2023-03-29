@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { tap, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { LoginForm, SignUpForm } from '../models/authentication.model';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
