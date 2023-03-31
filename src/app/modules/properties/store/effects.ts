@@ -277,20 +277,22 @@ export class PropertiesEffects {
       ofType(PropertiesActions.searchProperties),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
-        return this.propertyService.searchProperties(data.searchValue).pipe(
-          map((data) => {
-            this.store.dispatch(GlobalActions.loadingEnd({}));
-            return PropertiesActions.searchPropertiesSuccess({
-              searchResult: data,
-            });
-          }),
-          catchError((err) => {
-            this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
-            );
-            return of(PropertiesActions.searchPropertiesFailure());
-          })
-        );
+        return this.propertyService
+          .searchProperties(data.searchValue, data.sortValue, data.filterValue)
+          .pipe(
+            map((data) => {
+              this.store.dispatch(GlobalActions.loadingEnd({}));
+              return PropertiesActions.searchPropertiesSuccess({
+                searchResult: data,
+              });
+            }),
+            catchError((err) => {
+              this.store.dispatch(
+                GlobalActions.gotError({ error: err.error.message })
+              );
+              return of(PropertiesActions.searchPropertiesFailure());
+            })
+          );
       })
     )
   );

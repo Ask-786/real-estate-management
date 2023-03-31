@@ -1,3 +1,4 @@
+import { PropertyTypeInterface } from './../model/property.model';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -39,9 +40,24 @@ export class PropertiesService {
     );
   }
 
-  searchProperties(value: string): Observable<PropertyModelInterface[]> {
+  searchProperties(
+    searchValue?: string,
+    sortValue?: string,
+    filterValue?: PropertyTypeInterface
+  ): Observable<PropertyModelInterface[]> {
+    let filterOptions = '' as string;
+    if (filterValue) {
+      for (const index in filterValue) {
+        if (filterValue[index as keyof PropertyTypeInterface] === true) {
+          filterOptions += ` ${index}`;
+        }
+      }
+    }
+
     return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property?page=${this.propertyPage}&searchValue=${value}`
+      `${environment.baseUrl}/property?page=${
+        this.propertyPage
+      }&searchValue=${searchValue}&sortValue=${sortValue}&filterValue=${filterOptions.trim()}`
     );
   }
 

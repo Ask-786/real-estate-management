@@ -7,8 +7,8 @@
         <form #radioGroup="ngForm">
             <mat-radio-group [(ngModel)]="favoriteSeason" name="sortOption">
                 <div class="flex flex-col">
-                    <mat-radio-button *ngFor="let season of seasons" [value]="season">
-                        {{season}}
+                    <mat-radio-button *ngFor="let option of sortOptions" [value]="option.toLocaleLowerCase()">
+                        {{option}}
                     </mat-radio-button>
                 </div>
             </mat-radio-group>
@@ -17,6 +17,6 @@
     <mat-divider></mat-divider>
     <mat-card-actions class="bg-color-dark" align="end">
         <button mat-button (click)="onCancel()">Cancel</button>
-        <button mat-button (click)="onOk(radioGroup.value)">Ok</button>
+        <button mat-button [mat-dialog-close]="radioGroup.value">Ok</button>
     </mat-card-actions>
 </mat-card>

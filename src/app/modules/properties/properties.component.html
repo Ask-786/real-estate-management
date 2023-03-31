@@ -9,12 +9,14 @@
     </div>
     <div class="bg-color-dark w-full grid grid-cols-2 gap-2 mt-3">
         <div matRipple (click)="openSortDialog()"
-            class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center">
+            class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5">
             <span>Sort by:</span>
+            <span>{{toPascalCase(sortOption)}}</span>
         </div>
         <div matRipple (click)="openFilterDialog()"
-            class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center">
+            class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5">
             <span>Filter by:</span>
+            <span>{{formatFilters(filterOptions)}}</span>
         </div>
     </div>
 </div>

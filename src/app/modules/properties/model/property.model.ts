@@ -21,6 +21,13 @@ export enum PropertyTypeEnum {
   industrial = 'industrial',
 }
 
+export type PropertyTypeInterface = {
+  land: boolean;
+  residential: boolean;
+  commercial: boolean;
+  industrial: boolean;
+};
+
 export interface coOrdinatesInterface {
   longitude: number;
   lattitude: number;

@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./filter-option-dialog.component.css'],
 })
 export class FilterOptionDialogComponent implements OnInit {
-  toppings!: FormGroup;
+  propertyType!: FormGroup;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -16,19 +16,15 @@ export class FilterOptionDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.toppings = this._formBuilder.group({
-      pepperoni: false,
-      extracheese: false,
-      mushroom: false,
+    this.propertyType = this._formBuilder.group({
+      land: false,
+      residential: false,
+      commercial: false,
+      industrial: false,
     });
   }
 
   onCancel() {
-    this.dialogRef.close();
-  }
-
-  onOk(value: { pepperoni: boolean; extracheese: boolean; mushroom: boolean }) {
-    console.log(value);
     this.dialogRef.close();
   }
 }

@@ -1,6 +1,7 @@
 import {
   PropertyModelInterface,
   AddPropertyInterface,
+  PropertyTypeInterface,
 } from './../model/property.model';
 import { createAction, props } from '@ngrx/store';
 
@@ -119,7 +120,11 @@ export const getFavoriteIdsFailure = createAction(
 );
 export const searchProperties = createAction(
   '[Properties] Search Properties',
-  props<{ searchValue: string }>()
+  props<{
+    searchValue?: string;
+    sortValue?: string;
+    filterValue?: PropertyTypeInterface;
+  }>()
 );
 export const searchPropertiesSuccess = createAction(
   '[Properties] Search Properties Success',

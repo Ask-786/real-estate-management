@@ -8,16 +8,11 @@ import { Component } from '@angular/core';
 })
 export class SortOptionDialogComponent {
   favoriteSeason!: string;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  sortOptions: string[] = ['Date', 'Name', 'Price'];
 
   constructor(private dialogRef: MatDialogRef<SortOptionDialogComponent>) {}
 
   onCancel() {
-    this.dialogRef.close();
-  }
-
-  onOk(value: string) {
-    console.log(value);
     this.dialogRef.close();
   }
 }
