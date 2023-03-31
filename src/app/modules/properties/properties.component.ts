@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PropertyTypeInterface } from './model/property.model';
 import { Store } from '@ngrx/store';
 import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
@@ -16,7 +17,11 @@ export class PropertiesComponent {
   sortOption!: string;
   searchValue = '' as string;
 
-  constructor(private dialog: MatDialog, private store: Store) {}
+  constructor(
+    private dialog: MatDialog,
+    private store: Store,
+    private router: Router
+  ) {}
 
   propertySearch(value: { search: string }) {
     this.searchValue = value.search;
@@ -77,6 +82,10 @@ export class PropertiesComponent {
         );
       }
     });
+  }
+
+  hasRoute(route: string) {
+    return this.router.url === route;
   }
 
   toPascalCase(string: string | undefined) {

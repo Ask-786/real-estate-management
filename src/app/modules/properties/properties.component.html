@@ -1,4 +1,4 @@
-<div class="bg-color-dark p-3">
+<div class="bg-color-dark p-3" *ngIf="hasRoute('/properties')">
     <div class="bg-color-dark">
         <div class="bg-color-dark">
             <form class="relative" #searchForm="ngForm" (ngSubmit)="propertySearch(searchForm.value)">
