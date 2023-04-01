@@ -17,8 +17,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const material = [
+  MatBadgeModule,
   MatCheckboxModule,
   MatRippleModule,
   MatAutocompleteModule,

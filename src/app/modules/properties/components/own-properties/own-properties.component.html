@@ -1,5 +1,6 @@
 <div class="w-full">
-    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+        *ngIf="(ownProperties$ | async)?.length; else noItems">
         <div *ngFor="let property of ownProperties$ | async" class="m-3">
             <app-property>
                 <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
@@ -25,3 +26,11 @@
         </div>
     </div>
 </div>
+
+<ng-template #noItems>
+    <div class="bg-color-dark flex items-center justify-center m-3 rounded-t-xl">
+        <p class="m-10">
+            No Own Properties Available
+        </p>
+    </div>
+</ng-template>

@@ -3,6 +3,8 @@ export interface CreateEnquiryFormInterface {
   content: string;
   topic: string;
   property: string;
+  email: string;
+  propertyOwner: string;
 }
 
 export interface EnquiryModelInterface {

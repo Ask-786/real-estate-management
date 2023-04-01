@@ -184,6 +184,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.loadingEnd({ message: data.message })
             );
+            this.store.dispatch(GlobalActions.addFavorites());
             return PropertiesActions.favourPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
@@ -207,6 +208,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.loadingEnd({ message: data.message })
             );
+            this.store.dispatch(GlobalActions.removeFavorites());
             return PropertiesActions.unFavourPropertySuccess({ id: data.id });
           }),
           catchError((err) => {

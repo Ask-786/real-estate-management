@@ -29,7 +29,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   isLoggedIn$: Observable<boolean>;
   user$: Observable<UserModelInterface | null>;
   propertyId!: string;
-  userId!: string | undefined;
+  userId!: string;
   propertyOwner!: string | undefined;
   propertytSubscription!: Subscription;
   isFavorite$: Observable<boolean>;
@@ -77,7 +77,9 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(PropertiesActions.getFavoriteIds());
 
     this.userSubscription = this.user$.subscribe((user) => {
-      this.userId = user?._id;
+      if (user) {
+        this.userId = user._id;
+      }
     });
 
     this.enquiryForm = new FormGroup({
@@ -85,8 +87,6 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       email: new FormControl('', [Validators.required, Validators.email]),
       content: new FormControl('', [Validators.required]),
       topic: new FormControl('', [Validators.required]),
-      property: new FormControl(this.propertyId),
-      user: new FormControl(this.userId),
     });
     this.propertytSubscription = this.property$.subscribe((data) => {
       this.property = data;
@@ -97,14 +97,18 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     if (this.enquiryForm.invalid) {
       return this.notificationService.warn('Complete the form correctly');
     }
-    const data: CreateEnquiryFormInterface = {
-      title: this.enquiryForm.value.title,
-      content: this.enquiryForm.value.content,
-      topic: this.enquiryForm.value.topic,
-      property: this.enquiryForm.value.property,
-    };
-    this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
-    this.enquiryForm.reset();
+    if (this.property) {
+      const data: CreateEnquiryFormInterface = {
+        propertyOwner: this.property?.owner,
+        email: this.enquiryForm.value.email,
+        title: this.enquiryForm.value.title,
+        content: this.enquiryForm.value.content,
+        topic: this.enquiryForm.value.topic,
+        property: this.propertyId,
+      };
+      this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
+      this.enquiryForm.reset();
+    }
   }
 
   onDelete() {

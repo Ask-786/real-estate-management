@@ -22,6 +22,7 @@ export class EnquiriesService {
   createEnquiry(
     data: CreateEnquiryFormInterface
   ): Observable<{ createdEnquiry: EnquiryModelInterface }> {
+    console.log(data);
     return this.http.post<{ createdEnquiry: EnquiryModelInterface }>(
       `${environment.baseUrl}/enquiry/create-enquiry`,
       data,

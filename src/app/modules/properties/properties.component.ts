@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as PropertiesActions from './store/actions';
 
 @Component({
@@ -12,7 +12,7 @@ import * as PropertiesActions from './store/actions';
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
 })
-export class PropertiesComponent {
+export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;
   sortOption!: string;
   searchValue = '' as string;
@@ -22,6 +22,10 @@ export class PropertiesComponent {
     private store: Store,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(PropertiesActions.getFavoriteIds());
+  }
 
   propertySearch(value: { search: string }) {
     this.searchValue = value.search;
@@ -39,23 +43,25 @@ export class PropertiesComponent {
   openSortDialog() {
     const sortDialog = this.dialog.open(SortOptionDialogComponent);
     sortDialog.afterClosed().subscribe((data: { sortOption: string }) => {
-      this.sortOption = data.sortOption;
-      if (data && this.searchValue.length >= 3) {
-        this.store.dispatch(
-          PropertiesActions.searchProperties({
-            searchValue: this.searchValue,
-            sortValue: data.sortOption,
-            filterValue: this.filterOptions,
-          })
-        );
-      } else if (data) {
-        this.store.dispatch(
-          PropertiesActions.searchProperties({
-            searchValue: '',
-            sortValue: data.sortOption,
-            filterValue: this.filterOptions,
-          })
-        );
+      if (data) {
+        this.sortOption = data.sortOption;
+        if (this.searchValue.length >= 3) {
+          this.store.dispatch(
+            PropertiesActions.searchProperties({
+              searchValue: this.searchValue,
+              sortValue: data.sortOption,
+              filterValue: this.filterOptions,
+            })
+          );
+        } else {
+          this.store.dispatch(
+            PropertiesActions.searchProperties({
+              searchValue: '',
+              sortValue: data.sortOption,
+              filterValue: this.filterOptions,
+            })
+          );
+        }
       }
     });
   }

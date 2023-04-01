@@ -26,3 +26,8 @@ export const isLoggedInSelector = createSelector(
   selectFeature,
   (state) => state.isLoggedIn
 );
+
+export const favoritesCountSelector = createSelector(
+  selectFeature,
+  (state) => state.favoritesCount
+);

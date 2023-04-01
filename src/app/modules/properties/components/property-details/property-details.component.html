@@ -43,34 +43,46 @@
         <br>
         <p class="text-xl font-semibold">INR: {{(property$ | async)?.price}}</p>
     </div>
-    <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md"
-        *ngIf="(isLoggedIn$ | async) && (user$ | async)?._id !== (property$ | async)?.owner">
-        <h1>Enquire for more information:</h1>
-        <br>
-        <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
-            <mat-form-field class="mb-0 w-full" appearance="outline">
-                <mat-label>Title</mat-label>
-                <input type="text" formControlName="title" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mb-0 mt-3 w-full" appearance="outline">
-                <mat-label>Email</mat-label>
-                <input type="email" formControlName="email" matInput>
-                <mat-error>Email is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mb-5 mt-3 w-full" appearance="outline">
-                <mat-label>Content</mat-label>
-                <input type="text" formControlName="content" matInput>
-                <mat-error>Content is Required</mat-error>
-            </mat-form-field>
-            <label id="example-radio-group-label" class="mt-5">Topic</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="topic" class="flex-col flex">
-                <mat-radio-button class="example-radio-button" *ngFor="let topic of enquiryTopics"
-                    [value]="topic.toLowerCase().replace(' ','-')">
-                    {{topic}}
-                </mat-radio-button>
-            </mat-radio-group>
-            <button mat-raised-button class="w-full mt-3">Submit</button>
-        </form>
-    </div>
+    <section *ngIf="!(property$ | async)?.enquirers?.includes(userId); else enquiredMessage">
+        <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md"
+            *ngIf="(isLoggedIn$ | async) && (user$ | async)?._id !== (property$ | async)?.owner">
+            <h1>Enquire for more information:</h1>
+            <br>
+            <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+                <mat-form-field class="mb-0 w-full" appearance="outline">
+                    <mat-label>Title</mat-label>
+                    <input type="text" formControlName="title" matInput>
+                    <mat-error>Title is Required</mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-0 mt-3 w-full" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input type="email" formControlName="email" matInput>
+                    <mat-error>Email is Required</mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-5 mt-3 w-full" appearance="outline">
+                    <mat-label>Content</mat-label>
+                    <input type="text" formControlName="content" matInput>
+                    <mat-error>Content is Required</mat-error>
+                </mat-form-field>
+                <label id="example-radio-group-label" class="mt-5">Topic</label>
+                <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="topic"
+                    class="flex-col flex">
+                    <mat-radio-button class="example-radio-button" *ngFor="let topic of enquiryTopics"
+                        [value]="topic.toLowerCase().replace(' ','-')">
+                        {{topic}}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <button mat-raised-button class="w-full mt-3">Submit</button>
+            </form>
+        </div>
+    </section>
 </div>
+
+<ng-template #enquiredMessage>
+    <div class="m-5 p-3 bg-color-dark rounded-md">
+        <p class="mb-3">
+            You have already enquired to this property
+        </p>
+        <button mat-stroked-button routerLink="/enquiries/own-enquiries">Go to enquiries</button>
+    </div>
+</ng-template>

@@ -74,7 +74,6 @@ export class AllPropertiesComponent implements OnInit {
       this.store.dispatch(
         PropertiesActions.getProperties({ page: this.propertyPage })
       );
-      this.store.dispatch(PropertiesActions.getFavoriteIds());
     }
   }
 

@@ -6,4 +6,5 @@ export interface GlobalStateInterface {
   isLoggedIn: boolean;
   token: string | null;
   header: string;
+  favoritesCount: number;
 }

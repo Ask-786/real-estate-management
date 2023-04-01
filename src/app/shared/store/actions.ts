@@ -23,3 +23,10 @@ export const checkAuthFailure = createAction(
   '[Global] Check Authenticaion Failure',
   props<{ error: string }>()
 );
+export const getFavoritesCount = createAction('[Global] Get Favorites Count');
+export const getFavoritesCountSuccess = createAction(
+  '[Global] Get Favorites Count Success',
+  props<{ count: number }>()
+);
+export const addFavorites = createAction('[Global] Add To Favorites');
+export const removeFavorites = createAction('[Global] Remove From Favorites');

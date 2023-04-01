@@ -2,14 +2,23 @@
   <div class="flex justify-end">
     <button class="mb-3" routerLink="own-enquiries" mat-stroked-button>Your Enquiries</button>
   </div>
-  <div *ngFor="let enquiry of (enquiries$ | async)" class="pb-3">
-    <app-enquiry [routerLink]="getEnquiryRoute(enquiry._id)">
-      <span id="title">{{enquiry.title}}</span>
-      <span id="property" class="ml-2" [routerLink]="getPropertyRoute(enquiry.property._id)"
-        class="cursor-pointer">{{enquiry.property.title}}</span>
-      <span id="senderEmail">{{enquiry.senderEmail}}</span>
-      <span id="topic">{{enquiry.topic}}</span>
-      <span id="createdAt">{{moment(enquiry.createdAt).format('LL')}}</span>
-    </app-enquiry>
+  <div *ngIf="(enquiries$ | async)?.length; else noItems">
+    <div *ngFor="let enquiry of (enquiries$ | async)" class="pb-3">
+      <app-enquiry [routerLink]="getEnquiryRoute(enquiry._id)">
+        <span id="title">{{enquiry.title}}</span>
+        <span id="property" class="ml-2" [routerLink]="getPropertyRoute(enquiry.property._id)"
+          class="cursor-pointer">{{enquiry.property.title}}</span>
+        <span id="senderEmail">{{enquiry.senderEmail}}</span>
+        <span id="topic">{{enquiry.topic}}</span>
+        <span id="createdAt">{{moment(enquiry.createdAt).format('LL')}}</span>
+      </app-enquiry>
+    </div>
   </div>
 </div>
+<ng-template #noItems>
+  <div class="bg-color-dark rounded-xl m-3 flex items-center justify-center">
+    <p class="m-10">
+      No Enquiries Available
+    </p>
+  </div>
+</ng-template>

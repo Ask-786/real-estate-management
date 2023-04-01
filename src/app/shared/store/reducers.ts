@@ -11,6 +11,7 @@ const initialState: GlobalStateInterface = {
   isLoggedIn: false,
   token: null,
   header: 'map',
+  favoritesCount: 0,
 };
 
 export const reducers = createReducer(
@@ -47,5 +48,17 @@ export const reducers = createReducer(
     isLoading: false,
     isLoggedIn: false,
     token: null,
+  })),
+  on(CommonActions.getFavoritesCountSuccess, (state, action) => ({
+    ...state,
+    favoritesCount: action.count,
+  })),
+  on(CommonActions.addFavorites, (state) => ({
+    ...state,
+    favoritesCount: state.favoritesCount + 1,
+  })),
+  on(CommonActions.removeFavorites, (state) => ({
+    ...state,
+    favoritesCount: state.favoritesCount - 1,
   }))
 );

@@ -12,6 +12,7 @@ export interface PropertyModelInterface {
   description: string;
   coOrdinates: coOrdinatesInterface;
   address: propertyAddressInterface;
+  enquirers: string[];
 }
 
 export enum PropertyTypeEnum {

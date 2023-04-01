@@ -15,7 +15,7 @@
         </app-button>
         <app-button routerLink="properties/favorites">
             <mat-icon id="icon">favorite</mat-icon>
-            <span id="name" class="flex items-center">Favorites</span>
+            <span [matBadge]="(favoritesLength$ | async)" id="name" class="flex items-center">Favorites</span>
         </app-button>
         <app-button routerLink="enquiries">
             <mat-icon id="icon">chat</mat-icon>

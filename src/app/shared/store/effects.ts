@@ -5,6 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as GlobalActions from './actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
+import { GlobalService } from '../services/global.service';
 
 @Injectable()
 export class GlobalEffects {
@@ -12,7 +13,8 @@ export class GlobalEffects {
     private action$: Actions,
     private store: Store,
     private authService: AuthenticationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private globalService: GlobalService
   ) {}
 
   checkAuth$ = createEffect(() =>
@@ -31,27 +33,36 @@ export class GlobalEffects {
           catchError((err) => {
             if (err.status === 401) {
               this.authService.removeToken();
-              this.store.dispatch(
-                GlobalActions.gotError({ error: err.error.message })
-              );
-              return of(
-                GlobalActions.checkAuthFailure({
-                  error: err.error.message || 'something went wrong',
-                })
-              );
-            } else {
-              this.store.dispatch(
-                GlobalActions.gotError({ error: err.error.message })
-              );
-              return of(
-                GlobalActions.checkAuthFailure({
-                  error: err.error.message,
-                })
-              );
             }
+            this.store.dispatch(
+              GlobalActions.gotError({ error: err.error.message })
+            );
+            return of(
+              GlobalActions.checkAuthFailure({
+                error: err.error.message || 'something went wrong',
+              })
+            );
           })
         );
       })
+    )
+  );
+
+  getFavorites$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(GlobalActions.getFavoritesCount),
+      mergeMap(() =>
+        this.globalService.getFavoritesCount().pipe(
+          map((data) => {
+            return GlobalActions.getFavoritesCountSuccess({
+              count: data.count,
+            });
+          }),
+          catchError((err) =>
+            of(GlobalActions.gotError({ error: err.error.message }))
+          )
+        )
+      )
     )
   );
 

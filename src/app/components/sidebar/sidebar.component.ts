@@ -1,8 +1,9 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as GlobalSelectors from '../../shared/store/selectors';
+import * as GlobalActions from '../../shared/store/actions';
 import * as AuthenticationActions from '../../modules/authentication/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 
@@ -11,12 +12,13 @@ import { AuthenticationService } from 'src/app/modules/authentication/services/a
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnDestroy {
+export class SidebarComponent implements OnDestroy, OnInit {
   screenWidth: boolean = window.innerWidth > 768;
   isLoading$: Observable<boolean>;
   isLoadingSubscription!: Subscription;
   isLoggedIn$: Observable<boolean>;
   isLoggedInSubscription!: Subscription;
+  favoritesLength$: Observable<number>;
 
   constructor(
     private store: Store<AppStateInterface>,
@@ -28,6 +30,13 @@ export class SidebarComponent implements OnDestroy {
     this.isLoggedIn$ = this.store.pipe(
       select(GlobalSelectors.isLoggedInSelector)
     );
+    this.favoritesLength$ = this.store.pipe(
+      select(GlobalSelectors.favoritesCountSelector)
+    );
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(GlobalActions.getFavoritesCount());
   }
 
   @HostListener('window:resize', ['event'])
