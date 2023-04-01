@@ -263,7 +263,6 @@ export class PropertiesEffects {
             }
           }),
           catchError((err) => {
-            console.log(err);
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message })
             );

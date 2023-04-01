@@ -79,7 +79,6 @@ export class AllPropertiesComponent implements OnInit {
 
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
-    console.log('hello');
     if (
       event.target.offsetHeight + event.target.scrollTop >=
       event.target.scrollHeight - 1

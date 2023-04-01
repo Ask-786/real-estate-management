@@ -5,6 +5,7 @@ import {
   selectedPropertyInterface,
 } from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
+import * as EnquiryActions from '../../enquiries/store/actions';
 
 const initialSelectedProperty: selectedPropertyInterface = {
   property: null,
@@ -154,5 +155,20 @@ export const reducers = createReducer(
   on(PropertyActions.searchPropertiesSuccess, (state, action) => ({
     ...state,
     properties: action.searchResult,
-  }))
+  })),
+  on(EnquiryActions.createEnquirySuccess, (state, action) => {
+    const modifiedProperty = JSON.parse(
+      JSON.stringify(state.selectedProperty.property)
+    ) as PropertyModelInterface;
+    if (modifiedProperty) {
+      modifiedProperty.enquirers.push(action.createdEnquiry.sender);
+    }
+    return {
+      ...state,
+      selectedProperty: {
+        ...state.selectedProperty,
+        property: modifiedProperty,
+      },
+    };
+  })
 );
