@@ -23,6 +23,7 @@ import { EnquiriesModule } from '../enquiries/enquiries.module';
 import { AllPropertiesComponent } from './components/all-properties/all-properties.component';
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { FilterOptionDialogComponent } from './components/filter-option-dialog/f
     AllPropertiesComponent,
     SortOptionDialogComponent,
     FilterOptionDialogComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,
