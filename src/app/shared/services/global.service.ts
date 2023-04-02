@@ -13,4 +13,9 @@ export class GlobalService {
       `${environment.baseUrl}/favorites/get-count`
     );
   }
+  getNotificationsCount() {
+    return this.http.get<{ count: number }>(
+      `${environment.baseUrl}/notifications/get-count`
+    );
+  }
 }

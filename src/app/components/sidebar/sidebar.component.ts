@@ -1,4 +1,4 @@
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
@@ -19,6 +19,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
   isLoggedIn$: Observable<boolean>;
   isLoggedInSubscription!: Subscription;
   favoritesLength$: Observable<number>;
+  notificatiosCount$: Observable<number>;
 
   constructor(
     private store: Store<AppStateInterface>,
@@ -33,10 +34,14 @@ export class SidebarComponent implements OnDestroy, OnInit {
     this.favoritesLength$ = this.store.pipe(
       select(GlobalSelectors.favoritesCountSelector)
     );
+    this.notificatiosCount$ = this.store.pipe(
+      select(GlobalSelectors.notificationsCountSelector)
+    );
   }
 
   ngOnInit(): void {
     this.store.dispatch(GlobalActions.getFavoritesCount());
+    this.store.dispatch(GlobalActions.getNotificationsCount());
   }
 
   @HostListener('window:resize', ['event'])

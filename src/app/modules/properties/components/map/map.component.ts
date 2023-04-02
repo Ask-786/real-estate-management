@@ -49,16 +49,16 @@ export class MapComponent implements OnInit, OnDestroy {
       .addTo(this.map)
       .bindPopup(data.title)
       .openPopup();
-    tiles.addTo(this.map);
 
     tiles.addTo(this.map);
   }
 
   ngOnInit(): void {
     this.latlngSubscription = this.latlng.subscribe((data) => {
-      alert('hello from outside');
       if (data) {
-        alert('hello from inside');
+        if (this.map) {
+          this.map.remove();
+        }
         this.initMap(data);
       }
     });

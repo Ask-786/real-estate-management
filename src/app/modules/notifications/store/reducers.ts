@@ -3,7 +3,7 @@ import { NotificationStateInterface } from '../model/notificationState.interface
 import * as NotificationActions from './actions';
 
 const initialState: NotificationStateInterface = {
-  notifications: null,
+  notifications: [],
 };
 
 export const reducers = createReducer(

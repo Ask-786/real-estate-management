@@ -3,6 +3,7 @@ import { GlobalStateInterface } from '../models/globalStateInterface';
 import * as CommonActions from './actions';
 import * as GlobalActions from './actions';
 import * as AuthenticationActions from '../../modules/authentication/store/actions';
+import * as NotificationActions from '../../modules/notifications/store/actions';
 
 const initialState: GlobalStateInterface = {
   isLoading: false,
@@ -12,6 +13,7 @@ const initialState: GlobalStateInterface = {
   token: null,
   header: 'map',
   favoritesCount: 0,
+  notificatiosCount: 0,
 };
 
 export const reducers = createReducer(
@@ -60,5 +62,19 @@ export const reducers = createReducer(
   on(CommonActions.removeFavorites, (state) => ({
     ...state,
     favoritesCount: state.favoritesCount - 1,
-  }))
+  })),
+  on(GlobalActions.getNotificationsCountSuccess, (state, action) => ({
+    ...state,
+    notificatiosCount: action.count,
+  })),
+  on(NotificationActions.changeReadStatusSuccess, (state) => {
+    let change = 0 as number;
+    if (state.notificatiosCount > 0) {
+      change = 1;
+    }
+    return {
+      ...state,
+      notificatiosCount: state.notificatiosCount - change,
+    };
+  })
 );

@@ -66,6 +66,25 @@ export class GlobalEffects {
     )
   );
 
+  getNotifications$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(GlobalActions.getNotificationsCount),
+      mergeMap(() =>
+        this.globalService.getNotificationsCount().pipe(
+          map((data) => {
+            console.log(data);
+            return GlobalActions.getNotificationsCountSuccess({
+              count: data.count,
+            });
+          }),
+          catchError((err) =>
+            of(GlobalActions.gotError({ error: err.error.message }))
+          )
+        )
+      )
+    )
+  );
+
   getError$ = createEffect(
     () =>
       this.action$.pipe(

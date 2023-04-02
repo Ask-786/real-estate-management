@@ -23,7 +23,7 @@
         </app-button>
         <app-button routerLink="notifications">
             <mat-icon id="icon">notifications</mat-icon>
-            <span id="name" class="flex items-center">Notifications</span>
+            <span [matBadge]="(notificatiosCount$ | async)" id="name" class="flex items-center">Notifications</span>
         </app-button>
         <mat-divider class="justify-start w-11/12 lg:mx-3  md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"></mat-divider>
         <app-button routerLink="user/profile">

@@ -7,4 +7,5 @@ export interface GlobalStateInterface {
   token: string | null;
   header: string;
   favoritesCount: number;
+  notificatiosCount: number;
 }

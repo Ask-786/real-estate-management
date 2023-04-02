@@ -31,3 +31,8 @@ export const favoritesCountSelector = createSelector(
   selectFeature,
   (state) => state.favoritesCount
 );
+
+export const notificationsCountSelector = createSelector(
+  selectFeature,
+  (state) => state.notificatiosCount
+);

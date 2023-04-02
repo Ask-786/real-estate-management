@@ -30,3 +30,10 @@ export const getFavoritesCountSuccess = createAction(
 );
 export const addFavorites = createAction('[Global] Add To Favorites');
 export const removeFavorites = createAction('[Global] Remove From Favorites');
+export const getNotificationsCount = createAction(
+  '[Global] Get Notificaitons Count'
+);
+export const getNotificationsCountSuccess = createAction(
+  '[Global] Get Notificaitons Count Success',
+  props<{ count: number }>()
+);

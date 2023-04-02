@@ -60,7 +60,7 @@
         </div>
     </div>
 </div>
-<section *ngIf="!(property$ | async)?.enquirers?.includes(userId); else enquiredMessage">
+<section *ngIf="!(property$ | async)?.enquirers?.includes(userId); else enquiredMessage" class="md:w-9/12 ">
     <div style="padding: 1rem;" class="m-5 p-3 bg-color-dark rounded-md"
         *ngIf="(isLoggedIn$ | async) && (user$ | async)?._id !== (property$ | async)?.owner">
         <h1>Enquire for more information:</h1>
@@ -94,10 +94,12 @@
 </section>
 
 <ng-template #enquiredMessage>
-    <div class="m-5 p-3 bg-color-dark rounded-md">
-        <p class="mb-3">
-            You have already enquired to this property
-        </p>
-        <button mat-stroked-button routerLink="/enquiries/own-enquiries">Go to enquiries</button>
-    </div>
+    <section class="md:w-9/12">
+        <div class="m-5 p-3 bg-color-dark rounded-md">
+            <p class="mb-3">
+                You have already enquired to this property
+            </p>
+            <button mat-stroked-button routerLink="/enquiries/own-enquiries">Go to enquiries</button>
+        </div>
+    </section>
 </ng-template>
