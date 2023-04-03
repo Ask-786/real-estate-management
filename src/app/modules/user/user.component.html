@@ -23,8 +23,7 @@
                     <div class="flex flex-wrap justify-center">
                         <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                             <div class="relative">
-                                <img alt="..."
-                                    src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg"
+                                <img alt="..." src="assets/images/avatar/avatar.png"
                                     class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
                             </div>
                         </div>
@@ -39,30 +38,22 @@
                         <h3 class="text-4xl font-semibold leading-normal text-white mb-2">
                             {{(user$ | async)?.firstname+" "+(user$ | async)?.lastname}}
                         </h3>
-                        <div class="text-sm leading-normal mt-0 mb-2 text-white font-bold uppercase">
-                            <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                            Los Angeles, California
-                        </div>
+                        You info
                         <div class="mb-2 text-white mt-10">
-                            <i class="fas fa-briefcase mr-2 text-lg text-white"></i>Solution Manager - Creative
-                            Tim Officer
+                            <i class="fas fa-briefcase mr-2 text-lg text-white"></i>
+                            First Name : {{(user$ | async)?.firstname}}
                         </div>
                         <div class="mb-2 text-white">
-                            <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>University of Computer
-                            Science
+                            <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                            Last Name : {{(user$ | async)?.lastname}}
                         </div>
-                    </div>
-                    <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
-                        <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-9/12 px-4">
-                                <p class="mb-4 text-lg leading-relaxed text-white">
-                                    An artist of considerable range, Jenna the name taken by
-                                    Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                                    performs and records all of his own music, giving it a
-                                    warm, intimate feel with a solid groove structure. An
-                                    artist of considerable range.
-                                </p>
-                            </div>
+                        <div class="mb-2 text-white">
+                            <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                            Email : {{(user$ | async)?.email}}
+                        </div>
+                        <div class="mb-2 text-white">
+                            <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                            Phone : {{(user$ | async)?.phone}}
                         </div>
                     </div>
                 </div>
