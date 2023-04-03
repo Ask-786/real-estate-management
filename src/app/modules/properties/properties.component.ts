@@ -16,6 +16,7 @@ export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;
   sortOption!: string;
   searchValue = '' as string;
+  desc = false as boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -33,7 +34,7 @@ export class PropertiesComponent implements OnInit {
       this.store.dispatch(
         PropertiesActions.searchProperties({
           searchValue: value.search,
-          sortValue: this.sortOption,
+          sortValue: { value: this.sortOption, desc: this.desc },
           filterValue: this.filterOptions,
         })
       );
@@ -42,47 +43,44 @@ export class PropertiesComponent implements OnInit {
 
   openSortDialog() {
     const sortDialog = this.dialog.open(SortOptionDialogComponent);
-    sortDialog.afterClosed().subscribe((data: { sortOption: string }) => {
-      if (data) {
-        this.sortOption = data.sortOption;
-        if (this.searchValue.length >= 3) {
+    sortDialog
+      .afterClosed()
+      .subscribe((data: { sortOption: string; desc: boolean }) => {
+        if (data) {
+          this.sortOption = data.sortOption;
+          this.desc = data.desc;
+
+          let searchValue = '' as string;
+          if (this.searchValue.length >= 3) {
+            searchValue = this.searchValue;
+          }
+
           this.store.dispatch(
             PropertiesActions.searchProperties({
-              searchValue: this.searchValue,
-              sortValue: data.sortOption,
-              filterValue: this.filterOptions,
-            })
-          );
-        } else {
-          this.store.dispatch(
-            PropertiesActions.searchProperties({
-              searchValue: '',
-              sortValue: data.sortOption,
+              searchValue: searchValue,
+              sortValue: { value: data.sortOption, desc: data.desc },
               filterValue: this.filterOptions,
             })
           );
         }
-      }
-    });
+      });
   }
 
   openFilterDialog() {
     const filterDialog = this.dialog.open(FilterOptionDialogComponent);
     filterDialog.afterClosed().subscribe((data: PropertyTypeInterface) => {
       this.filterOptions = data;
-      if (data && this.searchValue.length >= 3) {
+      if (data) {
+        let searchValue = '' as string;
+        if (this.searchValue.length >= 3) {
+          if (this.searchValue.length >= 3) {
+            searchValue = this.searchValue;
+          }
+        }
         this.store.dispatch(
           PropertiesActions.searchProperties({
-            searchValue: this.searchValue,
-            sortValue: this.sortOption,
-            filterValue: data,
-          })
-        );
-      } else if (data) {
-        this.store.dispatch(
-          PropertiesActions.searchProperties({
-            searchValue: '',
-            sortValue: this.sortOption,
+            searchValue: searchValue,
+            sortValue: { value: this.sortOption, desc: this.desc },
             filterValue: data,
           })
         );

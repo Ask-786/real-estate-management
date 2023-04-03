@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./sort-option-dialog.component.css'],
 })
 export class SortOptionDialogComponent {
-  favoriteSeason!: string;
+  sortOption!: string;
+  desc = false as boolean;
   sortOptions: string[] = ['Date', 'Name', 'Price'];
 
   constructor(private dialogRef: MatDialogRef<SortOptionDialogComponent>) {}

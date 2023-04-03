@@ -15,7 +15,6 @@ import { AuthenticationService } from 'src/app/modules/authentication/services/a
 export class SidebarComponent implements OnDestroy, OnInit {
   screenWidth: boolean = window.innerWidth > 768;
   isLoading$: Observable<boolean>;
-  isLoadingSubscription!: Subscription;
   isLoggedIn$: Observable<boolean>;
   isLoggedInSubscription!: Subscription;
   favoritesLength$: Observable<number>;
@@ -40,8 +39,12 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(GlobalActions.getFavoritesCount());
-    this.store.dispatch(GlobalActions.getNotificationsCount());
+    this.isLoggedInSubscription = this.isLoggedIn$.subscribe((data) => {
+      if (data) {
+        this.store.dispatch(GlobalActions.getFavoritesCount());
+        this.store.dispatch(GlobalActions.getNotificationsCount());
+      }
+    });
   }
 
   @HostListener('window:resize', ['event'])
@@ -55,7 +58,6 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.isLoadingSubscription) this.isLoadingSubscription.unsubscribe();
     if (this.isLoggedInSubscription) this.isLoggedInSubscription.unsubscribe();
   }
 }

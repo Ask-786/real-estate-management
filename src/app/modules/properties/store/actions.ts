@@ -122,7 +122,7 @@ export const searchProperties = createAction(
   '[Properties] Search Properties',
   props<{
     searchValue?: string;
-    sortValue?: string;
+    sortValue?: { value: string; desc: boolean };
     filterValue?: PropertyTypeInterface;
   }>()
 );

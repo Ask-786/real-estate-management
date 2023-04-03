@@ -279,7 +279,12 @@ export class PropertiesEffects {
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService
-          .searchProperties(data.searchValue, data.sortValue, data.filterValue)
+          .searchProperties(
+            data.searchValue,
+            data.sortValue?.value,
+            data.sortValue?.desc,
+            data.filterValue
+          )
           .pipe(
             map((data) => {
               this.store.dispatch(GlobalActions.loadingEnd({}));

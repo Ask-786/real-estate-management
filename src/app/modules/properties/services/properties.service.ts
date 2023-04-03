@@ -43,6 +43,7 @@ export class PropertiesService {
   searchProperties(
     searchValue?: string,
     sortValue?: string,
+    desc?: boolean,
     filterValue?: PropertyTypeInterface
   ): Observable<PropertyModelInterface[]> {
     let filterOptions = '' as string;
@@ -57,7 +58,7 @@ export class PropertiesService {
     return this.http.get<PropertyModelInterface[]>(
       `${environment.baseUrl}/property?page=${
         this.propertyPage
-      }&searchValue=${searchValue}&sortValue=${sortValue}&filterValue=${filterOptions.trim()}`
+      }&searchValue=${searchValue}&sortValue=${sortValue}&desc=${desc}&filterValue=${filterOptions.trim()}`
     );
   }
 
