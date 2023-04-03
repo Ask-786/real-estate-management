@@ -12,12 +12,31 @@
             <input type="number" formControlName="price" matInput>
             <mat-error>Title is Required</mat-error>
         </mat-form-field>
-        <mat-form-field class="w-full mb-0" appearance="outline">
+        <!-- <mat-form-field class="w-full mb-0" appearance="outline">
             <mat-label>tags</mat-label>
             <input type="text" formControlName="tags" matInput>
             <mat-hint>
                 If there is morethan 1 tags Seperate it with Comma(,)
             </mat-hint>
+        </mat-form-field> -->
+        <mat-form-field class="example-chip-list" appearance="fill" appearance="outline">
+            <mat-label>Tags...</mat-label>
+            <mat-chip-grid #chipGrid>
+                <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
+                    {{tag}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+            </mat-chip-grid>
+            <input placeholder="Tags..." #fruitInput [formControl]="tagsCtrl" [matChipInputFor]="chipGrid"
+                [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let tag of filteredTags| async" [value]="tag">
+                    {{tag}}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
         <mat-form-field class="w-full mb-0" appearance="outline">
             <mat-label class="m-2">Description</mat-label>

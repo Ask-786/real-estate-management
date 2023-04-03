@@ -1,17 +1,26 @@
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from '../../services/properties.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, startWith, map } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PropertyTypeEnum } from './../../model/property.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-add-property-dialog',
@@ -25,6 +34,12 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   propertyData!: FormGroup;
   isLoading$: Observable<boolean>;
+  possibleTags: string[] = ['House', 'Land', 'Property', '1 BHK', 'Office'];
+  filteredTags: Observable<string[]>;
+  tagsCtrl = new FormControl('');
+  tags: string[] = [];
+  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
 
   //Subscriptions
   dialogRefSubscription!: Subscription;
@@ -63,6 +78,12 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(
       select(GlobalSelectors.isLoadingSelector)
     );
+    this.filteredTags = this.tagsCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) =>
+        tag ? this._filter(tag) : this.possibleTags.slice()
+      )
+    );
   }
 
   //Map Config to take co-ordinates
@@ -87,7 +108,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.propertyData = new FormGroup({
       title: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
-      tags: new FormControl(null),
+      tags: new FormControl(this.tags),
       description: new FormControl(null, [
         Validators.required,
         Validators.minLength(10),
@@ -148,6 +169,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   //On Submittingn form
   onSubmit() {
     if (this.propertyData.invalid) {
+      console.log(this.propertyData.value);
       this.notificationService.warn('Fill the form in full');
       return;
     }
@@ -202,6 +224,42 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
       this.notificationService.warn('Select all files');
       // return;
     }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.possibleTags.filter((fruit) =>
+      fruit.toLowerCase().includes(filterValue)
+    );
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.tags.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.tagsCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.tags.indexOf(fruit);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tags.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.tagsCtrl.setValue(null);
   }
 
   ngOnDestroy() {

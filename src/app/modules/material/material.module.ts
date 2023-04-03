@@ -19,8 +19,10 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 
 const material = [
+  MatChipsModule,
   MatSlideToggleModule,
   MatBadgeModule,
   MatCheckboxModule,
