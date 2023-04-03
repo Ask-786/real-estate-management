@@ -46,7 +46,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
     if (properties.length > 0) {
       const icon = (propertyType: string) => {
         return L.icon({
-          iconUrl: `assets//images/markers/marker-${propertyType}.svg`,
+          iconUrl: `assets/images/markers/marker-${propertyType}.svg`,
           iconSize: [35, 35],
         });
       };
