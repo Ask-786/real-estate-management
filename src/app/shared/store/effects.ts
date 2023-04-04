@@ -72,7 +72,6 @@ export class GlobalEffects {
       mergeMap(() =>
         this.globalService.getNotificationsCount().pipe(
           map((data) => {
-            console.log(data);
             return GlobalActions.getNotificationsCountSuccess({
               count: data.count,
             });

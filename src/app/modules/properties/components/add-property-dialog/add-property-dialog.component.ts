@@ -169,7 +169,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   //On Submittingn form
   onSubmit() {
     if (this.propertyData.invalid) {
-      console.log(this.propertyData.value);
       this.notificationService.warn('Fill the form in full');
       return;
     }
