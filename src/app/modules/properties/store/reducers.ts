@@ -24,17 +24,17 @@ export const initialState: PropertyStateInterface = {
 export const reducers = createReducer(
   initialState,
   on(PropertyActions.getPropertiesSuccess, (state, action) => {
+    let bottomReached = false;
+    let page = 1;
     if (action.properties.length < 8) {
-      return {
-        ...state,
-        properties: [...state.properties, ...action.properties],
-        mostBottomReached: true,
-      };
+      page = 0;
+      bottomReached = true;
     }
     return {
       ...state,
-      page: state.page + 1,
+      page: state.page + page,
       properties: [...state.properties, ...action.properties],
+      mostBottomReached: bottomReached,
     };
   }),
   on(PropertyActions.getPropertiesFailure, (state, action) => ({
@@ -83,23 +83,17 @@ export const reducers = createReducer(
     isLoading: true,
   })),
   on(PropertyActions.getOnePropertySuccess, (state, action) => {
+    let isFavorite = false;
     if (state.favoriteIds.includes(action.property._id)) {
-      return {
-        ...state,
-        selectedProperty: {
-          isFavorite: true,
-          property: action.property,
-        },
-      };
-    } else {
-      return {
-        ...state,
-        selectedProperty: {
-          isFavorite: false,
-          property: action.property,
-        },
-      };
+      isFavorite = true;
     }
+    return {
+      ...state,
+      selectedProperty: {
+        isFavorite: isFavorite,
+        property: action.property,
+      },
+    };
   }),
   on(PropertyActions.getOwnPropertiesSuccess, (state, action) => ({
     ...state,
