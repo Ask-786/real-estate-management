@@ -19,18 +19,20 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   moment = moment;
   enquiryId!: string;
   selectedEnquiry$: Observable<PropertyPopulatedEnquiryModelInterface | null>;
-  activeParamsSubscription: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog
   ) {
-    this.activeParamsSubscription = this.activatedRoute.params.subscribe({
-      next: (params) => {
-        this.enquiryId = params['id'];
-      },
-    });
+    this.subscriptions.push(
+      this.activatedRoute.params.subscribe({
+        next: (params) => {
+          this.enquiryId = params['id'];
+        },
+      })
+    );
     this.selectedEnquiry$ = this.store
       .pipe(select(EnquiriesSelectors.selectedEnquirySelector))
       .pipe(map((data) => data?.enquiry));
@@ -45,7 +47,6 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.activeParamsSubscription)
-      this.activeParamsSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

@@ -2,7 +2,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PropertyModelInterface } from './../../model/property.model';
 import { Observable, Subscription } from 'rxjs';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as moment from 'moment';
@@ -17,17 +17,15 @@ import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-
   templateUrl: './all-properties.component.html',
   styleUrls: ['./all-properties.component.css'],
 })
-export class AllPropertiesComponent implements OnInit {
+export class AllPropertiesComponent implements OnInit, OnDestroy {
   properties$: Observable<PropertyModelInterface[]>;
   mostBottomReached$: Observable<boolean>;
   favoriteIds$: Observable<string[]>;
   propertyPage$: Observable<number>;
   isLoggedIn$: Observable<boolean>;
-  isLoggedInSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
   isLoggedIn!: boolean;
   bottomReached!: boolean;
-  bottomReachedSubscription!: Subscription;
-  propertyPageSubscription!: Subscription;
   propertyPage!: number;
 
   moment = moment;
@@ -59,17 +57,19 @@ export class AllPropertiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Properties' }));
-    this.isLoggedInSubscription = this.isLoggedIn$.subscribe((isLoggedIn) => {
-      this.isLoggedIn = isLoggedIn;
-    });
-    this.bottomReachedSubscription = this.mostBottomReached$.subscribe({
-      next: (data) => {
-        this.bottomReached = data;
-      },
-    });
-    this.propertyPageSubscription = this.propertyPage$.subscribe((data) => {
-      this.propertyPage = data;
-    });
+    this.subscriptions.push(
+      this.isLoggedIn$.subscribe((isLoggedIn) => {
+        this.isLoggedIn = isLoggedIn;
+      }),
+      this.mostBottomReached$.subscribe({
+        next: (data) => {
+          this.bottomReached = data;
+        },
+      }),
+      this.propertyPage$.subscribe((data) => {
+        this.propertyPage = data;
+      })
+    );
     if (!this.bottomReached) {
       this.store.dispatch(
         PropertiesActions.getProperties({ page: this.propertyPage })
@@ -107,5 +107,9 @@ export class AllPropertiesComponent implements OnInit {
 
   getPropertyUrl(id: string) {
     return `property/${id}`;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

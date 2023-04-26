@@ -2,7 +2,7 @@ import { PropertyTypeInterface } from './../model/property.model';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   AddPropertyInterface,
   PropertyModelInterface,
@@ -14,9 +14,9 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class PropertiesService {
+export class PropertiesService implements OnDestroy {
   propertiesPage$: Observable<number>;
-  propertyPageSubscription: Subscription;
+  subscriptions: Subscription[] = [];
   propertyPage!: number;
 
   constructor(
@@ -26,11 +26,13 @@ export class PropertiesService {
     this.propertiesPage$ = this.store.pipe(
       select(PropertiesSelectors.propertyPageSelector)
     );
-    this.propertyPageSubscription = this.propertiesPage$.subscribe({
-      next: (data: number) => {
-        this.propertyPage = data;
-      },
-    });
+    this.subscriptions.push(
+      this.propertiesPage$.subscribe({
+        next: (data: number) => {
+          this.propertyPage = data;
+        },
+      })
+    );
   }
 
   getProperties(page: number): Observable<PropertyModelInterface[]> {
@@ -171,5 +173,9 @@ export class PropertiesService {
     return this.http.get<{ user: string; favoriteProperties: string[] }>(
       `${environment.baseUrl}/favorites/get-favorite-ids`
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

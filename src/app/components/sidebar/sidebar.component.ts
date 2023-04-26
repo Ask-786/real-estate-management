@@ -16,7 +16,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
   screenWidth: boolean = window.innerWidth > 768;
   isLoading$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
-  isLoggedInSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
   favoritesLength$: Observable<number>;
   notificatiosCount$: Observable<number>;
 
@@ -39,12 +39,14 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoggedInSubscription = this.isLoggedIn$.subscribe((data) => {
-      if (data) {
-        this.store.dispatch(GlobalActions.getFavoritesCount());
-        this.store.dispatch(GlobalActions.getNotificationsCount());
-      }
-    });
+    this.subscriptions.push(
+      this.isLoggedIn$.subscribe((data) => {
+        if (data) {
+          this.store.dispatch(GlobalActions.getFavoritesCount());
+          this.store.dispatch(GlobalActions.getNotificationsCount());
+        }
+      })
+    );
   }
 
   @HostListener('window:resize', ['event'])
@@ -58,6 +60,6 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.isLoggedInSubscription) this.isLoggedInSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

@@ -31,10 +31,8 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   propertyId!: string;
   userId!: string;
   propertyOwner!: string | undefined;
-  propertytSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
   isFavorite$: Observable<boolean>;
-  activatedRouteSubscription: Subscription;
-  userSubscription!: Subscription;
   property!: PropertyModelInterface | null;
 
   enquiryTopics = [
@@ -50,10 +48,10 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private dialog: MatDialog
   ) {
-    this.activatedRouteSubscription = this.activatedRoute.params.subscribe(
-      (params) => {
+    this.subscriptions.push(
+      this.activatedRoute.params.subscribe((params) => {
         this.propertyId = params['id'];
-      }
+      })
     );
     this.property$ = this.store
       .pipe(select(PropertieseSelectors.selectedPropertySelector))
@@ -76,11 +74,13 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch(PropertiesActions.getFavoriteIds());
 
-    this.userSubscription = this.user$.subscribe((user) => {
-      if (user) {
-        this.userId = user._id;
-      }
-    });
+    this.subscriptions.push(
+      this.user$.subscribe((user) => {
+        if (user) {
+          this.userId = user._id;
+        }
+      })
+    );
 
     this.enquiryForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
@@ -88,9 +88,11 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       content: new FormControl('', [Validators.required]),
       topic: new FormControl('', [Validators.required]),
     });
-    this.propertytSubscription = this.property$.subscribe((data) => {
-      this.property = data;
-    });
+    this.subscriptions.push(
+      this.property$.subscribe((data) => {
+        this.property = data;
+      })
+    );
   }
 
   onSubmit(): void {
@@ -114,9 +116,11 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   onDelete() {
     let title: string | undefined;
     let id: string | undefined;
-    this.propertytSubscription = this.property$.subscribe({
-      next: (data) => ((title = data?.title), (id = data?._id)),
-    });
+    this.subscriptions.push(
+      this.property$.subscribe({
+        next: (data) => ((title = data?.title), (id = data?._id)),
+      })
+    );
     this.dialog.open(DeleteWarningComponent, {
       data: { title, id },
     });
@@ -143,9 +147,6 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.propertytSubscription) this.propertytSubscription.unsubscribe();
-    if (this.activatedRouteSubscription)
-      this.activatedRouteSubscription.unsubscribe();
-    if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

@@ -16,7 +16,7 @@ export class LoginComponent implements OnDestroy, OnInit {
   registeredUser$: Observable<UserModelInterface | null>;
   email: string | undefined;
   loginForm!: FormGroup;
-  userSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(private store: Store<AppStateInterface>) {
     this.registeredUser$ = this.store.pipe(
@@ -26,9 +26,11 @@ export class LoginComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Login' }));
-    this.userSubscription = this.registeredUser$.subscribe((registeredUser) => {
-      this.email = registeredUser?.email;
-    });
+    this.subscriptions.push(
+      this.registeredUser$.subscribe((registeredUser) => {
+        this.email = registeredUser?.email;
+      })
+    );
     this.loginForm = new FormGroup({
       username: new FormControl(this.email, [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -43,6 +45,6 @@ export class LoginComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

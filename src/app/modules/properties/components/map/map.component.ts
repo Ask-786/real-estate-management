@@ -13,7 +13,7 @@ export class MapComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];
   private map!: L.Map;
   @Input() latlng!: Observable<PropertyModelInterface | null>;
-  latlngSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   private initMap(data: PropertyModelInterface): void {
     this.map = L.map('map', {
@@ -54,17 +54,19 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.latlngSubscription = this.latlng.subscribe((data) => {
-      if (data) {
-        if (this.map) {
-          this.map.remove();
+    this.subscriptions.push(
+      this.latlng.subscribe((data) => {
+        if (data) {
+          if (this.map) {
+            this.map.remove();
+          }
+          this.initMap(data);
         }
-        this.initMap(data);
-      }
-    });
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    if (this.latlngSubscription) this.latlngSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

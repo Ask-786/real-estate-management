@@ -11,6 +11,7 @@ import { select, Store } from '@ngrx/store';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as EnquirySelectors from '../../store/selectors';
 import * as EnquiryActions from '../../store/actions';
+import { A } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-discussion',
@@ -21,8 +22,7 @@ export class DiscussionComponent implements OnInit, OnDestroy {
   user$: Observable<UserModelInterface | null>;
   enquiry$: Observable<PropertyPopulatedEnquiryModelInterface | null>;
   discussions$: Observable<EnquiryDiscussionInterface[]>;
-  messageSusbscription!: Subscription;
-  userSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   user!: UserModelInterface;
   enquiryId!: string;
@@ -50,17 +50,17 @@ export class DiscussionComponent implements OnInit, OnDestroy {
     if (this.enquiryId) {
       this.discussionService.joinRoom(this.enquiryId);
     }
-    this.userSubscription = this.user$.subscribe((data) => {
-      if (data) {
-        this.user = data;
-      }
-    });
-    this.messageSusbscription = this.discussionService
-      .getNewMessage()
-      .subscribe({
+    this.subscriptions.push(
+      this.user$.subscribe((data) => {
+        if (data) {
+          this.user = data;
+        }
+      }),
+      this.discussionService.getNewMessage().subscribe({
         next: (newMessage: EnquiryDiscussionInterface) =>
           this.store.dispatch(EnquiryActions.gotNewMessage({ newMessage })),
-      });
+      })
+    );
   }
 
   onSubmit(value: { message: string }) {
@@ -84,7 +84,6 @@ export class DiscussionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.discussionService.leaveRoom(this.enquiryId);
-    if (this.messageSusbscription) this.messageSusbscription.unsubscribe();
-    if (this.userSubscription) this.userSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

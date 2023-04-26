@@ -33,10 +33,7 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   lattitude!: number | undefined;
   longitude!: number | undefined;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
-  dialogRefSubscription!: Subscription;
-  getUploadUrlSubscription!: Subscription;
-  uploadImageSubscription!: Subscription;
-  propertySubscription!: Subscription;
+  subscriptions: Subscription[] = [];
   isHidden = true as boolean;
   propertyId!: string;
 
@@ -83,49 +80,53 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.propertySubscription = this.property$.subscribe({
-      next: (property) => {
-        if (property) {
-          this.propertyId = property._id;
-          this.lattitude = property.coOrdinates.lattitude;
-          this.longitude = property.coOrdinates.longitude;
-          this.propertyData = new FormGroup({
-            title: new FormControl(property.title, [Validators.required]),
-            price: new FormControl(property.price, [Validators.required]),
-            tags: new FormControl(property.tags.join(',')),
-            description: new FormControl(property.description, [
-              Validators.required,
-              Validators.minLength(10),
-            ]),
-            lattitude: new FormControl(property.coOrdinates.lattitude, [
-              Validators.required,
-            ]),
-            longitude: new FormControl(property.coOrdinates.longitude, [
-              Validators.required,
-            ]),
-            propertyType: new FormControl(property.propertyType, [
-              Validators.required,
-            ]),
-            country: new FormControl(property.address.country, [
-              Validators.required,
-            ]),
-            state: new FormControl(property.address.state, [
-              Validators.required,
-            ]),
-            district: new FormControl(property.address.district, [
-              Validators.required,
-            ]),
-            city: new FormControl(property.address.city, [Validators.required]),
-            streetAddress: new FormControl(property.address.streetAddress, [
-              Validators.required,
-            ]),
-            zipCode: new FormControl(property.address.zipCode, [
-              Validators.required,
-            ]),
-          });
-        }
-      },
-    });
+    this.subscriptions.push(
+      this.property$.subscribe({
+        next: (property) => {
+          if (property) {
+            this.propertyId = property._id;
+            this.lattitude = property.coOrdinates.lattitude;
+            this.longitude = property.coOrdinates.longitude;
+            this.propertyData = new FormGroup({
+              title: new FormControl(property.title, [Validators.required]),
+              price: new FormControl(property.price, [Validators.required]),
+              tags: new FormControl(property.tags.join(',')),
+              description: new FormControl(property.description, [
+                Validators.required,
+                Validators.minLength(10),
+              ]),
+              lattitude: new FormControl(property.coOrdinates.lattitude, [
+                Validators.required,
+              ]),
+              longitude: new FormControl(property.coOrdinates.longitude, [
+                Validators.required,
+              ]),
+              propertyType: new FormControl(property.propertyType, [
+                Validators.required,
+              ]),
+              country: new FormControl(property.address.country, [
+                Validators.required,
+              ]),
+              state: new FormControl(property.address.state, [
+                Validators.required,
+              ]),
+              district: new FormControl(property.address.district, [
+                Validators.required,
+              ]),
+              city: new FormControl(property.address.city, [
+                Validators.required,
+              ]),
+              streetAddress: new FormControl(property.address.streetAddress, [
+                Validators.required,
+              ]),
+              zipCode: new FormControl(property.address.zipCode, [
+                Validators.required,
+              ]),
+            });
+          }
+        },
+      })
+    );
     //Setting up form
   }
 
@@ -192,15 +193,17 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
       data: { lat: this.lattitude, lng: this.longitude },
     });
 
-    this.dialogRefSubscription = dialogRef.afterClosed().subscribe({
-      next: (data: L.LatLng) => {
-        this.longitude = data?.lng;
-        this.lattitude = data?.lat;
-      },
-      error: (err) => {
-        this.notificationService.warn(err.message);
-      },
-    });
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe({
+        next: (data: L.LatLng) => {
+          this.longitude = data?.lng;
+          this.lattitude = data?.lat;
+        },
+        error: (err) => {
+          this.notificationService.warn(err.message);
+        },
+      })
+    );
   }
 
   toggleImages() {
@@ -232,15 +235,13 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
       //Uploading images to s3 and adding property into database
       imagesArray.forEach((el, index) => {
         //uploading images to s3 with loop
-        this.getUploadUrlSubscription = this.propertiesService
-          .gets3UploadUrl()
-          .subscribe({
+        this.subscriptions.push(
+          this.propertiesService.gets3UploadUrl().subscribe({
             next: (data) => {
               const imgUrl = data.uploadUrl.split('?')[0];
               images.push(imgUrl);
-              this.uploadImageSubscription = this.s3Service
-                .uploadImages(data.uploadUrl, el)
-                .subscribe({
+              this.subscriptions.push(
+                this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
                   next: () => {
                     if (index === 3) {
                       //Dispatching the action to add the property to database after all images have been uploaded
@@ -259,12 +260,14 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
                       `Image Upload: ${err.statusText}`
                     );
                   },
-                });
+                })
+              );
             },
             error: (err) => {
               this.notificationService.warn(err.error.message);
             },
-          });
+          })
+        );
       });
     } else if (this.isHidden) {
       this.store.dispatch(
@@ -281,7 +284,6 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.propertySubscription) this.propertySubscription.unsubscribe();
-    if (this.dialogRefSubscription) this.dialogRefSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

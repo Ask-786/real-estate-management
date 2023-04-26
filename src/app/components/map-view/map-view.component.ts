@@ -5,7 +5,6 @@ import { PropertyModelInterface } from './../../modules/properties/model/propert
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as GlobalActions from '../../shared/store/actions';
-
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +17,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];
   myControl = new FormControl('');
   private map!: L.Map;
-  propertySubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   constructor(private commonService: CommonService, private store: Store) {}
 
@@ -69,11 +68,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Map' }));
-    this.propertySubscription = this.commonService
-      .getProperties()
-      .subscribe((properties) => {
+    this.subscriptions.push(
+      this.commonService.getProperties().subscribe((properties) => {
         this.initMap(properties);
-      });
+      })
+    );
   }
 
   getLocations(event: Event) {
@@ -93,6 +92,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.propertySubscription) this.propertySubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }

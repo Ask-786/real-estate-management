@@ -40,11 +40,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   tags: string[] = [];
   @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  //Subscriptions
-  dialogRefSubscription!: Subscription;
-  getUploadUrlSubscription!: Subscription;
-  uploadImageSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   imageOne!: File;
   imageTwo!: File;
@@ -92,15 +88,17 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
       data: { lat: this.lattitude, lng: this.longitude },
     });
 
-    this.dialogRefSubscription = dialogRef.afterClosed().subscribe({
-      next: (data: L.LatLng) => {
-        this.longitude = data?.lng;
-        this.lattitude = data?.lat;
-      },
-      error: (err) => {
-        this.notificationService.warn(err.message);
-      },
-    });
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe({
+        next: (data: L.LatLng) => {
+          this.longitude = data?.lng;
+          this.lattitude = data?.lat;
+        },
+        error: (err) => {
+          this.notificationService.warn(err.message);
+        },
+      })
+    );
   }
 
   ngOnInit() {
@@ -186,15 +184,13 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
       //Uploading images to s3 and adding property into database
       imagesArray.forEach((el, index) => {
         //uploading images to s3 with loop
-        this.getUploadUrlSubscription = this.propertiesService
-          .gets3UploadUrl()
-          .subscribe({
+        this.subscriptions.push(
+          this.propertiesService.gets3UploadUrl().subscribe({
             next: (data) => {
               const imgUrl = data.uploadUrl.split('?')[0];
               images.push(imgUrl);
-              this.uploadImageSubscription = this.s3Service
-                .uploadImages(data.uploadUrl, el)
-                .subscribe({
+              this.subscriptions.push(
+                this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
                   next: () => {
                     if (index === 3) {
                       //Dispatching the action to add the property to database after all images have been uploaded
@@ -212,12 +208,14 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                       `Image Upload: ${err.statusText}`
                     );
                   },
-                });
+                })
+              );
             },
             error: (err) => {
               this.notificationService.warn(err.error.message);
             },
-          });
+          })
+        );
       });
     } else {
       this.notificationService.warn('Select all files');
@@ -262,11 +260,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //Unsubscription
-    if (this.dialogRefSubscription) this.dialogRefSubscription.unsubscribe();
-    if (this.uploadImageSubscription)
-      this.uploadImageSubscription.unsubscribe();
-    if (this.getUploadUrlSubscription)
-      this.uploadImageSubscription.unsubscribe();
+    this.subscriptions.forEach((el) => el.unsubscribe());
   }
 }
