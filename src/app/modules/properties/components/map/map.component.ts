@@ -15,6 +15,19 @@ export class MapComponent implements OnInit, OnDestroy {
   @Input() latlng!: Observable<PropertyModelInterface | null>;
   subscriptions: Subscription[] = [];
 
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.latlng.subscribe((data) => {
+        if (data) {
+          if (this.map) {
+            this.map.remove();
+          }
+          this.initMap(data);
+        }
+      })
+    );
+  }
+
   private initMap(data: PropertyModelInterface): void {
     this.map = L.map('map', {
       center: [data.coOrdinates.lattitude, data.coOrdinates.longitude],
@@ -51,19 +64,6 @@ export class MapComponent implements OnInit, OnDestroy {
       .openPopup();
 
     tiles.addTo(this.map);
-  }
-
-  ngOnInit(): void {
-    this.subscriptions.push(
-      this.latlng.subscribe((data) => {
-        if (data) {
-          if (this.map) {
-            this.map.remove();
-          }
-          this.initMap(data);
-        }
-      })
-    );
   }
 
   ngOnDestroy(): void {

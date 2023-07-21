@@ -12,7 +12,7 @@ import * as GlobalActions from '../../../../shared/store/actions';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnDestroy, OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   registeredUser$: Observable<UserModelInterface | null>;
   email: string | undefined;
   loginForm!: FormGroup;

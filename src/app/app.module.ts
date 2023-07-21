@@ -47,6 +47,11 @@ import * as GlobalActions from './shared/store/actions';
     NotificationsModule,
     StoreModule.forRoot({ global: reducers }),
     EffectsModule.forRoot([GlobalEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+    }),
   ],
   providers: [
     AuthGuardService,

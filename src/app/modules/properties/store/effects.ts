@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { PropertiesService } from '../services/properties.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject} from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import * as PropertiesActions from './actions';
@@ -9,12 +9,11 @@ import * as GlobalActions from '../../../shared/store/actions';
 
 @Injectable()
 export class PropertiesEffects {
-  constructor(
-    private action$: Actions,
-    private propertyService: PropertiesService,
-    private store: Store,
-    private router: Router
-  ) {}
+
+  private action$ = inject(Actions);
+  private propertyService = inject(PropertiesService);
+  private store = inject(Store);
+  private router = inject(Router);
 
   getProperties$ = createEffect(() =>
     this.action$.pipe(

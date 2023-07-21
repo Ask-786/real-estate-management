@@ -1,6 +1,6 @@
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as GlobalSelectors from '../../shared/store/selectors';
@@ -11,8 +11,11 @@ import * as GlobalSelectors from '../../shared/store/selectors';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent {
+  private store = inject(Store<AppStateInterface>)
+
   user$: Observable<UserModelInterface | null>;
-  constructor(private store: Store<AppStateInterface>) {
+
+  constructor() {
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
   }
 }

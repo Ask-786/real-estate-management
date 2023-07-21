@@ -11,6 +11,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 })
 export class NavbarComponent {
   @Output() toggleSide = new EventEmitter();
+
   isPropertiesRoute!: boolean;
   isLoading$: Observable<boolean>;
   header$: Observable<string>;
