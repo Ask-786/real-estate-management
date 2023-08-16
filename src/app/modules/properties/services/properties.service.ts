@@ -21,24 +21,24 @@ export class PropertiesService implements OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private store: Store<AppStateInterface>
+    private store: Store<AppStateInterface>,
   ) {
     this.propertiesPage$ = this.store.pipe(
-      select(PropertiesSelectors.propertyPageSelector)
+      select(PropertiesSelectors.propertyPageSelector),
     );
     this.subscriptions.push(
       this.propertiesPage$.subscribe({
         next: (data: number) => {
           this.propertyPage = data;
         },
-      })
+      }),
     );
   }
 
-  getProperties(page: number): Observable<PropertyModelInterface[]> {
+  getProperties(page: number) {
     console.log(page);
     return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property?page=${this.propertyPage}`
+      `${environment.baseUrl}/property?page=${this.propertyPage}`,
     );
   }
 
@@ -46,8 +46,8 @@ export class PropertiesService implements OnDestroy {
     searchValue?: string,
     sortValue?: string,
     desc?: boolean,
-    filterValue?: PropertyTypeInterface
-  ): Observable<PropertyModelInterface[]> {
+    filterValue?: PropertyTypeInterface,
+  ) {
     let filterOptions = '' as string;
     if (filterValue) {
       for (const index in filterValue) {
@@ -60,7 +60,7 @@ export class PropertiesService implements OnDestroy {
     return this.http.get<PropertyModelInterface[]>(
       `${environment.baseUrl}/property?page=${
         this.propertyPage
-      }&searchValue=${searchValue}&sortValue=${sortValue}&desc=${desc}&filterValue=${filterOptions.trim()}`
+      }&searchValue=${searchValue}&sortValue=${sortValue}&desc=${desc}&filterValue=${filterOptions.trim()}`,
     );
   }
 
@@ -86,7 +86,7 @@ export class PropertiesService implements OnDestroy {
           streetAddress: data.streetAddress,
           zipCode: data.zipCode,
         },
-      }
+      },
     );
   }
 
@@ -113,65 +113,61 @@ export class PropertiesService implements OnDestroy {
           streetAddress: data.streetAddress,
           zipCode: data.zipCode,
         },
-      }
+      },
     );
   }
 
   getOneProperty(id: string) {
     return this.http.get<PropertyModelInterface>(
-      `${environment.baseUrl}/property/property/${id}`
+      `${environment.baseUrl}/property/property/${id}`,
     );
   }
 
-  gets3UploadUrl(): Observable<{ uploadUrl: string }> {
+  gets3UploadUrl() {
     return this.http.get<{ uploadUrl: string }>(
-      `${environment.baseUrl}/property/get-s3-upload-url`
+      `${environment.baseUrl}/property/get-s3-upload-url`,
     );
   }
 
-  getOwnProperties(): Observable<PropertyModelInterface[]> {
+  getOwnProperties() {
     return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property/get-own-properties`
+      `${environment.baseUrl}/property/get-own-properties`,
     );
   }
 
-  deleteProperty(id: string): Observable<{ deletedpropertyid: string }> {
+  deleteProperty(id: string) {
     return this.http.delete<{ deletedpropertyid: string }>(
-      `${environment.baseUrl}/property/property/${id}`
+      `${environment.baseUrl}/property/property/${id}`,
     );
   }
 
-  favourProperty(
-    id: string
-  ): Observable<{ result: unknown; message: string; id: string }> {
+  favourProperty(id: string) {
     return this.http.patch<{ result: unknown; message: string; id: string }>(
       `${environment.baseUrl}/favorites/add-to-favorites`,
       {
         propertyId: id,
-      }
+      },
     );
   }
 
-  unFavourProperty(
-    id: string
-  ): Observable<{ result: unknown; message: string; id: string }> {
+  unFavourProperty(id: string) {
     return this.http.patch<{ result: unknown; message: string; id: string }>(
       `${environment.baseUrl}/favorites/remove-from-favorites`,
       {
         propertyId: id,
-      }
+      },
     );
   }
 
-  getFavorites(): Observable<{ favoriteProperties: PropertyModelInterface[] }> {
+  getFavorites() {
     return this.http.get<{ favoriteProperties: PropertyModelInterface[] }>(
-      `${environment.baseUrl}/favorites/get-favorites`
+      `${environment.baseUrl}/favorites/get-favorites`,
     );
   }
 
-  getFavoriteIds(): Observable<{ user: string; favoriteProperties: string[] }> {
+  getFavoriteIds() {
     return this.http.get<{ user: string; favoriteProperties: string[] }>(
-      `${environment.baseUrl}/favorites/get-favorite-ids`
+      `${environment.baseUrl}/favorites/get-favorite-ids`,
     );
   }
 

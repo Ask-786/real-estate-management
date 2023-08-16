@@ -1,5 +1,4 @@
 import { EnquiryDiscussionInterface } from './../model/enquiryDiscussion.interfact';
-import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
@@ -19,47 +18,36 @@ const httpOptions = {
 export class EnquiriesService {
   constructor(private http: HttpClient) {}
 
-  createEnquiry(
-    data: CreateEnquiryFormInterface
-  ): Observable<{ createdEnquiry: EnquiryModelInterface }> {
+  createEnquiry(data: CreateEnquiryFormInterface) {
     return this.http.post<{ createdEnquiry: EnquiryModelInterface }>(
       `${environment.baseUrl}/enquiry/create-enquiry`,
       data,
-      httpOptions
+      httpOptions,
     );
   }
 
-  getEnquiries(): Observable<{
-    enquiries: PropertyPopulatedEnquiryModelInterface[];
-  }> {
+  getEnquiries() {
     return this.http.get<{
       enquiries: PropertyPopulatedEnquiryModelInterface[];
     }>(`${environment.baseUrl}/enquiry/get-enquiries`);
   }
 
-  getUserEnquiries(): Observable<{
-    enquiries: PropertyPopulatedEnquiryModelInterface[];
-  }> {
+  getUserEnquiries() {
     return this.http.get<{
       enquiries: PropertyPopulatedEnquiryModelInterface[];
     }>(`${environment.baseUrl}/enquiry/get-user-enquiries`);
   }
 
-  getOneEnquiry(id: string): Observable<{
-    enquiry: PropertyPopulatedEnquiryModelInterface;
-    discussions: EnquiryDiscussionInterface[];
-  }> {
+  getOneEnquiry(id: string) {
     return this.http.get<{
       enquiry: PropertyPopulatedEnquiryModelInterface;
       discussions: EnquiryDiscussionInterface[];
     }>(`${environment.baseUrl}/enquiry/enquiry/${id}`);
   }
 
-  getDiscussions(
-    enquiryId: string
-  ): Observable<{ discussions: EnquiryDiscussionInterface[] }> {
+  getDiscussions(enquiryId: string) {
     return this.http.get<{ discussions: EnquiryDiscussionInterface[] }>(
-      `${environment.baseUrl}/enquiry/get-discussions/${enquiryId}`
+      `${environment.baseUrl}/enquiry/get-discussions/${enquiryId}`,
     );
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { tap, Observable } from 'rxjs';
+import { tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { LoginForm, SignUpForm } from '../models/authentication.model';
@@ -31,7 +31,7 @@ export class AuthenticationService {
     localStorage.removeItem(this.TOKEN_NAME);
   }
 
-  userLogin(userData: LoginForm): Observable<loginRequestModelInterface> {
+  userLogin(userData: LoginForm) {
     return this.http
       .post<loginRequestModelInterface>(
         `${environment.baseUrl}/auth/login`,
@@ -47,11 +47,7 @@ export class AuthenticationService {
       );
   }
 
-  registerUser(userData: SignUpForm): Observable<{
-    status: boolean;
-    message: string;
-    user: UserModelInterface;
-  }> {
+  registerUser(userData: SignUpForm) {
     return this.http.post<{
       status: boolean;
       message: string;
@@ -59,7 +55,7 @@ export class AuthenticationService {
     }>(`${environment.baseUrl}/auth/signup`, userData, httpOptions);
   }
 
-  checkAuth(): Observable<{ user: UserModelInterface; token: string }> {
+  checkAuth() {
     return this.http.get<{ user: UserModelInterface; token: string }>(
       `${environment.baseUrl}/auth/check-auth`
     );

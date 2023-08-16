@@ -1,6 +1,6 @@
 import { MapLocationsInterface } from './../models/mapLocations.interface';
 import { MapTilerResponseInterface } from './../models/mapTilerResponse.interface';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { PropertyModelInterface } from './../modules/properties/model/property.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,17 +17,17 @@ const httpOptions = {
 })
 export class CommonService {
   constructor(private http: HttpClient) {}
-  getProperties(): Observable<PropertyModelInterface[]> {
+  getProperties() {
     return this.http.get<PropertyModelInterface[]>(
-      `${environment.baseUrl}/property`
+      `${environment.baseUrl}/property`,
     );
   }
 
-  getLocations(query: string): Observable<MapLocationsInterface[]> {
+  getLocations(query: string) {
     return this.http
       .get<MapTilerResponseInterface>(
         `https://api.maptiler.com/geocoding/${query}.json?key=${environment.mapTiler.apiKey}`,
-        httpOptions
+        httpOptions,
       )
       .pipe(map((data) => data.features));
   }

@@ -15,7 +15,7 @@
         </app-button>
         <app-button routerLink="properties/favorites">
             <mat-icon id="icon">favorite</mat-icon>
-            <span [matBadge]="(favoritesLength$ | async)" id="name" class="flex items-center">Favorites</span>
+            <span [matBadge]="(isLoggedIn$ | async) ? (favoritesLength$ | async) : null" id="name" class="flex items-center">Favorites</span>
         </app-button>
         <app-button routerLink="enquiries">
             <mat-icon id="icon">chat</mat-icon>
@@ -23,7 +23,7 @@
         </app-button>
         <app-button routerLink="notifications">
             <mat-icon id="icon">notifications</mat-icon>
-            <span [matBadge]="(notificatiosCount$ | async)" id="name" class="flex items-center">Notifications</span>
+            <span [matBadge]="(isLoggedIn$ | async) ? (notificatiosCount$ | async) : null" id="name" class="flex items-center">Notifications</span>
         </app-button>
         <mat-divider class="justify-start w-11/12 lg:mx-3  md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"></mat-divider>
         <app-button routerLink="user/profile">

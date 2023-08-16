@@ -19,7 +19,20 @@ export class MapViewComponent implements OnInit, OnDestroy {
   private map!: L.Map;
   subscriptions: Subscription[] = [];
 
-  constructor(private commonService: CommonService, private store: Store) {}
+  constructor(
+    private commonService: CommonService,
+    private store: Store,
+  ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(GlobalActions.setHeader({ header: 'Map' }));
+    this.subscriptions.push(
+      this.commonService.getProperties().subscribe((properties) => {
+        console.log(properties);
+        this.initMap(properties);
+      }),
+    );
+  }
 
   private initMap(properties: PropertyModelInterface[]): void {
     this.map = L.map('map', {
@@ -39,40 +52,26 @@ export class MapViewComponent implements OnInit, OnDestroy {
         minZoom: 3,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
+      },
     );
 
-    if (properties.length > 0) {
-      const icon = (propertyType: string) => {
-        return L.icon({
-          iconUrl: `assets/images/markers/marker-${propertyType}.svg`,
-          iconSize: [35, 35],
-        });
-      };
-
-      properties.forEach((p) => {
-        L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
-          icon: icon(p.propertyType),
-        })
-          .addTo(this.map)
-          .bindPopup(p.title)
-          .openPopup();
-        tiles.addTo(this.map);
+    const icon = (propertyType: string) => {
+      return L.icon({
+        iconUrl: `assets/images/markers/marker-${propertyType}.svg`,
+        iconSize: [35, 35],
       });
-    }
+    };
 
-    this.map.on('moveend', () => {
-      console.log(this.map.getCenter());
-    });
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(GlobalActions.setHeader({ header: 'Map' }));
-    this.subscriptions.push(
-      this.commonService.getProperties().subscribe((properties) => {
-        this.initMap(properties);
+    properties.forEach((p) => {
+      L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
+        icon: icon(p.propertyType),
       })
-    );
+        .addTo(this.map)
+        .bindPopup(p.title)
+        .openPopup();
+    });
+
+    tiles.addTo(this.map);
   }
 
   getLocations(event: Event) {

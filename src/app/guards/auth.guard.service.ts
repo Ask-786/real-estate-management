@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
     );
   }
 
-  canActivate(): Observable<boolean> {
+  canActivate() {
     return this.isLoggedIn$.pipe(
       tap((isLoggedIn) => {
         if (!isLoggedIn) {

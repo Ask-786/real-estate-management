@@ -1,5 +1,4 @@
 import { EnquiryDiscussionInterface } from './../model/enquiryDiscussion.interfact';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
@@ -13,7 +12,7 @@ export class EnquiryDiscussionService {
     return this.socket.emit('sendMessage', { message, enquiryId, senderId });
   }
 
-  getNewMessage(): Observable<EnquiryDiscussionInterface> {
+  getNewMessage() {
     return this.socket.fromEvent<EnquiryDiscussionInterface>('receiveMessage');
   }
 

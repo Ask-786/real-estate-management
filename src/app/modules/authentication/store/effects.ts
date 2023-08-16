@@ -2,11 +2,12 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as AuthenticationActions from './actions';
-import { map, mergeMap, catchError, of } from 'rxjs';
+import { map, mergeMap, catchError, of, tap } from 'rxjs';
 import * as GlobalActions from '../../../shared/store/actions';
 import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { AuthenticationService } from '../services/authentication.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Injectable()
 export class AuthenticationEffects {
@@ -14,7 +15,8 @@ export class AuthenticationEffects {
     private action$: Actions,
     private authService: AuthenticationService,
     private router: Router,
-    private store: Store<AppStateInterface>
+    private store: Store<AppStateInterface>,
+    private notificationService: NotificationService,
   ) {}
 
   login$ = createEffect(() =>
@@ -29,10 +31,10 @@ export class AuthenticationEffects {
               GlobalActions.checkAuthSuccess({
                 user: data.user,
                 token: data.access_token,
-              })
+              }),
             );
             this.store.dispatch(
-              GlobalActions.loadingEnd({ message: 'Successfully Signed In' })
+              GlobalActions.loadingEnd({ message: 'Successfully Signed In' }),
             );
             return AuthenticationActions.loginSuccess({
               token: data.access_token,
@@ -42,18 +44,30 @@ export class AuthenticationEffects {
           catchError((err) => {
             this.authService.removeToken();
             this.store.dispatch(
-              GlobalActions.checkAuthFailure({ error: err.error.message })
+              GlobalActions.checkAuthFailure({ error: err.error.message }),
             );
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              AuthenticationActions.loginFailure({ error: err.error.message })
+              AuthenticationActions.loginFailure({ error: err.error.message }),
             );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(AuthenticationActions.logout),
+        tap(() => {
+          this.router.navigateByUrl('map');
+          this.notificationService.sucess('Successfully Logged Out!!');
+        }),
+      ),
+    { dispatch: false },
   );
 
   signup$ = createEffect(() =>
@@ -64,7 +78,7 @@ export class AuthenticationEffects {
         return this.authService.registerUser(action.userData).pipe(
           map((data) => {
             this.store.dispatch(
-              GlobalActions.loadingEnd({ message: data.message })
+              GlobalActions.loadingEnd({ message: data.message }),
             );
             this.router.navigateByUrl('auth/login');
             return AuthenticationActions.signupSuccess({
@@ -74,14 +88,14 @@ export class AuthenticationEffects {
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              AuthenticationActions.signupFailure({ error: err.error.message })
+              AuthenticationActions.signupFailure({ error: err.error.message }),
             );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 }
