@@ -1,9 +1,8 @@
-import { MapLocationsInterface } from './../models/mapLocations.interface';
 import { MapTilerResponseInterface } from './../models/mapTilerResponse.interface';
 import { map } from 'rxjs';
 import { PropertyModelInterface } from './../modules/properties/model/property.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 const httpOptions = {
@@ -16,7 +15,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class CommonService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
   getProperties() {
     return this.http.get<PropertyModelInterface[]>(
       `${environment.baseUrl}/property`,
