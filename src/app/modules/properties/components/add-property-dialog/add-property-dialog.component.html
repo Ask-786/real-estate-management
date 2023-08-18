@@ -1,136 +1,234 @@
 <h2 mat-dialog-title class="bg-color-dark">Add Property</h2>
-<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="isLoading$ | async"
+></mat-progress-bar>
 <mat-dialog-content class="bg-color-dark">
-    <form (submit)="onSubmit()" [formGroup]="propertyData" class="grid p-2" id="myform">
-        <mat-form-field class="mb-0 mt-7 w-full" appearance="outline">
-            <mat-label>Title</mat-label>
-            <input type="text" formControlName="title" matInput>
-            <mat-error>Title is Required</mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full mb-0" appearance="outline">
-            <mat-label>Price</mat-label>
-            <input type="number" formControlName="price" matInput>
-            <mat-error>Title is Required</mat-error>
-        </mat-form-field>
-        <!-- <mat-form-field class="w-full mb-0" appearance="outline">
-            <mat-label>tags</mat-label>
-            <input type="text" formControlName="tags" matInput>
-            <mat-hint>
-                If there is morethan 1 tags Seperate it with Comma(,)
-            </mat-hint>
-        </mat-form-field> -->
-        <mat-form-field class="example-chip-list" appearance="fill" appearance="outline">
-            <mat-label>Tags...</mat-label>
-            <mat-chip-grid #chipGrid>
-                <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
-                    {{tag}}
-                    <button matChipRemove [attr.aria-label]="'remove ' + tag">
-                        <mat-icon>cancel</mat-icon>
-                    </button>
-                </mat-chip-row>
-            </mat-chip-grid>
-            <input placeholder="Tags..." #fruitInput [formControl]="tagsCtrl" [matChipInputFor]="chipGrid"
-                [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)" />
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let tag of filteredTags| async" [value]="tag">
-                    {{tag}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <mat-form-field class="w-full mb-0" appearance="outline">
-            <mat-label class="m-2">Description</mat-label>
-            <textarea cols="30" formControlName="description" rows="4" matInput></textarea>
-            <mat-error>Title is Required</mat-error>
-        </mat-form-field>
+  <form
+    (submit)="onSubmit()"
+    [formGroup]="propertyData"
+    class="grid p-2"
+    id="myform"
+  >
+    <mat-form-field class="mb-0 mt-7 w-full" appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" formControlName="title" matInput />
+      <mat-error>Title is Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-0" appearance="outline">
+      <mat-label>Price</mat-label>
+      <input type="number" formControlName="price" matInput />
+      <mat-error>Title is Required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-chip-list" appearance="outline">
+      <mat-label>Tags...</mat-label>
+      <mat-chip-grid #chipGrid>
+        <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
+          {{ tag }}
+          <button matChipRemove [attr.aria-label]="'remove ' + tag">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <input
+        placeholder="Tags..."
+        #fruitInput
+        [formControl]="tagsCtrl"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{ tag }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-0" appearance="outline">
+      <mat-label class="m-2">Description</mat-label>
+      <textarea
+        cols="30"
+        formControlName="description"
+        rows="4"
+        matInput
+      ></textarea>
+      <mat-error>Title is Required</mat-error>
+    </mat-form-field>
 
-        <mat-label class="mt-5 mb-2">Co-Ordinates</mat-label>
-        <div class="grid md:grid-cols-2 gap-3">
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>Lattitude</mat-label>
-                <input [(ngModel)]="lattitude" type="number" [value]="lattitude" formControlName="lattitude" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>Longitude</mat-label>
-                <input [(ngModel)]="longitude" type="number" formControlName="longitude" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <button mat-button (click)="openMap()" type="button">Open Map</button>
-        </div>
+    <mat-label class="mt-5 mb-2">Co-Ordinates</mat-label>
+    <div class="grid md:grid-cols-2 gap-3">
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>Lattitude</mat-label>
+        <input
+          [(ngModel)]="lattitude"
+          type="number"
+          [value]="lattitude"
+          formControlName="lattitude"
+          matInput
+        />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>Longitude</mat-label>
+        <input
+          [(ngModel)]="longitude"
+          type="number"
+          formControlName="longitude"
+          matInput
+        />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <button mat-button (click)="openMap()" type="button">Open Map</button>
+    </div>
 
-        <mat-label class="mt-5 mb-2">Address</mat-label>
-        <div class="grid md:grid-cols-2 gap-3">
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>Country</mat-label>
-                <input type="text" formControlName="country" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>State</mat-label>
-                <input type="text" formControlName="state" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>District</mat-label>
-                <input type="text" formControlName="district" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>City</mat-label>
-                <input type="text" formControlName="city" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>Street Address</mat-label>
-                <input type="text" formControlName="streetAddress" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
-                <mat-label>Zip Code</mat-label>
-                <input type="number" formControlName="zipCode" matInput>
-                <mat-error>Title is Required</mat-error>
-            </mat-form-field>
-        </div>
+    <mat-label class="mt-5 mb-2">Address</mat-label>
+    <div class="grid md:grid-cols-2 gap-3">
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>Country</mat-label>
+        <input type="text" formControlName="country" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>State</mat-label>
+        <input type="text" formControlName="state" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>District</mat-label>
+        <input type="text" formControlName="district" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>City</mat-label>
+        <input type="text" formControlName="city" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>Street Address</mat-label>
+        <input type="text" formControlName="streetAddress" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="mt-0 w-full mb-0" appearance="outline">
+        <mat-label>Zip Code</mat-label>
+        <input type="number" formControlName="zipCode" matInput />
+        <mat-error>Title is Required</mat-error>
+      </mat-form-field>
+    </div>
 
-        <label id="example-radio-group-label" class="mt-5">Select Property Type</label>
-        <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="propertyType"
-            class="flex-col flex">
-            <mat-radio-button class="example-radio-button" *ngFor="let propertyType of propertyTypes"
-                [value]="propertyType.toLowerCase()">
-                {{propertyType}}
-            </mat-radio-button>
-        </mat-radio-group>
-        <label id="example-radio-group-label" class="mt-5 mb-2">Select Property Images</label>
-        <div class="grid md:grid-cols-4 gap-1">
+    <label id="example-radio-group-label" class="mt-5"
+      >Select Property Type</label
+    >
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      formControlName="propertyType"
+      class="flex-col flex"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let propertyType of propertyTypes"
+        [value]="propertyType.toLowerCase()"
+      >
+        {{ propertyType }}
+      </mat-radio-button>
+    </mat-radio-group>
+    <label id="example-radio-group-label" class="mt-5 mb-2"
+      >Select Property Images</label
+    >
+    <div class="grid md:grid-cols-4 gap-1">
+      <input
+        #imageOne
+        type="file"
+        name="file1"
+        class="ml-4 hidden"
+        (change)="imageOneChange($event)"
+      />
+      <button
+        mat-raised-button
+        type="button"
+        (click)="imageOne.click()"
+        [color]="imageButtonOneColor"
+        class="truncate"
+      >
+        {{ imageButtonOneValue
+        }}<mat-icon
+          [ngClass]="{ 'btn-1': imageButtonOneColor !== 'none' }"
+          class="hidden"
+          >check circle</mat-icon
+        >
+      </button>
 
-            <input #imageOne type="file" name="file1" class="ml-4 hidden" (change)="imageOneChange($event)">
-            <button mat-raised-button type="button" (click)="imageOne.click()" [color]="imageButtonOneColor"
-                class="truncate">{{imageButtonOneValue}}<mat-icon [ngClass]="{'btn-1':imageButtonOneColor!== 'none'}"
-                    class="hidden">check
-                    circle</mat-icon></button>
+      <input
+        #imageTwo
+        type="file"
+        name="file2"
+        class="ml-4 hidden"
+        (change)="imageTwoChange($event)"
+      />
+      <button
+        mat-raised-button
+        type="button"
+        (click)="imageTwo.click()"
+        [color]="imageButtonTwoColor"
+        class="truncate"
+      >
+        {{ imageButtonTwoValue
+        }}<mat-icon
+          [ngClass]="{ 'btn-2': imageButtonTwoColor !== 'none' }"
+          class="hidden"
+          >check circle</mat-icon
+        >
+      </button>
 
-            <input #imageTwo type="file" name="file2" class="ml-4 hidden" (change)="imageTwoChange($event)">
-            <button mat-raised-button type="button" (click)="imageTwo.click()" [color]="imageButtonTwoColor"
-                class="truncate">{{imageButtonTwoValue}}<mat-icon [ngClass]="{'btn-2':imageButtonTwoColor!== 'none'}"
-                    class="hidden">check
-                    circle</mat-icon></button>
+      <input
+        #imageThree
+        type="file"
+        name="file3"
+        class="ml-4 hidden"
+        (change)="imageThreeChange($event)"
+      />
+      <button
+        mat-raised-button
+        type="button"
+        (click)="imageThree.click()"
+        [color]="imageButtonThreeColor"
+        class="truncate"
+      >
+        {{ imageButtonThreeValue
+        }}<mat-icon
+          [ngClass]="{ 'btn-3': imageButtonThreeColor !== 'none' }"
+          class="hidden"
+          >check circle</mat-icon
+        >
+      </button>
 
-            <input #imageThree type="file" name="file3" class="ml-4 hidden" (change)="imageThreeChange($event)">
-            <button mat-raised-button type="button" (click)="imageThree.click()" [color]="imageButtonThreeColor"
-                class="truncate">{{imageButtonThreeValue}}<mat-icon
-                    [ngClass]="{'btn-3':imageButtonThreeColor!== 'none'}" class="hidden">check
-                    circle</mat-icon></button>
-
-            <input #imageFour type="file" name="file4" class="ml-4 hidden max-w-full"
-                (change)="imageFourChange($event)">
-            <button mat-raised-button type="button" (click)="imageFour.click()" [color]="imageButtonFourColor"
-                class="truncate">{{imageButtonFourValue}}<mat-icon [ngClass]="{'btn-4':imageButtonFourColor !== 'none'}"
-                    class="hidden">check
-                    circle</mat-icon></button>
-        </div>
-    </form>
+      <input
+        #imageFour
+        type="file"
+        name="file4"
+        class="ml-4 hidden max-w-full"
+        (change)="imageFourChange($event)"
+      />
+      <button
+        mat-raised-button
+        type="button"
+        (click)="imageFour.click()"
+        [color]="imageButtonFourColor"
+        class="truncate"
+      >
+        {{ imageButtonFourValue
+        }}<mat-icon
+          [ngClass]="{ 'btn-4': imageButtonFourColor !== 'none' }"
+          class="hidden"
+          >check circle</mat-icon
+        >
+      </button>
+    </div>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions class="bg-color-dark">
-    <button mat-button form="myform" class="w-full bg-neutral-800">Submit</button>
+  <button mat-button form="myform" class="w-full bg-neutral-800">Submit</button>
 </mat-dialog-actions>

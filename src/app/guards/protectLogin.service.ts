@@ -1,12 +1,12 @@
 import { Store, select } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AppStateInterface } from '../models/appState.interface';
 import * as GlobalSelectors from '../shared/store/selectors';
 
 @Injectable()
-export class ProtectLoginService implements CanActivate {
+export class ProtectLoginService  {
   isLoggedIn$: Observable<boolean>;
   constructor(private router: Router, private store: Store<AppStateInterface>) {
     this.isLoggedIn$ = this.store.pipe(

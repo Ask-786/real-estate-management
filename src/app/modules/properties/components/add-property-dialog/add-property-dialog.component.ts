@@ -240,7 +240,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     }
 
     // Clear the input value
-    event.chipInput!.clear();
+    event.chipInput.clear();
 
     this.tagsCtrl.setValue(null);
   }
