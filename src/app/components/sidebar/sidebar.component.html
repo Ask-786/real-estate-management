@@ -1,52 +1,79 @@
-<mat-drawer-container class="h-screen w-screen bg-color-primary" [hasBackdrop]="!screenWidth">
-    <mat-drawer #drawer class="mat-drawer w-5/6 lg:w-64 md:w-56 bg-color-dark color-light shadow-none flex items-center"
-        mode="side" [opened]="screenWidth">
-        <div class="w-11/12 mx-auto h-16 flex items-center justify-center overflow-hidden mt-2">
-            <img src="../../../assets//images/logo/1000_F_355091812_ojjt6PIw3lAQYqrVPvPE5FTLpasxF2pu.jpg" alt="">
-        </div>
+<mat-drawer-container
+  class="h-screen w-screen bg-color-primary"
+  [hasBackdrop]="!screenWidth"
+>
+  <mat-drawer
+    #drawer
+    class="mat-drawer w-5/6 lg:w-64 md:w-56 bg-color-dark color-light shadow-none flex items-center"
+    mode="side"
+    [opened]="screenWidth"
+  >
+    <div
+      class="w-11/12 mx-auto h-16 flex items-center justify-center overflow-hidden mt-2"
+    >
+      <img
+        src="../../../assets//images/logo/1000_F_355091812_ojjt6PIw3lAQYqrVPvPE5FTLpasxF2pu.jpg"
+        alt=""
+      />
+    </div>
 
-        <app-button routerLink="map">
-            <mat-icon id="icon">map</mat-icon>
-            <span id="name" class="flex items-center">Map</span>
-        </app-button>
-        <app-button routerLink="properties">
-            <mat-icon id="icon">apartment</mat-icon>
-            <span id="name" class="flex items-center">Properties</span>
-        </app-button>
-        <app-button routerLink="properties/favorites">
-            <mat-icon id="icon">favorite</mat-icon>
-            <span [matBadge]="(isLoggedIn$ | async) ? (favoritesLength$ | async) : null" id="name" class="flex items-center">Favorites</span>
-        </app-button>
-        <app-button routerLink="enquiries">
-            <mat-icon id="icon">chat</mat-icon>
-            <span id="name" class="flex items-center">Enquiries</span>
-        </app-button>
-        <app-button routerLink="notifications">
-            <mat-icon id="icon">notifications</mat-icon>
-            <span [matBadge]="(isLoggedIn$ | async) ? (notificatiosCount$ | async) : null" id="name" class="flex items-center">Notifications</span>
-        </app-button>
-        <mat-divider class="justify-start w-11/12 lg:mx-3  md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"></mat-divider>
-        <app-button routerLink="user/profile">
-            <mat-icon id="icon">person</mat-icon>
-            <span id="name" class="flex items-center">Account</span>
-        </app-button>
-        <app-button routerLink="auth/signup" *ngIf="(isLoggedIn$ | async) === false">
-            <mat-icon id="icon">app_registration</mat-icon>
-            <span id="name" class="flex items-center">Register</span>
-        </app-button>
-        <app-button routerLink="auth/login" *ngIf="(isLoggedIn$ | async) === false">
-            <mat-icon id="icon">login</mat-icon>
-            <span id="name" class="flex items-center">Login</span>
-        </app-button>
-        <app-button *ngIf="(isLoggedIn$ | async)" (click)="onLogout()">
-            <mat-icon id="icon">logout</mat-icon>
-            <span id="name" class="flex items-center">Logout</span>
-        </app-button>
-    </mat-drawer>
-    <mat-drawer-content>
-        <div class="h-screen">
-            <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
-            <router-outlet></router-outlet>
-        </div>
-    </mat-drawer-content>
+    <app-button routerLink="map">
+      <mat-icon id="icon">map</mat-icon>
+      <span id="name" class="flex items-center">Map</span>
+    </app-button>
+    <app-button routerLink="properties">
+      <mat-icon id="icon">apartment</mat-icon>
+      <span id="name" class="flex items-center">Properties</span>
+    </app-button>
+    <app-button routerLink="properties/favorites">
+      <mat-icon id="icon">favorite</mat-icon>
+      <span
+        [matBadge]="(isLoggedIn$ | async) ? (favoritesLength$ | async) : null"
+        id="name"
+        class="flex items-center"
+        >Favorites</span
+      >
+    </app-button>
+    <app-button routerLink="enquiries">
+      <mat-icon id="icon">chat</mat-icon>
+      <span id="name" class="flex items-center">Enquiries</span>
+    </app-button>
+    <app-button routerLink="notifications">
+      <mat-icon id="icon">notifications</mat-icon>
+      <span
+        [matBadge]="(isLoggedIn$ | async) ? (notificatiosCount$ | async) : null"
+        id="name"
+        class="flex items-center"
+        >Notifications</span
+      >
+    </app-button>
+    <mat-divider
+      class="justify-start w-11/12 lg:mx-3 md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"
+    ></mat-divider>
+    <app-button routerLink="user/profile">
+      <mat-icon id="icon">person</mat-icon>
+      <span id="name" class="flex items-center">Account</span>
+    </app-button>
+    <app-button
+      routerLink="auth/signup"
+      *ngIf="(isLoggedIn$ | async) === false"
+    >
+      <mat-icon id="icon">app_registration</mat-icon>
+      <span id="name" class="flex items-center">Register</span>
+    </app-button>
+    <app-button routerLink="auth/login" *ngIf="(isLoggedIn$ | async) === false">
+      <mat-icon id="icon">login</mat-icon>
+      <span id="name" class="flex items-center">Login</span>
+    </app-button>
+    <app-button *ngIf="isLoggedIn$ | async" (click)="onLogout()">
+      <mat-icon id="icon">logout</mat-icon>
+      <span id="name" class="flex items-center">Logout</span>
+    </app-button>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="h-screen">
+      <app-navbar (toggleSide)="drawer.toggle()"></app-navbar>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
 </mat-drawer-container>

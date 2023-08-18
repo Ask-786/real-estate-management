@@ -1,26 +1,29 @@
 <mat-card class="min-w-[15rem]">
-    <mat-card-header class="bg-color-dark pb-3 text-white">
-        <mat-card-title>Sort By:</mat-card-title>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content class="bg-color-dark pt-3 pb-3 text-white">
-        <form #radioGroup="ngForm">
-            <div class="mb-4">
-                Asc
-                <mat-slide-toggle name="desc" [(ngModel)]="desc">Desc</mat-slide-toggle>
-            </div>
-            <mat-radio-group [(ngModel)]="sortOption" name="sortOption">
-                <div class="flex flex-col">
-                    <mat-radio-button *ngFor="let option of sortOptions" [value]="option.toLocaleLowerCase()">
-                        {{option}}
-                    </mat-radio-button>
-                </div>
-            </mat-radio-group>
-        </form>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions class="bg-color-dark" align="end">
-        <button mat-button (click)="onCancel()">Cancel</button>
-        <button mat-button [mat-dialog-close]="radioGroup.value">Ok</button>
-    </mat-card-actions>
+  <mat-card-header class="bg-color-dark pb-3 text-white">
+    <mat-card-title>Sort By:</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="bg-color-dark pt-3 pb-3 text-white">
+    <form #radioGroup="ngForm">
+      <div class="mb-4">
+        Asc
+        <mat-slide-toggle name="desc" [(ngModel)]="desc">Desc</mat-slide-toggle>
+      </div>
+      <mat-radio-group [(ngModel)]="sortOption" name="sortOption">
+        <div class="flex flex-col">
+          <mat-radio-button
+            *ngFor="let option of sortOptions"
+            [value]="option.toLocaleLowerCase()"
+          >
+            {{ option }}
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions class="bg-color-dark" align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button [mat-dialog-close]="radioGroup.value">Ok</button>
+  </mat-card-actions>
 </mat-card>

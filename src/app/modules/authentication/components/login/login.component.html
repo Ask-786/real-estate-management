@@ -1,37 +1,32 @@
-<!-- <div class="bg-color-dark mx-auto shadow-zinc-900 shadow-lg max-w-md rounded-lg w-11/12">
-    <mat-card class="bg-color-dark">
-        <mat-card-header class="bg-color-dark">
-            <mat-card-title class="bg-color-dark">
-                <h1 class="mb-8">Login</h1>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="bg-color-dark">
-            <mat-form-field class="sm:m-2 w-11/12 h-20 md:w-96 -mb-3 sm:-mb-3" appearance="outline">
-                <mat-label class="m-2">Email or Phone</mat-label>
-                <input type="text" matInput>
-            </mat-form-field>
-            <mat-form-field class="sm:m-2 w-11/12 h-20 md:w-96 -mb-3 sm:-mb-3" appearance="outline">
-                <mat-label class="m-2">Password</mat-label>
-                <input type="text" matInput>
-            </mat-form-field>
-            <mat-divider></mat-divider>
-        </mat-card-content>
-        <mat-card-actions class="bg-color-dark">
-            <button mat-raised-button class="w-full">login</button>
-        </mat-card-actions>
-    </mat-card>
-</div> -->
 <div
-    class="login-box absolute top-1/2 left-1/2 p-10 bg-color-dark shadow-zinc-900 shadow-lg max-w-md rounded-lg w-11/12">
-    <h1 class="mb-8">Login</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <p class="color-light">Email or Phone</p>
-        <input type="text" class="w-full" formControlName="username" name="username"
-            placeholder="Enter Your Email or Phone">
-        <p class="color-light">Password</p>
-        <input type="password" name="password" placeholder="Enter Your Password" formControlName="password">
-        <input type="submit" class="mt-5 bg-color-primary hover:bg-black" name="submit" value="Login">
-        <a class="cursor-pointer mt-10">Forgot your password?</a><br>
-        <a class="cursor-pointer" routerLink="/auth/signup">Don't have an account? Go to Sign Up</a>
-    </form>
+  class="login-box absolute top-1/2 left-1/2 p-10 bg-color-dark shadow-zinc-900 shadow-lg max-w-md rounded-lg w-11/12"
+>
+  <h1 class="mb-8">Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p class="color-light">Email or Phone</p>
+    <input
+      type="text"
+      class="w-full"
+      formControlName="username"
+      name="username"
+      placeholder="Enter Your Email or Phone"
+    />
+    <p class="color-light">Password</p>
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter Your Password"
+      formControlName="password"
+    />
+    <input
+      type="submit"
+      class="mt-5 bg-color-primary hover:bg-black"
+      name="submit"
+      value="Login"
+    />
+    <a class="cursor-pointer mt-10">Forgot your password?</a><br />
+    <a class="cursor-pointer" routerLink="/auth/signup"
+      >Don't have an account? Go to Sign Up</a
+    >
+  </form>
 </div>

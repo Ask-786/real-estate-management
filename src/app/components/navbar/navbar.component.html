@@ -1,7 +1,10 @@
 <mat-toolbar class="bg-color-dark color-light">
-    <button mat-icon-button class="md:hidden block" (click)="toggleSideBar()">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <p>{{toPascalCase((header$ | async)?.toUpperCase())}}</p>
+  <button mat-icon-button class="md:hidden block" (click)="toggleSideBar()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <p>{{ toPascalCase((header$ | async)?.toUpperCase()) }}</p>
 </mat-toolbar>
-<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="isLoading$ | async"
+></mat-progress-bar>

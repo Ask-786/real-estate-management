@@ -1,22 +1,29 @@
 <mat-card class="min-w-[15rem]">
-    <mat-card-header class="bg-color-dark pb-3 text-white">
-        <mat-card-title>Sort By:</mat-card-title>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content class="bg-color-dark pt-3 pb-3 text-white">
-        <form>
-            <section class="example-section" [formGroup]="propertyType">
-                <h4>Select your toppings:</h4>
-                <p><mat-checkbox formControlName="land">Land</mat-checkbox></p>
-                <p><mat-checkbox formControlName="residential">Residential</mat-checkbox></p>
-                <p><mat-checkbox formControlName="commercial">Commercial</mat-checkbox></p>
-                <p><mat-checkbox formControlName="industrial">Industrial</mat-checkbox></p>
-            </section>`
-        </form>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions class="bg-color-dark" align="end">
-        <button mat-button (click)="onCancel()">Cancel</button>
-        <button mat-button [matDialogClose]="propertyType.value">Ok</button>
-    </mat-card-actions>
+  <mat-card-header class="bg-color-dark pb-3 text-white">
+    <mat-card-title>Sort By:</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="bg-color-dark pt-3 pb-3 text-white">
+    <form>
+      <section class="example-section" [formGroup]="propertyType">
+        <h4>Select your toppings:</h4>
+        <p><mat-checkbox formControlName="land">Land</mat-checkbox></p>
+        <p>
+          <mat-checkbox formControlName="residential">Residential</mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="commercial">Commercial</mat-checkbox>
+        </p>
+        <p>
+          <mat-checkbox formControlName="industrial">Industrial</mat-checkbox>
+        </p>
+      </section>
+      `
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions class="bg-color-dark" align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button [matDialogClose]="propertyType.value">Ok</button>
+  </mat-card-actions>
 </mat-card>

@@ -9,7 +9,6 @@ import { PropertiesService } from './services/properties.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertiesRoutingModule } from './properties-routing.module';
-
 import { PropertiesComponent } from './properties.component';
 import { PropertyComponent } from './components/property/property.component';
 import { AddPropertyDialogComponent } from './components/add-property-dialog/add-property-dialog.component';
