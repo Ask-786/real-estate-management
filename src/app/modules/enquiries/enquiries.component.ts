@@ -6,7 +6,6 @@ import * as EnquiriesActions from './store/actions';
 import * as EnquiriesSelectors from './store/selectors';
 import * as GlobalActions from '../../shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-enquiries',
@@ -15,7 +14,6 @@ import * as moment from 'moment';
 })
 export class EnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
-  moment = moment;
 
   constructor(private store: Store<AppStateInterface>) {
     this.enquiries$ = this.store.pipe(

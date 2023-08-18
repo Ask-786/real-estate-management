@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as moment from 'moment';
 import * as EnquiriesActions from '../../store/actions';
 import * as EnquiriesSelectors from '../../store/selectors';
 
@@ -16,7 +15,6 @@ import * as EnquiriesSelectors from '../../store/selectors';
   styleUrls: ['./enquiry-details.component.css'],
 })
 export class EnquiryDetailsComponent implements OnInit, OnDestroy {
-  moment = moment;
   enquiryId!: string;
   selectedEnquiry$: Observable<PropertyPopulatedEnquiryModelInterface | null>;
   subscriptions: Subscription[] = [];

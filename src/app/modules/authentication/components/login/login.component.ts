@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AppStateInterface>) {
     this.registeredUser$ = this.store.pipe(
-      select(AuthenticationSelectors.registeredUserSelector)
+      select(AuthenticationSelectors.registeredUserSelector),
     );
   }
 
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.registeredUser$.subscribe((registeredUser) => {
         this.email = registeredUser?.email;
-      })
+      }),
     );
     this.loginForm = new FormGroup({
       username: new FormControl(this.email, [Validators.required]),
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.loginForm.invalid) return;
     this.store.dispatch(
-      AuthenticationActions.login({ loginData: this.loginForm.value })
+      AuthenticationActions.login({ loginData: this.loginForm.value }),
     );
   }
 

@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as moment from 'moment';
 import * as EnquiriesSelectors from '../../store/selectors';
 import * as EnquiriesActions from '../../store/actions';
 
@@ -13,7 +12,6 @@ import * as EnquiriesActions from '../../store/actions';
   styleUrls: ['./user-enquiries.component.css'],
 })
 export class UserEnquiriesComponent implements OnInit {
-  moment = moment;
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
 
   constructor(private store: Store<AppStateInterface>) {

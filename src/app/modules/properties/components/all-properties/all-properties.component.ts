@@ -15,7 +15,6 @@ import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
 import * as PropertiesActions from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
-import * as moment from 'moment';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Component({
@@ -24,7 +23,6 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
   styleUrls: ['./all-properties.component.css'],
 })
 export class AllPropertiesComponent implements OnInit, OnDestroy {
-  // Injections
   private store = inject(Store<AppStateInterface>);
   private router = inject(Router);
   private dialog = inject(MatDialog);
@@ -35,11 +33,9 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
   propertyPage$: Observable<number>;
   isLoggedIn$: Observable<boolean>;
   subscriptions: Subscription[] = [];
-  isLoggedIn!: boolean;
-  bottomReached!: boolean;
-  propertyPage!: number;
-
-  moment = moment;
+  isLoggedIn: boolean | undefined;
+  bottomReached: boolean | undefined;
+  propertyPage = 0;
 
   constructor() {
     this.properties$ = this.store.pipe(
@@ -94,7 +90,7 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
       if (!this.bottomReached) {
         setTimeout(() => {
           this.store.dispatch(
-            PropertiesActions.getProperties({ page: this.propertyPage })
+            PropertiesActions.getProperties({ page: this.propertyPage }),
           );
         }, 200);
       }

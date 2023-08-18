@@ -9,7 +9,7 @@
                     {{property.title}}
                 </h2>
                 <span id="createdAt" i class="text-stone-400 text-sm">
-                    {{moment(property.createdAt).format('LL')}}
+                    {{property.createdAt | date : 'shortDate'}}
                 </span>
                 <p id="description" class="text-stone-300 mt-2 text-ellipsis h-28 overflow-hidden">
                     {{property.description}}

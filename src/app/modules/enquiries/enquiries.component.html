@@ -10,7 +10,7 @@
           class="cursor-pointer">{{enquiry.property.title}}</span>
         <span id="senderEmail">{{enquiry.senderEmail}}</span>
         <span id="topic">{{enquiry.topic}}</span>
-        <span id="createdAt">{{moment(enquiry.createdAt).format('LL')}}</span>
+        <span id="createdAt">{{enquiry.createdAt | date : 'shortDate'}}</span>
       </app-enquiry>
     </div>
   </div>

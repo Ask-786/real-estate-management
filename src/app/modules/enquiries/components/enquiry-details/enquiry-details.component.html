@@ -9,7 +9,7 @@
         <mat-card>
             <mat-card-header class="bg-color-dark">
                 <mat-card-title>{{(selectedEnquiry$|async)?.title}}</mat-card-title>
-                <mat-card-subtitle>{{moment((selectedEnquiry$|async)?.createdAt).format("LL")}}</mat-card-subtitle>
+                <mat-card-subtitle>{{(selectedEnquiry$|async)?.createdAt | date : 'shortDate'}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="min-h-[4rem] bg-color-dark">
                 <p class="mt-4">{{(selectedEnquiry$|async)?.content}}</p>

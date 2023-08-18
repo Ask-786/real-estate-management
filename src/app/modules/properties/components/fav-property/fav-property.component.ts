@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { PropertyModelInterface } from '../../model/property.model';
-import * as moment from 'moment';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertiesSelectors from '../../store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
@@ -15,7 +14,6 @@ import * as GlobalActions from '../../../../shared/store/actions';
 })
 export class FavPropertyComponent implements OnInit {
   favProperties$: Observable<PropertyModelInterface[]>;
-  moment = moment;
 
   constructor(private store: Store<AppStateInterface>) {
     this.favProperties$ = this.store.pipe(

@@ -2,7 +2,6 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as moment from 'moment';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertiesSelectors from '../../store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
@@ -14,7 +13,6 @@ import { PropertyModelInterface } from '../../model/property.model';
   styleUrls: ['./own-properties.component.css'],
 })
 export class OwnPropertiesComponent implements OnInit {
-  moment = moment;
   ownProperties$: Observable<PropertyModelInterface[]>;
 
   constructor(private store: Store<AppStateInterface>) {
