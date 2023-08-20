@@ -39,3 +39,7 @@ body {
 .bg-color-light {
   background-color: #e7f6f2;
 }
+
+.mdc-notched-outline__notch {
+  border-right: none;
+}

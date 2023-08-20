@@ -31,6 +31,7 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
         },
       })
     );
+
     this.selectedEnquiry$ = this.store
       .pipe(select(EnquiriesSelectors.selectedEnquirySelector))
       .pipe(map((data) => data?.enquiry));
