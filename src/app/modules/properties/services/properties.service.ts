@@ -64,7 +64,7 @@ export class PropertiesService implements OnDestroy {
     );
   }
 
-  addProperty(data: AddPropertyInterface, images: string[]) {
+  addProperty(data: AddPropertyInterface) {
     return this.http.put<PropertyModelInterface>(
       `${environment.baseUrl}/property/add-property`,
       {
@@ -76,7 +76,7 @@ export class PropertiesService implements OnDestroy {
           lattitude: data.lattitude,
           longitude: data.longitude,
         },
-        images,
+        images: data.images,
         propertyType: data.propertyType,
         address: {
           country: data.country,

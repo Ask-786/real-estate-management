@@ -45,7 +45,7 @@ export class PropertiesEffects {
       ofType(PropertiesActions.addProperty),
       mergeMap((action) => {
         return this.propertyService
-          .addProperty(action.propertyData, action.images)
+          .addProperty(action.propertyData)
           .pipe(
             map((property) => {
               this.store.dispatch(

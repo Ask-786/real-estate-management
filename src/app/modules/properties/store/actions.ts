@@ -20,7 +20,7 @@ export const getPropertiesFailure = createAction(
 
 export const addProperty = createAction(
   '[Properties] Add Property',
-  props<{ propertyData: AddPropertyInterface; images: string[] }>()
+  props<{ propertyData: AddPropertyInterface }>()
 );
 export const addPropertySuccess = createAction(
   '[Properties] Add Property Success',

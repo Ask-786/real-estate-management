@@ -1,7 +1,7 @@
 import { PropertyModelInterface } from './property.model';
 export interface PropertyStateInterface {
   properties: PropertyModelInterface[];
-  selectedProperty: selectedPropertyInterface;
+  selectedProperty: SelectedPropertyInterface;
   page: number;
   mostBottomReached: boolean;
   ownProperties: PropertyModelInterface[];
@@ -9,7 +9,7 @@ export interface PropertyStateInterface {
   favoriteIds: string[];
 }
 
-export interface selectedPropertyInterface {
+export interface SelectedPropertyInterface {
   property: PropertyModelInterface | null;
   isFavorite: boolean;
 }

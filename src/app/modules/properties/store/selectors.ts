@@ -10,7 +10,7 @@ export const propertiesSelector = createSelector(
 
 export const selectedPropertySelector = createSelector(
   selectFeature,
-  (state) => state.selectedProperty
+  (state) => state.selectedProperty,
 );
 
 export const propertyPageSelector = createSelector(

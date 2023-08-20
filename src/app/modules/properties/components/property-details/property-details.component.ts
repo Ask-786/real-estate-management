@@ -46,18 +46,18 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.subscriptions.push(
       this.activatedRoute.params.subscribe((params) => {
         this.propertyId = params['id'];
-      })
+      }),
     );
     this.property$ = this.store
       .pipe(select(PropertieseSelectors.selectedPropertySelector))
       .pipe(map((property) => property.property));
     this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector)
+      select(GlobalSelectors.isLoggedInSelector),
     );
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
     this.isFavorite$ = this.store
@@ -67,10 +67,10 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(
-      GlobalActions.setHeader({ header: 'Property Details' })
+      GlobalActions.setHeader({ header: 'Property Details' }),
     );
     this.store.dispatch(
-      PropertiesActions.getOneProperty({ propertyId: this.propertyId })
+      PropertiesActions.getOneProperty({ propertyId: this.propertyId }),
     );
     this.store.dispatch(PropertiesActions.getFavoriteIds());
 
@@ -79,7 +79,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
         if (user) {
           this.userId = user._id;
         }
-      })
+      }),
     );
 
     this.enquiryForm = new FormGroup({
@@ -91,7 +91,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.property$.subscribe((data) => {
         this.property = data;
-      })
+      }),
     );
   }
 
@@ -119,7 +119,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.property$.subscribe({
         next: (data) => ((title = data?.title), (id = data?._id)),
-      })
+      }),
     );
     this.dialog.open(DeleteWarningComponent, {
       data: { title, id },
@@ -127,13 +127,16 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
-    this.dialog.open(EditPropertyDialogComponent);
+    this.dialog.open(EditPropertyDialogComponent, {
+      disableClose: true,
+      data: this.property,
+    });
   }
 
   onFavour() {
     if (this.property) {
       this.store.dispatch(
-        PropertiesActions.favourProperty({ id: this.property._id })
+        PropertiesActions.favourProperty({ id: this.property._id }),
       );
     }
   }
@@ -141,7 +144,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   onUnFavour() {
     if (this.property) {
       this.store.dispatch(
-        PropertiesActions.unFavourProperty({ id: this.property._id })
+        PropertiesActions.unFavourProperty({ id: this.property._id }),
       );
     }
   }

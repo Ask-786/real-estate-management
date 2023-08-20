@@ -2,10 +2,13 @@ import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from './../../services/properties.service';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { map, Observable, Subscription } from 'rxjs';
-import { PropertyModelInterface } from './../../model/property.model';
+import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import {
   Component,
@@ -13,13 +16,18 @@ import {
   ViewChild,
   ElementRef,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as PropertySelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import * as PropertiesActions from '../../store/actions';
+import {
+  AddPropertyInterface,
+  PropertyFormModelInterface,
+  PropertyModelInterface,
+} from '../../model/property.model';
 
 @Component({
   selector: 'app-edit-property-dialog',
@@ -27,11 +35,18 @@ import * as PropertiesActions from '../../store/actions';
   styleUrls: ['./edit-property-dialog.component.css'],
 })
 export class EditPropertyDialogComponent implements OnInit, OnDestroy {
-  property$: Observable<PropertyModelInterface | null>;
-  propertyData!: FormGroup;
+  private s3Service = inject(S3Service);
+  private propertiesService = inject(PropertiesService);
+  private store = inject(Store<AppStateInterface>);
+  public dialogRef = inject(MatDialogRef<AddPropertyDialogComponent>);
+  private dialog = inject(MatDialog);
+  private notificationService = inject(NotificationService);
+  public dialogData: PropertyModelInterface = inject(MAT_DIALOG_DATA);
+
+  propertyData!: FormGroup<PropertyFormModelInterface>;
   isLoading$: Observable<boolean>;
-  lattitude!: number | undefined;
-  longitude!: number | undefined;
+  lattitude: number | undefined;
+  longitude: number | undefined;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
   subscriptions: Subscription[] = [];
   isHidden = true as boolean;
@@ -47,90 +62,68 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   imageThree!: File;
   imageFour!: File;
 
-  //Constants
   BUTTON_COLOR = 'primary';
   BUTTON_COLOR_LESS = 'none';
 
-  //Colors for buttons to input images
   imageButtonOneColor = this.BUTTON_COLOR_LESS as string;
   imageButtonTwoColor = this.BUTTON_COLOR_LESS as string;
   imageButtonThreeColor = this.BUTTON_COLOR_LESS as string;
   imageButtonFourColor = this.BUTTON_COLOR_LESS as string;
 
-  //Values for buttons to input images
   imageButtonOneValue = 'Image 1' as string;
   imageButtonTwoValue = 'Image 2' as string;
   imageButtonThreeValue = 'Image 3' as string;
   imageButtonFourValue = 'Image 4' as string;
 
-  constructor(
-    private s3Service: S3Service,
-    private propertiesService: PropertiesService,
-    private store: Store<AppStateInterface>,
-    public dialogRef: MatDialogRef<AddPropertyDialogComponent>,
-    private dialog: MatDialog,
-    private notificationService: NotificationService
-  ) {
-    this.property$ = this.store
-      .pipe(select(PropertySelectors.selectedPropertySelector))
-      .pipe(map((property) => property.property));
+  constructor() {
     this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector)
+      select(GlobalSelectors.isLoadingSelector),
     );
   }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.property$.subscribe({
-        next: (property) => {
-          if (property) {
-            this.propertyId = property._id;
-            this.lattitude = property.coOrdinates.lattitude;
-            this.longitude = property.coOrdinates.longitude;
-            this.propertyData = new FormGroup({
-              title: new FormControl(property.title, [Validators.required]),
-              price: new FormControl(property.price, [Validators.required]),
-              tags: new FormControl(property.tags.join(',')),
-              description: new FormControl(property.description, [
-                Validators.required,
-                Validators.minLength(10),
-              ]),
-              lattitude: new FormControl(property.coOrdinates.lattitude, [
-                Validators.required,
-              ]),
-              longitude: new FormControl(property.coOrdinates.longitude, [
-                Validators.required,
-              ]),
-              propertyType: new FormControl(property.propertyType, [
-                Validators.required,
-              ]),
-              country: new FormControl(property.address.country, [
-                Validators.required,
-              ]),
-              state: new FormControl(property.address.state, [
-                Validators.required,
-              ]),
-              district: new FormControl(property.address.district, [
-                Validators.required,
-              ]),
-              city: new FormControl(property.address.city, [
-                Validators.required,
-              ]),
-              streetAddress: new FormControl(property.address.streetAddress, [
-                Validators.required,
-              ]),
-              zipCode: new FormControl(property.address.zipCode, [
-                Validators.required,
-              ]),
-            });
-          }
-        },
-      })
-    );
-    //Setting up form
+    this.propertyId = this.dialogData._id;
+    this.lattitude = this.dialogData.coOrdinates.lattitude;
+    this.longitude = this.dialogData.coOrdinates.longitude;
+    this.propertyData = new FormGroup<PropertyFormModelInterface>({
+      title: new FormControl(this.dialogData.title, [Validators.required]),
+      price: new FormControl(this.dialogData.price, [Validators.required]),
+      tags: new FormControl(this.dialogData.tags),
+      description: new FormControl(this.dialogData.description, [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+      lattitude: new FormControl(this.dialogData.coOrdinates.lattitude, [
+        Validators.required,
+      ]),
+      longitude: new FormControl(this.dialogData.coOrdinates.longitude, [
+        Validators.required,
+      ]),
+      propertyType: new FormControl(this.dialogData.propertyType, [
+        Validators.required,
+      ]),
+      country: new FormControl(this.dialogData.address.country, [
+        Validators.required,
+      ]),
+      state: new FormControl(this.dialogData.address.state, [
+        Validators.required,
+      ]),
+      district: new FormControl(this.dialogData.address.district, [
+        Validators.required,
+      ]),
+      city: new FormControl(this.dialogData.address.city, [
+        Validators.required,
+      ]),
+      streetAddress: new FormControl(this.dialogData.address.streetAddress, [
+        Validators.required,
+      ]),
+      zipCode: new FormControl(this.dialogData.address.zipCode, [
+        Validators.required,
+      ]),
+      images: new FormControl([]) as FormControl<string[]>,
+    });
   }
 
-  //Image Change Events
   imageOneChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -202,7 +195,7 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.notificationService.warn(err.message);
         },
-      })
+      }),
     );
   }
 
@@ -230,11 +223,9 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
         this.imageTwo,
         this.imageThree,
         this.imageFour,
-      ] as File[];
+      ];
 
-      //Uploading images to s3 and adding property into database
       imagesArray.forEach((el, index) => {
-        //uploading images to s3 with loop
         this.subscriptions.push(
           this.propertiesService.gets3UploadUrl().subscribe({
             next: (data) => {
@@ -244,37 +235,37 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
                 this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
                   next: () => {
                     if (index === 3) {
-                      //Dispatching the action to add the property to database after all images have been uploaded
                       this.store.dispatch(
                         PropertiesActions.updateProperty({
                           id: this.propertyId,
-                          propertyData: this.propertyData.value,
+                          propertyData: this.propertyData
+                            .value as AddPropertyInterface,
                           images,
-                        })
+                        }),
                       );
                       this.dialogRef.close();
                     }
                   },
                   error: (err) => {
                     this.notificationService.warn(
-                      `Image Upload: ${err.statusText}`
+                      `Image Upload: ${err.statusText}`,
                     );
                   },
-                })
+                }),
               );
             },
             error: (err) => {
               this.notificationService.warn(err.error.message);
             },
-          })
+          }),
         );
       });
     } else if (this.isHidden) {
       this.store.dispatch(
         PropertiesActions.updateProperty({
           id: this.propertyId,
-          propertyData: this.propertyData.value,
-        })
+          propertyData: this.propertyData.value as AddPropertyInterface,
+        }),
       );
       this.dialogRef.close();
     } else {

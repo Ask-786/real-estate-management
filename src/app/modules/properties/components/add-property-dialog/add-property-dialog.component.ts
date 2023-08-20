@@ -5,7 +5,7 @@ import { PropertiesService } from '../../services/properties.service';
 import { Subscription, Observable, startWith, map } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PropertyTypeEnum } from './../../model/property.model';
+import { AddPropertyInterface, PropertyFormModelInterface, PropertyTypeEnum } from './../../model/property.model';
 import {
   Component,
   OnInit,
@@ -32,7 +32,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   lattitude!: number;
   longitude!: number;
   propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
-  propertyData!: FormGroup;
+  propertyData!: FormGroup<PropertyFormModelInterface>;
   isLoading$: Observable<boolean>;
   possibleTags: string[] = ['House', 'Land', 'Property', '1 BHK', 'Office'];
   filteredTags: Observable<string[]>;
@@ -103,7 +103,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //Setting up form
-    this.propertyData = new FormGroup({
+    this.propertyData = new FormGroup<PropertyFormModelInterface>({
       title: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
       tags: new FormControl(this.tags),
@@ -120,6 +120,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
       city: new FormControl(null, [Validators.required]),
       streetAddress: new FormControl(null, [Validators.required]),
       zipCode: new FormControl(null, [Validators.required]),
+      images: new FormControl([]) as FormControl<string[]>,
     });
   }
 
@@ -166,6 +167,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
 
   //On Submittingn form
   onSubmit() {
+    console.log(this.propertyData.controls.tags.value);
     if (this.propertyData.invalid) {
       this.notificationService.warn('Fill the form in full');
       return;
@@ -189,6 +191,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
             next: (data) => {
               const imgUrl = data.uploadUrl.split('?')[0];
               images.push(imgUrl);
+              this.propertyData.controls.images.setValue(images);
               this.subscriptions.push(
                 this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
                   next: () => {
@@ -196,8 +199,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                       //Dispatching the action to add the property to database after all images have been uploaded
                       this.store.dispatch(
                         PropertiesActions.addProperty({
-                          propertyData: this.propertyData.value,
-                          images,
+                          propertyData: this.propertyData.value as AddPropertyInterface,
                         })
                       );
                       this.dialogRef.close();

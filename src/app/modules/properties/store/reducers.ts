@@ -2,12 +2,12 @@ import { PropertyModelInterface } from './../model/property.model';
 import { createReducer, on } from '@ngrx/store';
 import {
   PropertyStateInterface,
-  selectedPropertyInterface,
+  SelectedPropertyInterface,
 } from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
 import * as EnquiryActions from '../../enquiries/store/actions';
 
-const initialSelectedProperty: selectedPropertyInterface = {
+const initialSelectedProperty: SelectedPropertyInterface = {
   property: null,
   isFavorite: false,
 };

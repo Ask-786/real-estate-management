@@ -99,7 +99,9 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
 
   addProperty() {
     if (this.isLoggedIn) {
-      this.dialog.open(AddPropertyDialogComponent);
+      this.dialog.open(AddPropertyDialogComponent, {
+        disableClose: true,
+      });
     } else {
       this.router.navigateByUrl('auth/login');
     }

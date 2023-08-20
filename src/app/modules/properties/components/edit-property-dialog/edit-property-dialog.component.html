@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="bg-color-dark">Add Property</h2>
+<h2 mat-dialog-title class="bg-color-dark">Edit Property</h2>
 <mat-progress-bar
   mode="indeterminate"
   *ngIf="isLoading$ | async"
@@ -140,7 +140,7 @@
           />
           <img
             #imageOneDisplay
-            [src]="(property$ | async)?.images?.[0]"
+            [src]="dialogData.images?.[0]"
             alt=""
           />
           <button
@@ -168,7 +168,7 @@
           />
           <img
             #imageTwoDisplay
-            [src]="(property$ | async)?.images?.[1]"
+            [src]="dialogData.images?.[1]"
             alt=""
           />
           <button
@@ -196,7 +196,7 @@
           />
           <img
             #imageThreeDisplay
-            [src]="(property$ | async)?.images?.[2]"
+            [src]="dialogData.images?.[2]"
             alt=""
           />
           <button
@@ -224,7 +224,7 @@
           />
           <img
             #imageFourDisplay
-            [src]="(property$ | async)?.images?.[3]"
+            [src]="dialogData.images?.[3]"
             alt=""
           />
           <button
