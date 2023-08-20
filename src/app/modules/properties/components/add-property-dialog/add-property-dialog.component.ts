@@ -5,7 +5,11 @@ import { PropertiesService } from '../../services/properties.service';
 import { Subscription, Observable, startWith, map } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AddPropertyInterface, PropertyFormModelInterface, PropertyTypeEnum } from './../../model/property.model';
+import {
+  AddPropertyInterface,
+  PropertyFormModelInterface,
+  PropertyTypeEnum,
+} from './../../model/property.model';
 import {
   Component,
   OnInit,
@@ -69,16 +73,16 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AddPropertyDialogComponent>,
     private propertiesService: PropertiesService,
     private s3Service: S3Service,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector)
+      select(GlobalSelectors.isLoadingSelector),
     );
     this.filteredTags = this.tagsCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) =>
-        tag ? this._filter(tag) : this.possibleTags.slice()
-      )
+        tag ? this._filter(tag) : this.possibleTags.slice(),
+      ),
     );
   }
 
@@ -97,7 +101,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.notificationService.warn(err.message);
         },
-      })
+      }),
     );
   }
 
@@ -155,7 +159,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.imageButtonThreeValue = input.files[0].name;
   }
 
-  imageFourChange(event: Event) {
+  imgeFourChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
       return;
@@ -199,24 +203,25 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                       //Dispatching the action to add the property to database after all images have been uploaded
                       this.store.dispatch(
                         PropertiesActions.addProperty({
-                          propertyData: this.propertyData.value as AddPropertyInterface,
-                        })
+                          propertyData: this.propertyData
+                            .value as AddPropertyInterface,
+                        }),
                       );
                       this.dialogRef.close();
                     }
                   },
                   error: (err) => {
                     this.notificationService.warn(
-                      `Image Upload: ${err.statusText}`
+                      `Image Upload: ${err.statusText}`,
                     );
                   },
-                })
+                }),
               );
             },
             error: (err) => {
               this.notificationService.warn(err.error.message);
             },
-          })
+          }),
         );
       });
     } else {
@@ -229,7 +234,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     const filterValue = value.toLowerCase();
 
     return this.possibleTags.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue)
+      fruit.toLowerCase().includes(filterValue),
     );
   }
 
