@@ -43,7 +43,10 @@
         #auto="matAutocomplete"
         (optionSelected)="selected($event)"
       >
-        <mat-option *ngFor="let tag of availableTags | filter : tagsCtrl.value ?? ''" [value]="tag">
+        <mat-option
+          *ngFor="let tag of availableTags | filter: tagsCtrl.value ?? ''"
+          [value]="tag"
+        >
           {{ tag }}
         </mat-option>
       </mat-autocomplete>
