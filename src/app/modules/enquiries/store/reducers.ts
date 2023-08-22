@@ -48,5 +48,5 @@ export const reducers = createReducer(
       ...state.selectedEnquiry,
       discussons: [...state.selectedEnquiry.discussons, action.newMessage],
     },
-  }))
+  })),
 );

@@ -3,7 +3,7 @@ import { EnquiryDiscussionInterface } from './../../model/enquiryDiscussion.inte
 import { NgForm } from '@angular/forms';
 import { EnquiryDiscussionService } from './../../services/enquiry-discussion.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { distinctUntilChanged, map, Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { PropertyPopulatedEnquiryModelInterface } from '../../model/enquiryform.interface';
 import { AppStateInterface } from 'src/app/models/appState.interface';
@@ -37,10 +37,10 @@ export class DiscussionComponent implements OnInit, OnDestroy {
       this.enquiryId = data['id'];
     });
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
-    this.enquiry$ = this.store
-      .pipe(select(EnquirySelectors.selectedEnquirySelector))
-      .pipe(map((data) => data?.enquiry))
-      .pipe(distinctUntilChanged((current, previous) => current?._id === previous?._id));
+    this.enquiry$ = this.store.pipe(
+      select(EnquirySelectors.selectedEnquirySelector),
+      map((val) => val.enquiry),
+    );
     this.discussions$ = this.store.pipe(
       select(EnquirySelectors.selectedEnquiryDiscussionsSelector),
     );
@@ -58,7 +58,6 @@ export class DiscussionComponent implements OnInit, OnDestroy {
       }),
       this.discussionService
         .getNewMessage()
-        .pipe(distinctUntilChanged((previous, current) => previous._id === current._id))
         .subscribe({
           next: (newMessage) =>
             this.store.dispatch(EnquiryActions.gotNewMessage({ newMessage })),
