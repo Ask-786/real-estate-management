@@ -159,7 +159,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.imageButtonThreeValue = input.files[0].name;
   }
 
-  imgeFourChange(event: Event) {
+  imageFourChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
       return;
@@ -200,7 +200,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
                 this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
                   next: () => {
                     if (index === 3) {
-                      //Dispatching the action to add the property to database after all images have been uploaded
                       this.store.dispatch(
                         PropertiesActions.addProperty({
                           propertyData: this.propertyData
