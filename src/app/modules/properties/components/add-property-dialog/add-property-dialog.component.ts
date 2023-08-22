@@ -2,7 +2,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from '../../services/properties.service';
-import { Subscription, Observable, startWith, map } from 'rxjs';
+import { Subscription, Observable, finalize } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
@@ -39,7 +39,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   propertyData!: FormGroup<PropertyFormModelInterface>;
   isLoading$: Observable<boolean>;
   possibleTags: string[] = ['House', 'Land', 'Property', '1 BHK', 'Office'];
-  filteredTags: Observable<string[]>;
   tagsCtrl = new FormControl('');
   tags: string[] = [];
   @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
@@ -51,17 +50,14 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   imageThree!: File;
   imageFour!: File;
 
-  //Constants
   BUTTON_COLOR = 'primary';
   BUTTON_COLOR_LESS = 'none';
 
-  //Colors for buttons to input images
   imageButtonOneColor = this.BUTTON_COLOR_LESS as string;
   imageButtonTwoColor = this.BUTTON_COLOR_LESS as string;
   imageButtonThreeColor = this.BUTTON_COLOR_LESS as string;
   imageButtonFourColor = this.BUTTON_COLOR_LESS as string;
 
-  //Values for buttons to input images
   imageButtonOneValue = 'Image 1' as string;
   imageButtonTwoValue = 'Image 2' as string;
   imageButtonThreeValue = 'Image 3' as string;
@@ -78,15 +74,8 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(
       select(GlobalSelectors.isLoadingSelector),
     );
-    this.filteredTags = this.tagsCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) =>
-        tag ? this._filter(tag) : this.possibleTags.slice(),
-      ),
-    );
   }
 
-  //Map Config to take co-ordinates
   openMap() {
     const dialogRef = this.dialog.open(MapDialogComponent, {
       data: { lat: this.lattitude, lng: this.longitude },
@@ -106,7 +95,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //Setting up form
     this.propertyData = new FormGroup<PropertyFormModelInterface>({
       title: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
@@ -128,7 +116,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  //Image Change Events
   imageOneChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) {
@@ -169,7 +156,6 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     this.imageButtonFourValue = input.files[0].name;
   }
 
-  //On Submittingn form
   onSubmit() {
     console.log(this.propertyData.controls.tags.value);
     if (this.propertyData.invalid) {
@@ -180,72 +166,71 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     if (this.imageOne && this.imageTwo && this.imageThree && this.imageFour) {
       this.store.dispatch(GlobalActions.loadingStart());
       const images: string[] = [];
+
       const imagesArray = [
         this.imageOne,
         this.imageTwo,
         this.imageThree,
         this.imageFour,
-      ] as File[];
+      ];
 
-      //Uploading images to s3 and adding property into database
       imagesArray.forEach((el, index) => {
-        //uploading images to s3 with loop
         this.subscriptions.push(
-          this.propertiesService.gets3UploadUrl().subscribe({
-            next: (data) => {
-              const imgUrl = data.uploadUrl.split('?')[0];
-              images.push(imgUrl);
-              this.propertyData.controls.images.setValue(images);
-              this.subscriptions.push(
-                this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
-                  next: () => {
-                    if (index === 3) {
-                      this.store.dispatch(
-                        PropertiesActions.addProperty({
-                          propertyData: this.propertyData
-                            .value as AddPropertyInterface,
-                        }),
-                      );
+          this.propertiesService
+            .gets3UploadUrl()
+            .pipe(
+              finalize(() => this.store.dispatch(GlobalActions.loadingEnd({}))),
+            )
+            .subscribe({
+              next: (data) => {
+                const imgUrl = data.uploadUrl.split('?')[0];
+                images.push(imgUrl);
+                this.propertyData.controls.images.setValue(images);
+                this.subscriptions.push(
+                  this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
+                    next: () => {
+                      if (index === 3) {
+                        this.store.dispatch(
+                          PropertiesActions.addProperty({
+                            propertyData: this.propertyData
+                              .value as AddPropertyInterface,
+                          }),
+                        );
+                        this.dialogRef.close();
+                      }
+                    },
+                    error: (err) => {
                       this.dialogRef.close();
-                    }
-                  },
-                  error: (err) => {
-                    this.notificationService.warn(
-                      `Image Upload: ${err.statusText}`,
-                    );
-                  },
-                }),
-              );
-            },
-            error: (err) => {
-              this.notificationService.warn(err.error.message);
-            },
-          }),
+                      this.notificationService.warn(
+                        `Image Upload: ${err.statusText}`,
+                      );
+                    },
+                  }),
+                );
+              },
+              error: (err) => {
+                this.dialogRef.close();
+                this.notificationService.warn(err.error.message);
+              },
+            }),
         );
       });
     } else {
       this.notificationService.warn('Select all files');
-      // return;
     }
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.possibleTags.filter((fruit) =>
-      fruit.toLowerCase().includes(filterValue),
-    );
+  get availableTags() {
+    return this.possibleTags.filter((val) => !this.tags.includes(val));
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
     if (value) {
       this.tags.push(value);
     }
 
-    // Clear the input value
     event.chipInput.clear();
 
     this.tagsCtrl.setValue(null);

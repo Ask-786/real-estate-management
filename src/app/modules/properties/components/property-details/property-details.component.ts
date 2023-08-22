@@ -128,7 +128,6 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   onEdit() {
     this.dialog.open(EditPropertyDialogComponent, {
-      disableClose: true,
       data: this.property,
     });
   }

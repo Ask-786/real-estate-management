@@ -8,7 +8,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, finalize } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import {
   Component,
@@ -227,7 +227,9 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
 
       imagesArray.forEach((el, index) => {
         this.subscriptions.push(
-          this.propertiesService.gets3UploadUrl().subscribe({
+          this.propertiesService.gets3UploadUrl()
+          .pipe(finalize(() => this.store.dispatch(GlobalActions.loadingEnd({}))))
+          .subscribe({
             next: (data) => {
               const imgUrl = data.uploadUrl.split('?')[0];
               images.push(imgUrl);

@@ -23,6 +23,7 @@ import { AllPropertiesComponent } from './components/all-properties/all-properti
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
 import { MapComponent } from './components/map/map.component';
+import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MapComponent } from './components/map/map.component';
     ReactiveFormsModule,
     FormsModule,
     EnquiriesModule,
+    FilterPipe,
     StoreModule.forFeature('properties', reducers),
     EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
   ],
