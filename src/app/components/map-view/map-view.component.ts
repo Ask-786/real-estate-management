@@ -28,7 +28,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Map' }));
     this.subscriptions.push(
       this.commonService.getProperties().subscribe((properties) => {
-        console.log(properties);
         this.initMap(properties);
       }),
     );

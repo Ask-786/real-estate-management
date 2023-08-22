@@ -39,7 +39,8 @@ export class DiscussionComponent implements OnInit, OnDestroy {
     this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
     this.enquiry$ = this.store
       .pipe(select(EnquirySelectors.selectedEnquirySelector))
-      .pipe(map((data) => data?.enquiry));
+      .pipe(map((data) => data?.enquiry))
+      .pipe(distinctUntilChanged((current, previous) => current?._id === previous?._id));
     this.discussions$ = this.store.pipe(
       select(EnquirySelectors.selectedEnquiryDiscussionsSelector),
     );
@@ -57,11 +58,7 @@ export class DiscussionComponent implements OnInit, OnDestroy {
       }),
       this.discussionService
         .getNewMessage()
-        .pipe(
-          distinctUntilChanged(
-            (previous, current) => previous._id === current._id,
-          ),
-        )
+        .pipe(distinctUntilChanged((previous, current) => previous._id === current._id))
         .subscribe({
           next: (newMessage) =>
             this.store.dispatch(EnquiryActions.gotNewMessage({ newMessage })),
