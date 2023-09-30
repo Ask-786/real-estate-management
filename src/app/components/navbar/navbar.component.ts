@@ -20,14 +20,14 @@ export class NavbarComponent {
 
   constructor(private store: Store<AppStateInterface>) {
     this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector)
+      select(GlobalSelectors.isLoadingSelector),
     );
     this.header$ = this.store.pipe(select(GlobalSelectors.selectHeader));
   }
 
   toPascalCase(string: string | undefined) {
     if (string)
-      return string.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+      return string.replace(/(\w)(\w*)/g, function (_g0, g1, g2) {
         return g1.toUpperCase() + g2.toLowerCase();
       });
     else return '';

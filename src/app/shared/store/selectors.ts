@@ -4,35 +4,40 @@ import { createSelector } from '@ngrx/store';
 export const selectFeature = (state: AppStateInterface) => state.global;
 export const selectHeader = createSelector(
   selectFeature,
-  (state) => state.header
+  (state) => state.header,
 );
+
 export const isLoadingSelector = createSelector(
   selectFeature,
-  (state) => state.isLoading
+  (state) => state.isLoading,
 );
+
 export const errorSelector = createSelector(
   selectFeature,
-  (state) => state.error
+  (state) => state.error,
 );
+
 export const userSelector = createSelector(
   selectFeature,
-  (state) => state.user
+  (state) => state.user,
 );
+
 export const tokenSelector = createSelector(
   selectFeature,
-  (state) => state.token
+  (state) => state.token,
 );
+
 export const isLoggedInSelector = createSelector(
   selectFeature,
-  (state) => state.isLoggedIn
+  (state) => state.isLoggedIn,
 );
 
 export const favoritesCountSelector = createSelector(
   selectFeature,
-  (state) => state.favoritesCount
+  (state) => state.favoritesCount,
 );
 
 export const notificationsCountSelector = createSelector(
   selectFeature,
-  (state) => state.notificatiosCount
+  (state) => state.notificatiosCount,
 );
