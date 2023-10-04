@@ -7,6 +7,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as AuthenticationActions from '../../store/actions';
 import * as AuthenticationSelectors from '../../store/selectors';
 import * as GlobalActions from '../../../../shared/store/actions';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

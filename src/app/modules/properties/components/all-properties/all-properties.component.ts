@@ -23,7 +23,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
   styleUrls: ['./all-properties.component.css'],
 })
 export class AllPropertiesComponent implements OnInit, OnDestroy {
-  private store = inject(Store<AppStateInterface>);
+  private store = inject<Store<AppStateInterface>>(Store);
   private router = inject(Router);
   private dialog = inject(MatDialog);
 

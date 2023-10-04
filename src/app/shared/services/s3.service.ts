@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class S3Service {
-  constructor(private http: HttpClient) {}
+  http = inject(HttpClient);
 
   uploadImages(s3url: string, image: File) {
     return this.http.put(s3url, image, httpOptions);
