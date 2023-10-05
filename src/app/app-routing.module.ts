@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./modules/authentication/authentication.module').then(
-        (m) => m.AuthenticationModule
+        (m) => m.AuthenticationModule,
       ),
     canActivate: [ProtectLoginService],
   },
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'enquiries',
     loadChildren: () =>
       import('./modules/enquiries/enquiries.module').then(
-        (m) => m.EnquiriesModule
+        (m) => m.EnquiriesModule,
       ),
     canActivate: [AuthGuardService],
   },
@@ -27,7 +27,7 @@ const routes: Routes = [
     path: 'properties',
     loadChildren: () =>
       import('./modules/properties/properties.module').then(
-        (m) => m.PropertiesModule
+        (m) => m.PropertiesModule,
       ),
   },
   {
@@ -40,7 +40,7 @@ const routes: Routes = [
     path: 'notifications',
     loadChildren: () =>
       import('./modules/notifications/notifications.module').then(
-        (m) => m.NotificationsModule
+        (m) => m.NotificationsModule,
       ),
     canActivate: [AuthGuardService],
   },
