@@ -6,7 +6,7 @@ import { catchError, mergeMap, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as PropertiesActions from './actions';
 import { Store } from '@ngrx/store';
-import * as GlobalActions from '../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 
 @Injectable()
 export class PropertiesEffects {

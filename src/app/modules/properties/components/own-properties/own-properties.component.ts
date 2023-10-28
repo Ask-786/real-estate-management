@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertiesSelectors from '../../store/selectors';
-import * as GlobalActions from '../../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import { PropertyModelInterface } from '../../model/property.model';
 
 @Component({

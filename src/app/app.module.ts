@@ -24,7 +24,7 @@ import { reducers } from './shared/store/reducers';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ProtectLoginService } from './guards/protectLogin.service';
 import { AppStateInterface } from './models/appState.interface';
-import * as GlobalActions from './shared/store/actions';
+import { GlobalActions } from './shared/store/actions';
 
 @NgModule({
   declarations: [

@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import * as GlobalActions from './actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 import { GlobalService } from '../services/global.service';
+import { GlobalActions } from './actions';
 
 @Injectable()
 export class GlobalEffects {

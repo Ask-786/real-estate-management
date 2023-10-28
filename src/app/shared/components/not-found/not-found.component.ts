@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import * as GlobalActions from '../../../shared/store/actions';
+import { GlobalActions } from '../../store/actions';
 import { Store } from '@ngrx/store';
 
 @Component({

@@ -4,7 +4,7 @@ import { MapLocationsInterface } from './../../models/mapLocations.interface';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as GlobalActions from '../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 

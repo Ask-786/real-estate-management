@@ -22,7 +22,7 @@ import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
-import * as GlobalActions from '../../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 

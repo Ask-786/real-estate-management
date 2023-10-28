@@ -14,7 +14,7 @@ import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
-import * as GlobalActions from '../../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import * as EnquiriesActions from '../../../enquiries/store/actions';
 
 @Component({

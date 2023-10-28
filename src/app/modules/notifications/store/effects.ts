@@ -2,7 +2,7 @@ import { mergeMap, map, catchError, of } from 'rxjs';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as NotificationActions from './actions';
-import * as GlobalActions from '../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import { NotificationsService } from '../services/notifications.service';
 import { Store } from '@ngrx/store';
 

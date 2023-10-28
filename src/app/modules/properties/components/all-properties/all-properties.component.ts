@@ -12,7 +12,7 @@ import {
 import { select, Store } from '@ngrx/store';
 import * as PropertiesSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
-import * as GlobalActions from '../../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import * as PropertiesActions from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';

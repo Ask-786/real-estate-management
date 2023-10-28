@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import * as EnquiriesActions from './store/actions';
 import * as EnquiriesSelectors from './store/selectors';
-import * as GlobalActions from '../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Component({

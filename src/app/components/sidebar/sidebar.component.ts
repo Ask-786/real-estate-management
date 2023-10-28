@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as GlobalSelectors from '../../shared/store/selectors';
-import * as GlobalActions from '../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import * as AuthenticationActions from '../../modules/authentication/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 

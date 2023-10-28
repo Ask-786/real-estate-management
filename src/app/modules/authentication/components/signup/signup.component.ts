@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as AuthenticationActions from '../../store/actions';
-import * as GlobalActions from '../../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 
 @Component({
   selector: 'app-signup',

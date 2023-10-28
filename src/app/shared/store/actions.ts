@@ -1,39 +1,24 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { UserModelInterface } from '../models/user.interface';
 
-export const setHeader = createAction(
-  '[Gobal] Set Header',
-  props<{ header: string }>()
-);
-export const loadingStart = createAction('[Gobal] Loading Started');
-export const loadingEnd = createAction(
-  '[Global] Loading Ended',
-  props<{ message?: string }>()
-);
-export const gotError = createAction(
-  '[Global] Got Error',
-  props<{ error: string }>()
-);
-export const checkAuth = createAction('[Global] Check Authenticaion');
-export const checkAuthSuccess = createAction(
-  '[Global] Check Authenticaion Success',
-  props<{ user: UserModelInterface; token: string }>()
-);
-export const checkAuthFailure = createAction(
-  '[Global] Check Authenticaion Failure',
-  props<{ error: string }>()
-);
-export const getFavoritesCount = createAction('[Global] Get Favorites Count');
-export const getFavoritesCountSuccess = createAction(
-  '[Global] Get Favorites Count Success',
-  props<{ count: number }>()
-);
-export const addFavorites = createAction('[Global] Add To Favorites');
-export const removeFavorites = createAction('[Global] Remove From Favorites');
-export const getNotificationsCount = createAction(
-  '[Global] Get Notificaitons Count'
-);
-export const getNotificationsCountSuccess = createAction(
-  '[Global] Get Notificaitons Count Success',
-  props<{ count: number }>()
-);
+export const GlobalActions = createActionGroup({
+  source: '[Gobal]',
+  events: {
+    'Get Notifications Count': emptyProps(),
+    'Get Favorites Count': emptyProps(),
+    'Add Favorites': emptyProps(),
+    'Remove Favorites': emptyProps(),
+    'Set Header': props<{ header: string }>(),
+    'Loading Start': emptyProps(),
+    'Loading End': props<{ message?: string }>(),
+    'Got Error': props<{ error: string }>(),
+    'Get Favorites Count Success': props<{ count: number }>(),
+    'Get Notifications Count Success': props<{ count: number }>(),
+    'Check Auth': emptyProps(),
+    'Check Auth Failure': props<{ error: string }>(),
+    'Check Auth Success': props<{
+      user: UserModelInterface;
+      token: string;
+    }>(),
+  },
+});

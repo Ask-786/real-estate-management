@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { GlobalStateInterface } from '../models/globalStateInterface';
-import * as CommonActions from './actions';
-import * as GlobalActions from './actions';
+import { GlobalActions } from './actions';
 import * as AuthenticationActions from '../../modules/authentication/store/actions';
 import * as NotificationActions from '../../modules/notifications/store/actions';
 
@@ -18,13 +17,13 @@ const initialState: GlobalStateInterface = {
 
 export const reducers = createReducer(
   initialState,
-  on(CommonActions.setHeader, (state, action) => ({
+  on(GlobalActions.setHeader, (state, action) => ({
     ...state,
     header: action.header,
   })),
-  on(CommonActions.loadingStart, (state) => ({ ...state, isLoading: true })),
-  on(CommonActions.loadingEnd, (state) => ({ ...state, isLoading: false })),
-  on(CommonActions.gotError, (state, action) => ({
+  on(GlobalActions.loadingStart, (state) => ({ ...state, isLoading: true })),
+  on(GlobalActions.loadingEnd, (state) => ({ ...state, isLoading: false })),
+  on(GlobalActions.gotError, (state, action) => ({
     ...state,
     isLoading: false,
     error: action.error,
@@ -51,15 +50,15 @@ export const reducers = createReducer(
     isLoggedIn: false,
     token: null,
   })),
-  on(CommonActions.getFavoritesCountSuccess, (state, action) => ({
+  on(GlobalActions.getFavoritesCountSuccess, (state, action) => ({
     ...state,
     favoritesCount: action.count,
   })),
-  on(CommonActions.addFavorites, (state) => ({
+  on(GlobalActions.addFavorites, (state) => ({
     ...state,
     favoritesCount: state.favoritesCount + 1,
   })),
-  on(CommonActions.removeFavorites, (state) => ({
+  on(GlobalActions.removeFavorites, (state) => ({
     ...state,
     favoritesCount: state.favoritesCount - 1,
   })),

@@ -5,7 +5,7 @@ import { map, mergeMap, catchError, of, tap } from 'rxjs';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as EnquiryActions from './actions';
-import * as GlobalActions from '../../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable()

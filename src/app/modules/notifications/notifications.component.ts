@@ -2,7 +2,7 @@ import { NotificationsModelInterface } from './model/notificaionModel.interface'
 import { AppStateInterface } from './../../models/appState.interface';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import * as GlobalActions from '../../shared/store/actions';
+import { GlobalActions } from 'src/app/shared/store/actions';
 import * as NotificationsActions from './store/actions';
 import * as NotificationsSelectors from './store/selectors';
 import { Observable } from 'rxjs';

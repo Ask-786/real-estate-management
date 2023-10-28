@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as AuthenticationActions from './actions';
 import { map, mergeMap, catchError, of, tap } from 'rxjs';
-import * as GlobalActions from '../../../shared/store/actions';
+import { GlobalActions } from '../../../shared/store/actions';
 import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { AuthenticationService } from '../services/authentication.service';
