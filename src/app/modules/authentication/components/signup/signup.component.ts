@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import * as AuthenticationActions from '../../store/actions';
 import { GlobalActions } from 'src/app/shared/store/actions';
+import { AuthActions } from '../../store/actions';
 
 @Component({
   selector: 'app-signup',
@@ -28,7 +28,7 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     if (this.registerForm.invalid) return;
     this.store.dispatch(
-      AuthenticationActions.signup({ userData: this.registerForm.value })
+      AuthActions.signup({ userData: this.registerForm.value })
     );
   }
 }

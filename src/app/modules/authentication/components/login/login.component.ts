@@ -4,9 +4,9 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as AuthenticationActions from '../../store/actions';
 import * as AuthenticationSelectors from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
+import { AuthActions } from '../../store/actions';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.loginForm.invalid) return;
     this.store.dispatch(
-      AuthenticationActions.login({ loginData: this.loginForm.value }),
+      AuthActions.login({ loginData: this.loginForm.value }),
     );
   }
 

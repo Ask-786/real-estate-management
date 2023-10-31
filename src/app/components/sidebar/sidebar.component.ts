@@ -4,8 +4,8 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as GlobalSelectors from '../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import * as AuthenticationActions from '../../modules/authentication/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
+import { AuthActions } from '../../modules/authentication/store/actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -56,7 +56,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
   onLogout() {
     this.authServices.removeToken();
-    this.store.dispatch(AuthenticationActions.logout());
+    this.store.dispatch(AuthActions.logout());
   }
 
   ngOnDestroy(): void {

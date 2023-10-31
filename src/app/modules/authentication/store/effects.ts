@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import * as AuthenticationActions from './actions';
 import { map, mergeMap, catchError, of, tap } from 'rxjs';
 import { GlobalActions } from '../../../shared/store/actions';
 import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { AuthenticationService } from '../services/authentication.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { AuthActions } from './actions';
 
 @Injectable()
 export class AuthenticationEffects {
@@ -21,7 +21,7 @@ export class AuthenticationEffects {
 
   login$ = createEffect(() =>
     this.action$.pipe(
-      ofType(AuthenticationActions.login),
+      ofType(AuthActions.login),
       mergeMap((action) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.authService.userLogin(action.loginData).pipe(
@@ -36,7 +36,7 @@ export class AuthenticationEffects {
             this.store.dispatch(
               GlobalActions.loadingEnd({ message: 'Successfully Signed In' }),
             );
-            return AuthenticationActions.loginSuccess({
+            return AuthActions.loginSuccess({
               token: data.access_token,
               user: data.user,
             });
@@ -50,7 +50,7 @@ export class AuthenticationEffects {
               GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              AuthenticationActions.loginFailure({ error: err.error.message }),
+              AuthActions.loginFailure({ error: err.error.message }),
             );
           }),
         );
@@ -61,7 +61,7 @@ export class AuthenticationEffects {
   logout$ = createEffect(
     () =>
       this.action$.pipe(
-        ofType(AuthenticationActions.logout),
+        ofType(AuthActions.logout),
         tap(() => {
           this.router.navigateByUrl('map');
           this.notificationService.sucess('Successfully Logged Out!!');
@@ -72,7 +72,7 @@ export class AuthenticationEffects {
 
   signup$ = createEffect(() =>
     this.action$.pipe(
-      ofType(AuthenticationActions.signup),
+      ofType(AuthActions.signup),
       mergeMap((action) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.authService.registerUser(action.userData).pipe(
@@ -81,7 +81,7 @@ export class AuthenticationEffects {
               GlobalActions.loadingEnd({ message: data.message }),
             );
             this.router.navigateByUrl('auth/login');
-            return AuthenticationActions.signupSuccess({
+            return AuthActions.signupSuccess({
               successMsg: data.message,
               registeredUser: data.user,
             });
@@ -91,7 +91,7 @@ export class AuthenticationEffects {
               GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              AuthenticationActions.signupFailure({ error: err.error.message }),
+              AuthActions.signupFailure({ error: err.error.message }),
             );
           }),
         );
