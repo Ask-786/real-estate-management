@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import * as EnquiriesSelectors from '../../store/selectors';
-import * as EnquiriesActions from '../../store/actions';
+import { EnquiriesAction } from '../../store/actions';
 
 @Component({
   selector: 'app-user-enquiries',
@@ -16,12 +16,12 @@ export class UserEnquiriesComponent implements OnInit {
 
   constructor(private store: Store<AppStateInterface>) {
     this.enquiries$ = this.store.pipe(
-      select(EnquiriesSelectors.userEnquiriesSelector)
+      select(EnquiriesSelectors.userEnquiriesSelector),
     );
   }
 
   ngOnInit(): void {
-    this.store.dispatch(EnquiriesActions.getUserEnquiries());
+    this.store.dispatch(EnquiriesAction.getUserEnquiries());
   }
 
   getEnquiryRoute(id: string): string {

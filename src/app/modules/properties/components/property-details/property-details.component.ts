@@ -15,7 +15,7 @@ import * as PropertiesActions from '../../store/actions';
 import * as PropertieseSelectors from '../../store/selectors';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import * as EnquiriesActions from '../../../enquiries/store/actions';
+import { EnquiriesAction } from '../../../enquiries/store/actions';
 
 @Component({
   selector: 'app-property-details',
@@ -108,7 +108,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
         topic: this.enquiryForm.value.topic,
         property: this.propertyId,
       };
-      this.store.dispatch(EnquiriesActions.createEnquiry({ data }));
+      this.store.dispatch(EnquiriesAction.createEnquiry({ data }));
       this.enquiryForm.reset();
     }
   }

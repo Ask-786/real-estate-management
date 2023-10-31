@@ -10,7 +10,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import { select, Store } from '@ngrx/store';
 import * as GlobalSelectors from '../../../../shared/store/selectors';
 import * as EnquirySelectors from '../../store/selectors';
-import * as EnquiryActions from '../../store/actions';
+import { EnquiriesAction } from '../../store/actions';
 
 @Component({
   selector: 'app-discussion',
@@ -56,12 +56,10 @@ export class DiscussionComponent implements OnInit, OnDestroy {
           this.user = data;
         }
       }),
-      this.discussionService
-        .getNewMessage()
-        .subscribe({
-          next: (newMessage) =>
-            this.store.dispatch(EnquiryActions.gotNewMessage({ newMessage })),
-        }),
+      this.discussionService.getNewMessage().subscribe({
+        next: (newMessage) =>
+          this.store.dispatch(EnquiriesAction.gotNewMessage({ newMessage })),
+      }),
     );
   }
 
@@ -69,7 +67,7 @@ export class DiscussionComponent implements OnInit, OnDestroy {
     if (!value.message) return;
     if (this.user && this.enquiryId) {
       this.store.dispatch(
-        EnquiryActions.sentNewMessage({
+        EnquiriesAction.sentNewMessage({
           newMessage: {
             _id: '',
             message: value.message,

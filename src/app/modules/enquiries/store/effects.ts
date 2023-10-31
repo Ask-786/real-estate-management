@@ -4,7 +4,7 @@ import { EnquiriesService } from '../services/enquiries.service';
 import { map, mergeMap, catchError, of, tap } from 'rxjs';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import * as EnquiryActions from './actions';
+import { EnquiriesAction } from './actions';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
@@ -14,116 +14,116 @@ export class EnquiryEffects {
     private action$: Actions,
     private enquiriesService: EnquiriesService,
     private store: Store<AppStateInterface>,
-    private enquiryDiscussionService: EnquiryDiscussionService
+    private enquiryDiscussionService: EnquiryDiscussionService,
   ) {}
 
   createEnquiry$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.createEnquiry),
+      ofType(EnquiriesAction.createEnquiry),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.enquiriesService.createEnquiry(data.data).pipe(
           map((data) => {
             this.store.dispatch(
-              GlobalActions.loadingEnd({ message: 'Successfully Enquired' })
+              GlobalActions.loadingEnd({ message: 'Successfully Enquired' }),
             );
-            return EnquiryActions.createEnquirySuccess({
+            return EnquiriesAction.createEnquirySuccess({
               createdEnquiry: data.createdEnquiry,
             });
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(EnquiryActions.createEnquiryFailure());
-          })
+            return of(EnquiriesAction.createEnquiryFailure());
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   getEnquiries$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.getEnquiries),
+      ofType(EnquiriesAction.getEnquiries),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.enquiriesService.getEnquiries().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return EnquiryActions.getEnquiriesSuccess({
+            return EnquiriesAction.getEnquiriesSuccess({
               enquiries: data.enquiries,
             });
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(EnquiryActions.getEnquiriesFailure());
-          })
+            return of(EnquiriesAction.getEnquiriesFailure());
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   getOneEnquiry$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.getOneEnquiry),
+      ofType(EnquiriesAction.getOneEnquiry),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.enquiriesService.getOneEnquiry(data.id).pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return EnquiryActions.getOneEnquirySuccess({
+            return EnquiriesAction.getOneEnquirySuccess({
               enquiry: data.enquiry,
               discussions: data.discussions,
             });
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(EnquiryActions.getOneEnquiryFailure());
-          })
+            return of(EnquiriesAction.getOneEnquiryFailure());
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   getUserEnquiries$ = createEffect(() =>
     this.action$.pipe(
-      ofType(EnquiryActions.getUserEnquiries),
+      ofType(EnquiriesAction.getUserEnquiries),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.enquiriesService.getUserEnquiries().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return EnquiryActions.getUserEnquiriesSuccess({
+            return EnquiriesAction.getUserEnquiriesSuccess({
               enquiries: data.enquiries,
             });
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(EnquiryActions.getUserEnquiriesFailure());
-          })
+            return of(EnquiriesAction.getUserEnquiriesFailure());
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   sendNewMessage$ = createEffect(
     () =>
       this.action$.pipe(
-        ofType(EnquiryActions.sentNewMessage),
+        ofType(EnquiriesAction.sentNewMessage),
         tap((data) =>
           this.enquiryDiscussionService.sendMessage(
             data.newMessage.message,
             data.newMessage.enquiry,
-            data.newMessage.sender
-          )
-        )
+            data.newMessage.sender,
+          ),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }

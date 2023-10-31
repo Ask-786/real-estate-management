@@ -3,7 +3,7 @@ import {
   SelectedEnquiryDataInterface,
 } from './../model/enquiryState.interface';
 import { createReducer, on } from '@ngrx/store';
-import * as EnquiryActions from './actions';
+import { EnquiriesAction } from './actions';
 
 const selectedEnquiryInitialState: SelectedEnquiryDataInterface = {
   enquiry: null,
@@ -18,11 +18,11 @@ const initialState: EnquiryStateInterface = {
 
 export const reducers = createReducer(
   initialState,
-  on(EnquiryActions.getEnquiriesSuccess, (state, action) => ({
+  on(EnquiriesAction.getEnquiriesSuccess, (state, action) => ({
     ...state,
     enquiries: action.enquiries,
   })),
-  on(EnquiryActions.getOneEnquirySuccess, (state, action) => {
+  on(EnquiriesAction.getOneEnquirySuccess, (state, action) => {
     return {
       ...state,
       selectedEnquiry: {
@@ -31,18 +31,18 @@ export const reducers = createReducer(
       },
     };
   }),
-  on(EnquiryActions.getUserEnquiriesSuccess, (state, action) => ({
+  on(EnquiriesAction.getUserEnquiriesSuccess, (state, action) => ({
     ...state,
     userEnquiries: action.enquiries,
   })),
-  on(EnquiryActions.gotNewMessage, (state, action) => ({
+  on(EnquiriesAction.gotNewMessage, (state, action) => ({
     ...state,
     selectedEnquiry: {
       ...state.selectedEnquiry,
       discussons: [...state.selectedEnquiry.discussons, action.newMessage],
     },
   })),
-  on(EnquiryActions.sentNewMessage, (state, action) => ({
+  on(EnquiriesAction.sentNewMessage, (state, action) => ({
     ...state,
     selectedEnquiry: {
       ...state.selectedEnquiry,

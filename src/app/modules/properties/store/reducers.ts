@@ -5,7 +5,7 @@ import {
   SelectedPropertyInterface,
 } from './../model/propertyState.interface';
 import * as PropertyActions from './actions';
-import * as EnquiryActions from '../../enquiries/store/actions';
+import { EnquiriesAction } from '../../enquiries/store/actions';
 
 const initialSelectedProperty: SelectedPropertyInterface = {
   property: null,
@@ -50,10 +50,10 @@ export const reducers = createReducer(
     let newProperties: PropertyModelInterface[];
     let newOwnProperties: PropertyModelInterface[];
     const allIndex = state.properties.findIndex(
-      (el) => el._id === state.selectedProperty?.property?._id
+      (el) => el._id === state.selectedProperty?.property?._id,
     );
     const ownIndex = state.ownProperties.findIndex(
-      (el) => el._id === state.selectedProperty?.property?._id
+      (el) => el._id === state.selectedProperty?.property?._id,
     );
     if (allIndex !== -1) {
       newProperties = [...state.properties];
@@ -103,21 +103,21 @@ export const reducers = createReducer(
     let newProperties: PropertyModelInterface[];
     let newOwnProperties: PropertyModelInterface[];
     const allIndex = state.properties.findIndex(
-      (el) => el._id === state.selectedProperty?.property?._id
+      (el) => el._id === state.selectedProperty?.property?._id,
     );
     const ownIndex = state.ownProperties.findIndex(
-      (el) => el._id === state.selectedProperty?.property?._id
+      (el) => el._id === state.selectedProperty?.property?._id,
     );
     if (allIndex !== -1) {
       newProperties = state.properties.filter(
-        (el) => el._id !== state.selectedProperty?.property?._id
+        (el) => el._id !== state.selectedProperty?.property?._id,
       );
     } else {
       newProperties = [...state.properties];
     }
     if (ownIndex !== -1) {
       newOwnProperties = state.ownProperties.filter(
-        (el) => el._id !== state.selectedProperty?.property?._id
+        (el) => el._id !== state.selectedProperty?.property?._id,
       );
     } else {
       newOwnProperties = [...state.ownProperties];
@@ -150,9 +150,9 @@ export const reducers = createReducer(
     ...state,
     properties: action.searchResult,
   })),
-  on(EnquiryActions.createEnquirySuccess, (state, action) => {
+  on(EnquiriesAction.createEnquirySuccess, (state, action) => {
     const modifiedProperty = JSON.parse(
-      JSON.stringify(state.selectedProperty.property)
+      JSON.stringify(state.selectedProperty.property),
     ) as PropertyModelInterface;
     if (modifiedProperty) {
       modifiedProperty.enquirers.push(action.createdEnquiry.sender);
@@ -164,5 +164,5 @@ export const reducers = createReducer(
         property: modifiedProperty,
       },
     };
-  })
+  }),
 );

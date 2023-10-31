@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as EnquiriesActions from '../../store/actions';
+import { EnquiriesAction } from '../../store/actions';
 import * as EnquiriesSelectors from '../../store/selectors';
 
 @Component({
@@ -22,14 +22,14 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppStateInterface>,
     private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.subscriptions.push(
       this.activatedRoute.params.subscribe({
         next: (params) => {
           this.enquiryId = params['id'];
         },
-      })
+      }),
     );
 
     this.selectedEnquiry$ = this.store
@@ -38,7 +38,7 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(EnquiriesActions.getOneEnquiry({ id: this.enquiryId }));
+    this.store.dispatch(EnquiriesAction.getOneEnquiry({ id: this.enquiryId }));
   }
 
   replayDialogOpen() {
