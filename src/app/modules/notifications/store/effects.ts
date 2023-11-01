@@ -1,7 +1,7 @@
 import { mergeMap, map, catchError, of } from 'rxjs';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import * as NotificationActions from './actions';
+import { NotificationActions } from './actions';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { NotificationsService } from '../services/notifications.service';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ export class NotificationEffects {
   constructor(
     private action$: Actions,
     private notificationService: NotificationsService,
-    private store: Store
+    private store: Store,
   ) {}
 
   getNotifications$ = createEffect(() =>
@@ -28,13 +28,13 @@ export class NotificationEffects {
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
             return of(NotificationActions.getNotificationsFailure());
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   changeReadStatus$ = createEffect(() =>
@@ -45,13 +45,13 @@ export class NotificationEffects {
           map((data) =>
             NotificationActions.changeReadStatusSuccess({
               status: data.status,
-            })
+            }),
           ),
           catchError((err) =>
-            of(GlobalActions.gotError({ error: err.error.message }))
-          )
-        )
-      )
-    )
+            of(GlobalActions.gotError({ error: err.error.message })),
+          ),
+        ),
+      ),
+    ),
   );
 }

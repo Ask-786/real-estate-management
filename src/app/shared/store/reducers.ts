@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { GlobalStateInterface } from '../models/globalStateInterface';
 import { GlobalActions } from './actions';
-import * as NotificationActions from '../../modules/notifications/store/actions';
+import { NotificationActions } from '../../modules/notifications/store/actions';
 import { AuthActions } from '../../modules/authentication/store/actions';
 
 const initialState: GlobalStateInterface = {
@@ -75,5 +75,5 @@ export const reducers = createReducer(
       ...state,
       notificatiosCount: state.notificatiosCount - change,
     };
-  })
+  }),
 );

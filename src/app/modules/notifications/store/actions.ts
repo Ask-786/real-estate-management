@@ -1,21 +1,15 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { NotificationsModelInterface } from '../model/notificaionModel.interface';
 
-export const getNotifications = createAction(
-  '[Notifications] Get Notifications'
-);
-export const getNotificationsSuccess = createAction(
-  '[Notifications] Get Notifications Success',
-  props<{ notifications: NotificationsModelInterface[] }>()
-);
-export const getNotificationsFailure = createAction(
-  '[Notifications] Get Notifications Failure'
-);
-export const changeReadStatus = createAction(
-  '[Notifications] Change Read Status',
-  props<{ notificationId: string }>()
-);
-export const changeReadStatusSuccess = createAction(
-  '[Notifications] Change Read Status Success',
-  props<{ status: boolean }>()
-);
+export const NotificationActions = createActionGroup({
+  source: '[Notifications]',
+  events: {
+    'Get Notifications': emptyProps(),
+    'Get Notifications Success': props<{
+      notifications: NotificationsModelInterface[];
+    }>(),
+    'Get Notifications Failure': emptyProps(),
+    'Change Read Status': props<{ notificationId: string }>(),
+    'Change Read Status Success': props<{ status: boolean }>(),
+  },
+});
