@@ -13,12 +13,13 @@ export class TokenInterceptor implements HttpInterceptor {
       request = request.clone({
         headers: request.headers.delete('skip'),
       });
+      return next.handle(request);
     }
     const tokenizedRequest = request.clone({
       setHeaders: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       },
     });
-    return next.handle(skip ? request : tokenizedRequest);
+    return next.handle(tokenizedRequest);
   }
 }
