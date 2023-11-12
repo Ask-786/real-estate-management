@@ -3,4 +3,4 @@ export const environment = {
   mapTiler: {
     apiKey: '4kovm5fo2MSD34vrZ0eo',
   },
-};
+} as const;
