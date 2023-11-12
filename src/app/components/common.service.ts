@@ -24,11 +24,10 @@ export class CommonService {
   }
 
   getLocations(query: string) {
+    const url = `https://api.maptiler.com/geocoding/${query}.json?key=${environment.mapTiler.apiKey}`;
+
     return this.http
-      .get<MapTilerResponseInterface>(
-        `https://api.maptiler.com/geocoding/${query}.json?key=${environment.mapTiler.apiKey}`,
-        httpOptions,
-      )
+      .get<MapTilerResponseInterface>(url, httpOptions)
       .pipe(map((data) => data.features));
   }
 }
