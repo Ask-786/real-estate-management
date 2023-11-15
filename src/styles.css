@@ -7,6 +7,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -15,6 +16,7 @@ body {
 .color-primary {
   color: #222428;
 }
+
 .bg-color-primary {
   background-color: #222428;
 }
@@ -22,6 +24,7 @@ body {
 .color-accent {
   color: #a5c9ca;
 }
+
 .bg-color-accent {
   background-color: #a5c9ca;
 }
@@ -29,6 +32,7 @@ body {
 .color-dark {
   color: #1e1e1e;
 }
+
 .bg-color-dark {
   background-color: #1e1e1e;
 }
@@ -36,6 +40,7 @@ body {
 .color-light {
   color: #e7f6f2;
 }
+
 .bg-color-light {
   background-color: #e7f6f2;
 }
