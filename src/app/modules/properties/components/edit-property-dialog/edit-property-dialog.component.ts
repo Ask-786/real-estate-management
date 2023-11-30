@@ -22,7 +22,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import { isLoadingSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
-import { updateProperty } from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import {
   AddPropertyInterface,
   PropertyFormModelInterface,
@@ -239,7 +239,7 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
                     next: () => {
                       if (index === 3) {
                         this.store.dispatch(
-                          updateProperty({
+                          PropertiesActions.updateProperty({
                             id: this.propertyId,
                             propertyData: this.propertyData
                               .value as AddPropertyInterface,
@@ -265,7 +265,7 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
       });
     } else if (this.isHidden) {
       this.store.dispatch(
-        updateProperty({
+        PropertiesActions.updateProperty({
           id: this.propertyId,
           propertyData: this.propertyData.value as AddPropertyInterface,
         }),

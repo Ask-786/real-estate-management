@@ -5,7 +5,7 @@ import { FilterOptionDialogComponent } from './components/filter-option-dialog/f
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
-import { getFavoriteIds, searchProperties } from './store/actions';
+import { PropertiesActions } from './store/actions';
 
 @Component({
   selector: 'app-properties',
@@ -21,22 +21,22 @@ export class PropertiesComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private store: Store,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(getFavoriteIds());
+    this.store.dispatch(PropertiesActions.getFavoriteIds());
   }
 
   propertySearch(value: { search: string }) {
     this.searchValue = value.search;
     if (value.search.length >= 3 || value.search.length === 0) {
       this.store.dispatch(
-        searchProperties({
+        PropertiesActions.searchProperties({
           searchValue: value.search,
           sortValue: { value: this.sortOption, desc: this.desc },
           filterValue: this.filterOptions,
-        })
+        }),
       );
     }
   }
@@ -56,11 +56,11 @@ export class PropertiesComponent implements OnInit {
           }
 
           this.store.dispatch(
-            searchProperties({
+            PropertiesActions.searchProperties({
               searchValue: searchValue,
               sortValue: { value: data.sortOption, desc: data.desc },
               filterValue: this.filterOptions,
-            })
+            }),
           );
         }
       });
@@ -78,11 +78,11 @@ export class PropertiesComponent implements OnInit {
           }
         }
         this.store.dispatch(
-          searchProperties({
+          PropertiesActions.searchProperties({
             searchValue: searchValue,
             sortValue: { value: this.sortOption, desc: this.desc },
             filterValue: data,
-          })
+          }),
         );
       }
     });

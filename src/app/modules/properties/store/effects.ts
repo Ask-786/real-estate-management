@@ -4,41 +4,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, mergeMap, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  getProperties,
-  getPropertiesSuccess,
-  getPropertiesFailure,
-  addProperty,
-  addPropertySuccess,
-  addPropertyFailure,
-  updateProperty,
-  updatePropertySuccess,
-  updatePropertyFailure,
-  getOneProperty,
-  getOnePropertySuccess,
-  getOnePropertyFailure,
-  getOwnProperties,
-  getOwnPropertiesSuccess,
-  getOwnPropertiesFailure,
-  deleteProperty,
-  deletePropertySuccess,
-  deletePropertyFailure,
-  favourProperty,
-  favourPropertySuccess,
-  favourPropertyFailure,
-  unFavourProperty,
-  unFavourPropertySuccess,
-  unFavourPropertyFailure,
-  getFavorites,
-  getFavoritesSuccess,
-  getFavoritesFailure,
-  getFavoriteIds,
-  getFavoriteIdsSuccess,
-  getFavoriteIdsFailure,
-  searchProperties,
-  searchPropertiesSuccess,
-  searchPropertiesFailure,
-} from './actions';
+import { PropertiesActions } from './actions';
 import { Store } from '@ngrx/store';
 import { GlobalActions } from 'src/app/shared/store/actions';
 
@@ -51,17 +17,19 @@ export class PropertiesEffects {
 
   getProperties$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getProperties),
+      ofType(PropertiesActions.getProperties),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getProperties(data.page).pipe(
           map((properties) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return getPropertiesSuccess({ properties });
+            return PropertiesActions.getPropertiesSuccess({ properties });
           }),
           catchError((err) => {
             this.store.dispatch(GlobalActions.gotError({ error: err.message }));
-            return of(getPropertiesFailure({ error: err.message }));
+            return of(
+              PropertiesActions.getPropertiesFailure({ error: err.message }),
+            );
           }),
         );
       }),
@@ -70,21 +38,21 @@ export class PropertiesEffects {
 
   addProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(addProperty),
+      ofType(PropertiesActions.addProperty),
       mergeMap((action) => {
         return this.propertyService.addProperty(action.propertyData).pipe(
           map((property) => {
             this.store.dispatch(
               GlobalActions.loadingEnd({ message: `Added ${property.title}` }),
             );
-            return addPropertySuccess({ property });
+            return PropertiesActions.addPropertySuccess({ property });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              addPropertyFailure({
+              PropertiesActions.addPropertyFailure({
                 error: err.error.message,
               }),
             );
@@ -96,7 +64,7 @@ export class PropertiesEffects {
 
   updateProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(updateProperty),
+      ofType(PropertiesActions.updateProperty),
       mergeMap((action) => {
         return this.propertyService
           .updateProperty(action.id, action.propertyData, action.images)
@@ -107,14 +75,14 @@ export class PropertiesEffects {
                   message: `Updated ${newProperty.title}`,
                 }),
               );
-              return updatePropertySuccess({ newProperty });
+              return PropertiesActions.updatePropertySuccess({ newProperty });
             }),
             catchError((err) => {
               this.store.dispatch(
                 GlobalActions.gotError({ error: err.error.message }),
               );
               return of(
-                updatePropertyFailure({
+                PropertiesActions.updatePropertyFailure({
                   error: err.error.message,
                 }),
               );
@@ -126,13 +94,13 @@ export class PropertiesEffects {
 
   getOneProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getOneProperty),
+      ofType(PropertiesActions.getOneProperty),
       mergeMap((property) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getOneProperty(property.propertyId).pipe(
           map((property) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return getOnePropertySuccess({ property });
+            return PropertiesActions.getOnePropertySuccess({ property });
           }),
           catchError((err) => {
             this.router.navigateByUrl('properties');
@@ -140,7 +108,7 @@ export class PropertiesEffects {
               GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
-              getOnePropertyFailure({
+              PropertiesActions.getOnePropertyFailure({
                 error: err.error.message,
               }),
             );
@@ -152,13 +120,13 @@ export class PropertiesEffects {
 
   getOwnProperties$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getOwnProperties),
+      ofType(PropertiesActions.getOwnProperties),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getOwnProperties().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return getOwnPropertiesSuccess({
+            return PropertiesActions.getOwnPropertiesSuccess({
               ownProperties: data,
             });
           }),
@@ -166,7 +134,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(getOwnPropertiesFailure());
+            return of(PropertiesActions.getOwnPropertiesFailure());
           }),
         );
       }),
@@ -175,7 +143,7 @@ export class PropertiesEffects {
 
   deletePropoerty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(deleteProperty),
+      ofType(PropertiesActions.deleteProperty),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.deleteProperty(data.id).pipe(
@@ -186,13 +154,13 @@ export class PropertiesEffects {
               }),
             );
             this.router.navigateByUrl('properties/own-properties');
-            return deletePropertySuccess();
+            return PropertiesActions.deletePropertySuccess();
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(deletePropertyFailure());
+            return of(PropertiesActions.deletePropertyFailure());
           }),
         );
       }),
@@ -201,7 +169,7 @@ export class PropertiesEffects {
 
   favourProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(favourProperty),
+      ofType(PropertiesActions.favourProperty),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.favourProperty(data.id).pipe(
@@ -210,13 +178,13 @@ export class PropertiesEffects {
               GlobalActions.loadingEnd({ message: data.message }),
             );
             this.store.dispatch(GlobalActions.addFavorites());
-            return favourPropertySuccess({ id: data.id });
+            return PropertiesActions.favorPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(favourPropertyFailure());
+            return of(PropertiesActions.favorPropertyFailure());
           }),
         );
       }),
@@ -225,7 +193,7 @@ export class PropertiesEffects {
 
   unFavourProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(unFavourProperty),
+      ofType(PropertiesActions.unfavourProperty),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.unFavourProperty(data.id).pipe(
@@ -234,13 +202,13 @@ export class PropertiesEffects {
               GlobalActions.loadingEnd({ message: data.message }),
             );
             this.store.dispatch(GlobalActions.removeFavorites());
-            return unFavourPropertySuccess({ id: data.id });
+            return PropertiesActions.unfavorPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(unFavourPropertyFailure());
+            return of(PropertiesActions.unfavorPropertyFailure());
           }),
         );
       }),
@@ -249,13 +217,13 @@ export class PropertiesEffects {
 
   getFavorites$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getFavorites),
+      ofType(PropertiesActions.getFavoriteIds),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getFavorites().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
-            return getFavoritesSuccess({
+            return PropertiesActions.getFavoritesSuccess({
               favProperties: data.favoriteProperties,
             });
           }),
@@ -263,7 +231,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(getFavoritesFailure());
+            return of(PropertiesActions.getFavoriteIdsFailure());
           }),
         );
       }),
@@ -272,26 +240,26 @@ export class PropertiesEffects {
 
   getFavoriteIds$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getFavoriteIds),
+      ofType(PropertiesActions.getFavoriteIds),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getFavoriteIds().pipe(
           map((data) => {
             this.store.dispatch(GlobalActions.loadingEnd({}));
             if (data !== null) {
-              return getFavoriteIdsSuccess({
+              return PropertiesActions.getFavoriteIdsSuccess({
                 user: data.user,
                 favoriteProperties: data.favoriteProperties,
               });
             } else {
-              return getFavoriteIdsFailure();
+              return PropertiesActions.getFavoriteIdsFailure();
             }
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(getFavoritesFailure());
+            return of(PropertiesActions.getFavoriteIdsFailure());
           }),
         );
       }),
@@ -300,7 +268,7 @@ export class PropertiesEffects {
 
   searchProperties$ = createEffect(() =>
     this.action$.pipe(
-      ofType(searchProperties),
+      ofType(PropertiesActions.searchProperties),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService
@@ -313,7 +281,7 @@ export class PropertiesEffects {
           .pipe(
             map((data) => {
               this.store.dispatch(GlobalActions.loadingEnd({}));
-              return searchPropertiesSuccess({
+              return PropertiesActions.searchPropertiesSuccess({
                 searchResult: data,
               });
             }),
@@ -321,7 +289,7 @@ export class PropertiesEffects {
               this.store.dispatch(
                 GlobalActions.gotError({ error: err.error.message }),
               );
-              return of(searchPropertiesFailure());
+              return of(PropertiesActions.searchPropertiesFailure());
             }),
           );
       }),

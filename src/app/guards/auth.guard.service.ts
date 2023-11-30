@@ -6,16 +6,14 @@ import { AppStateInterface } from '../models/appState.interface';
 import { isLoggedInSelector } from '../shared/store/selectors';
 
 @Injectable()
-export class AuthGuardService  {
+export class AuthGuardService {
   private router = inject(Router);
   private store = inject(Store<AppStateInterface>);
 
   isLoggedIn$: Observable<boolean>;
 
   constructor() {
-    this.isLoggedIn$ = this.store.pipe(
-      select(isLoggedInSelector),
-    );
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 
   canActivate() {

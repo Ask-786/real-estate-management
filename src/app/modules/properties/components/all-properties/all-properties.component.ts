@@ -18,7 +18,7 @@ import {
 } from '../../store/selectors';
 import { isLoggedInSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import { getProperties } from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
@@ -69,7 +69,9 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
       }),
     );
     if (!this.bottomReached) {
-      this.store.dispatch(getProperties({ page: this.propertyPage }));
+      this.store.dispatch(
+        PropertiesActions.getProperties({ page: this.propertyPage }),
+      );
     }
   }
 
@@ -82,7 +84,9 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
     ) {
       if (!this.bottomReached) {
         setTimeout(() => {
-          this.store.dispatch(getProperties({ page: this.propertyPage }));
+          this.store.dispatch(
+            PropertiesActions.getProperties({ page: this.propertyPage }),
+          );
         }, 200);
       }
     }

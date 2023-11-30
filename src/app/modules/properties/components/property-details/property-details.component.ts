@@ -11,12 +11,7 @@ import { NotificationService } from './../../../../shared/services/notification.
 import { AppStateInterface } from './../../../../models/appState.interface';
 import { PropertyModelInterface } from './../../model/property.model';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
-import {
-  getOneProperty,
-  getFavoriteIds,
-  favourProperty,
-  unFavourProperty,
-} from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import { selectedPropertySelector } from '../../store/selectors';
 import {
   isLoggedInSelector,
@@ -75,8 +70,10 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       GlobalActions.setHeader({ header: 'Property Details' }),
     );
-    this.store.dispatch(getOneProperty({ propertyId: this.propertyId }));
-    this.store.dispatch(getFavoriteIds());
+    this.store.dispatch(
+      PropertiesActions.getOneProperty({ propertyId: this.propertyId }),
+    );
+    this.store.dispatch(PropertiesActions.getFavoriteIds());
 
     this.subscriptions.push(
       this.user$.subscribe((user) => {
@@ -138,13 +135,17 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   onFavour() {
     if (this.property) {
-      this.store.dispatch(favourProperty({ id: this.property._id }));
+      this.store.dispatch(
+        PropertiesActions.favourProperty({ id: this.property._id }),
+      );
     }
   }
 
   onUnFavour() {
     if (this.property) {
-      this.store.dispatch(unFavourProperty({ id: this.property._id }));
+      this.store.dispatch(
+        PropertiesActions.unfavourProperty({ id: this.property._id }),
+      );
     }
   }
 

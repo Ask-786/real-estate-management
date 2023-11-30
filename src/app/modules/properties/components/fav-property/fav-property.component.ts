@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { PropertyModelInterface } from '../../model/property.model';
-import { getFavorites } from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import { favPropertiesSelector } from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 
@@ -21,7 +21,7 @@ export class FavPropertyComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Favorites' }));
-    this.store.dispatch(getFavorites());
+    this.store.dispatch(PropertiesActions.getFavoriteIds());
   }
 
   getFavPropertyUrl(id: string) {
