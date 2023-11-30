@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
-import * as PropertiesActions from '../../store/actions';
+import { deleteProperty } from '../../store/actions';
 
 @Component({
   selector: 'app-delete-warning',
@@ -17,7 +17,7 @@ export class DeleteWarningComponent {
 
   onDelete() {
     this._store.dispatch(
-      PropertiesActions.deleteProperty({ id: this.data.id })
+      deleteProperty({ id: this.data.id })
     );
     this.dialogRef.close();
   }

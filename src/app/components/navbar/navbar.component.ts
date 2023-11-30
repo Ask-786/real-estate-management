@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, EventEmitter, Output } from '@angular/core';
-import * as GlobalSelectors from '../../shared/store/selectors';
+import { isLoadingSelector, selectHeader } from '../../shared/store/selectors';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Component({
@@ -20,9 +20,9 @@ export class NavbarComponent {
 
   constructor(private store: Store<AppStateInterface>) {
     this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector),
+      select(isLoadingSelector),
     );
-    this.header$ = this.store.pipe(select(GlobalSelectors.selectHeader));
+    this.header$ = this.store.pipe(select(selectHeader));
   }
 
   toPascalCase(string: string | undefined) {

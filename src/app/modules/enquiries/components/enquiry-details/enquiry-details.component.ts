@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { EnquiriesAction } from '../../store/actions';
-import * as EnquiriesSelectors from '../../store/selectors';
+import { selectedEnquirySelector } from '../../store/selectors';
 
 @Component({
   selector: 'app-enquiry-details',
@@ -33,7 +33,7 @@ export class EnquiryDetailsComponent implements OnInit, OnDestroy {
     );
 
     this.selectedEnquiry$ = this.store
-      .pipe(select(EnquiriesSelectors.selectedEnquirySelector))
+      .pipe(select(selectedEnquirySelector))
       .pipe(map((data) => data?.enquiry));
   }
 

@@ -1,7 +1,7 @@
 import { PropertyModelInterface } from './../../model/property.model';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
-import * as L from 'leaflet';
+import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -11,7 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class MapComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];
-  private map!: L.Map;
+  private map!: Map;
   @Input() latlng!: Observable<PropertyModelInterface | null>;
   subscriptions: Subscription[] = [];
 
@@ -24,12 +24,12 @@ export class MapComponent implements OnInit, OnDestroy {
           }
           this.initMap(data);
         }
-      })
+      }),
     );
   }
 
   private initMap(data: PropertyModelInterface): void {
-    this.map = L.map('map', {
+    this.map = map('map', {
       center: [data.coOrdinates.lattitude, data.coOrdinates.longitude],
       zoom: 15,
       minZoom: 12,
@@ -39,24 +39,24 @@ export class MapComponent implements OnInit, OnDestroy {
       bounceAtZoomLimits: false,
     });
 
-    const tiles = L.tileLayer(
+    const tiles = tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         maxZoom: 18,
         minZoom: 3,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
+      },
     );
 
     const icon = (propertyType: string) => {
-      return L.icon({
+      return icon_1({
         iconUrl: `../../../assets//images/markers/marker-${propertyType}.svg`,
         iconSize: [35, 35],
       });
     };
 
-    L.marker([data.coOrdinates.lattitude, data.coOrdinates.longitude], {
+    marker([data.coOrdinates.lattitude, data.coOrdinates.longitude], {
       icon: icon(data.propertyType),
     })
       .addTo(this.map)

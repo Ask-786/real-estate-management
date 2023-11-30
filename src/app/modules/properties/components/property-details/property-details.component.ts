@@ -11,9 +11,17 @@ import { NotificationService } from './../../../../shared/services/notification.
 import { AppStateInterface } from './../../../../models/appState.interface';
 import { PropertyModelInterface } from './../../model/property.model';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
-import * as PropertiesActions from '../../store/actions';
-import * as PropertieseSelectors from '../../store/selectors';
-import * as GlobalSelectors from '../../../../shared/store/selectors';
+import {
+  getOneProperty,
+  getFavoriteIds,
+  favourProperty,
+  unFavourProperty,
+} from '../../store/actions';
+import { selectedPropertySelector } from '../../store/selectors';
+import {
+  isLoggedInSelector,
+  userSelector,
+} from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { EnquiriesAction } from '../../../enquiries/store/actions';
 
@@ -54,14 +62,12 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
       }),
     );
     this.property$ = this.store
-      .pipe(select(PropertieseSelectors.selectedPropertySelector))
+      .pipe(select(selectedPropertySelector))
       .pipe(map((property) => property.property));
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector),
-    );
-    this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
+    this.user$ = this.store.pipe(select(userSelector));
     this.isFavorite$ = this.store
-      .pipe(select(PropertieseSelectors.selectedPropertySelector))
+      .pipe(select(selectedPropertySelector))
       .pipe(map((data) => data.isFavorite));
   }
 
@@ -69,10 +75,8 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       GlobalActions.setHeader({ header: 'Property Details' }),
     );
-    this.store.dispatch(
-      PropertiesActions.getOneProperty({ propertyId: this.propertyId }),
-    );
-    this.store.dispatch(PropertiesActions.getFavoriteIds());
+    this.store.dispatch(getOneProperty({ propertyId: this.propertyId }));
+    this.store.dispatch(getFavoriteIds());
 
     this.subscriptions.push(
       this.user$.subscribe((user) => {
@@ -134,17 +138,13 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
 
   onFavour() {
     if (this.property) {
-      this.store.dispatch(
-        PropertiesActions.favourProperty({ id: this.property._id }),
-      );
+      this.store.dispatch(favourProperty({ id: this.property._id }));
     }
   }
 
   onUnFavour() {
     if (this.property) {
-      this.store.dispatch(
-        PropertiesActions.unFavourProperty({ id: this.property._id }),
-      );
+      this.store.dispatch(unFavourProperty({ id: this.property._id }));
     }
   }
 

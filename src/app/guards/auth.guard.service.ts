@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AppStateInterface } from '../models/appState.interface';
-import * as GlobalSelectors from '../shared/store/selectors';
+import { isLoggedInSelector } from '../shared/store/selectors';
 
 @Injectable()
 export class AuthGuardService  {
@@ -14,7 +14,7 @@ export class AuthGuardService  {
 
   constructor() {
     this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector),
+      select(isLoggedInSelector),
     );
   }
 

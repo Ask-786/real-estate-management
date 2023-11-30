@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { NotificationActions } from './store/actions';
-import * as NotificationsSelectors from './store/selectors';
+import { notificationsSelector } from './store/selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ export class NotificationsComponent implements OnInit {
     private router: Router,
   ) {
     this.notificaions$ = this.store.pipe(
-      select(NotificationsSelectors.notificationsSelector),
+      select(notificationsSelector),
     );
   }
 

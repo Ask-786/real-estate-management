@@ -5,7 +5,7 @@ import { FilterOptionDialogComponent } from './components/filter-option-dialog/f
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
-import * as PropertiesActions from './store/actions';
+import { getFavoriteIds, searchProperties } from './store/actions';
 
 @Component({
   selector: 'app-properties',
@@ -25,14 +25,14 @@ export class PropertiesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(PropertiesActions.getFavoriteIds());
+    this.store.dispatch(getFavoriteIds());
   }
 
   propertySearch(value: { search: string }) {
     this.searchValue = value.search;
     if (value.search.length >= 3 || value.search.length === 0) {
       this.store.dispatch(
-        PropertiesActions.searchProperties({
+        searchProperties({
           searchValue: value.search,
           sortValue: { value: this.sortOption, desc: this.desc },
           filterValue: this.filterOptions,
@@ -56,7 +56,7 @@ export class PropertiesComponent implements OnInit {
           }
 
           this.store.dispatch(
-            PropertiesActions.searchProperties({
+            searchProperties({
               searchValue: searchValue,
               sortValue: { value: data.sortOption, desc: data.desc },
               filterValue: this.filterOptions,
@@ -78,7 +78,7 @@ export class PropertiesComponent implements OnInit {
           }
         }
         this.store.dispatch(
-          PropertiesActions.searchProperties({
+          searchProperties({
             searchValue: searchValue,
             sortValue: { value: this.sortOption, desc: this.desc },
             filterValue: data,
@@ -94,7 +94,7 @@ export class PropertiesComponent implements OnInit {
 
   toPascalCase(string: string | undefined) {
     if (string)
-      return string.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+      return string.replace(/(\w)(\w*)/g, function (_, g1, g2) {
         return g1.toUpperCase() + g2.toLowerCase();
       });
     else return '';

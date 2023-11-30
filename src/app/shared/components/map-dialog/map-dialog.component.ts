@@ -1,7 +1,7 @@
 import { CommonService } from './../../../components/common.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
-import * as L from 'leaflet';
+import { Map, LatLng, map, tileLayer, marker } from 'leaflet';
 import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
 import { FormControl } from '@angular/forms';
 
@@ -13,15 +13,15 @@ import { FormControl } from '@angular/forms';
 export class MapDialogComponent implements OnInit {
   locations: MapLocationsInterface[] = [];
   myControl = new FormControl('');
-  private map!: L.Map;
+  private map!: Map;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: L.LatLng,
+    @Inject(MAT_DIALOG_DATA) public data: LatLng,
     private commonService: CommonService
   ) {}
 
   private initMap(): void {
-    this.map = L.map('map', {
+    this.map = map('map', {
       center: [11.151477, 76.365746],
       zoom: 15,
       minZoom: 12,
@@ -31,7 +31,7 @@ export class MapDialogComponent implements OnInit {
       bounceAtZoomLimits: false,
     });
 
-    const tiles = L.tileLayer(
+    const tiles = tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         maxZoom: 18,
@@ -45,7 +45,7 @@ export class MapDialogComponent implements OnInit {
 
     this.map.on('click', (e) => {
       this.data = this.map.mouseEventToLatLng(e.originalEvent);
-      L.marker(this.data).addTo(this.map).openPopup();
+      marker(this.data).addTo(this.map).openPopup();
     });
   }
 

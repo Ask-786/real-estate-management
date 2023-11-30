@@ -8,8 +8,11 @@ import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { PropertyPopulatedEnquiryModelInterface } from '../../model/enquiryform.interface';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { select, Store } from '@ngrx/store';
-import * as GlobalSelectors from '../../../../shared/store/selectors';
-import * as EnquirySelectors from '../../store/selectors';
+import { userSelector } from '../../../../shared/store/selectors';
+import {
+  selectedEnquirySelector,
+  selectedEnquiryDiscussionsSelector,
+} from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
 
 @Component({
@@ -36,13 +39,13 @@ export class DiscussionComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe((data) => {
       this.enquiryId = data['id'];
     });
-    this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
+    this.user$ = this.store.pipe(select(userSelector));
     this.enquiry$ = this.store.pipe(
-      select(EnquirySelectors.selectedEnquirySelector),
+      select(selectedEnquirySelector),
       map((val) => val.enquiry),
     );
     this.discussions$ = this.store.pipe(
-      select(EnquirySelectors.selectedEnquiryDiscussionsSelector),
+      select(selectedEnquiryDiscussionsSelector),
     );
   }
 

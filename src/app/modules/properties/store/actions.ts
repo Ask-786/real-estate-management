@@ -35,11 +35,11 @@ export const updateProperty = createAction(
   '[Properties] Update Property',
   props<{ id: string; propertyData: AddPropertyInterface; images?: string[] }>()
 );
-export const UpdatePropertySuccess = createAction(
+export const updatePropertySuccess = createAction(
   '[Properties] Update Property Success',
   props<{ newProperty: PropertyModelInterface }>()
 );
-export const UpdatePropertyFailure = createAction(
+export const updatePropertyFailure = createAction(
   '[Properties] Update Property Failure',
   props<{ error: string }>()
 );

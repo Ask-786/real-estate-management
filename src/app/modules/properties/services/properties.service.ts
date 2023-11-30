@@ -8,7 +8,7 @@ import {
   PropertyModelInterface,
 } from '../model/property.model';
 import { select, Store } from '@ngrx/store';
-import * as PropertiesSelectors from '../store/selectors';
+import { propertyPageSelector } from '../store/selectors';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class PropertiesService implements OnDestroy {
     private store: Store<AppStateInterface>,
   ) {
     this.propertiesPage$ = this.store.pipe(
-      select(PropertiesSelectors.propertyPageSelector),
+      select(propertyPageSelector),
     );
     this.subscriptions.push(
       this.propertiesPage$.subscribe({

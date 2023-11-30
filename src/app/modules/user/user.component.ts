@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Component, inject } from '@angular/core';
 import { UserModelInterface } from 'src/app/shared/models/user.interface';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as GlobalSelectors from '../../shared/store/selectors';
+import { userSelector } from '../../shared/store/selectors';
 
 @Component({
   selector: 'app-user',
@@ -16,6 +16,6 @@ export class UserComponent {
   user$: Observable<UserModelInterface | null>;
 
   constructor() {
-    this.user$ = this.store.pipe(select(GlobalSelectors.userSelector));
+    this.user$ = this.store.pipe(select(userSelector));
   }
 }

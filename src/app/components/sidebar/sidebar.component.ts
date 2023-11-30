@@ -2,7 +2,12 @@ import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as GlobalSelectors from '../../shared/store/selectors';
+import {
+  isLoadingSelector,
+  isLoggedInSelector,
+  favoritesCountSelector,
+  notificationsCountSelector,
+} from '../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 import { AuthActions } from '../../modules/authentication/store/actions';
@@ -22,19 +27,13 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
   constructor(
     private store: Store<AppStateInterface>,
-    private authServices: AuthenticationService
+    private authServices: AuthenticationService,
   ) {
-    this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector)
-    );
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector)
-    );
-    this.favoritesLength$ = this.store.pipe(
-      select(GlobalSelectors.favoritesCountSelector)
-    );
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
+    this.favoritesLength$ = this.store.pipe(select(favoritesCountSelector));
     this.notificatiosCount$ = this.store.pipe(
-      select(GlobalSelectors.notificationsCountSelector)
+      select(notificationsCountSelector),
     );
   }
 
@@ -45,7 +44,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
           this.store.dispatch(GlobalActions.getFavoritesCount());
           this.store.dispatch(GlobalActions.getNotificationsCount());
         }
-      })
+      }),
     );
   }
 
