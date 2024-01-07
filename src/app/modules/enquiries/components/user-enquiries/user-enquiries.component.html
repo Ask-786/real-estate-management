@@ -1,12 +1,19 @@
 <div class="p-3">
   <div *ngIf="(enquiries$ | async)?.length; else noItems">
     <div *ngFor="let enquiry of enquiries$ | async" class="pb-3">
-      <app-enquiry [routerLink]="enquiry._id">
+      <app-enquiry
+        [routerLink]="
+          appRoutes.enquiries({}).enquiry({ id: enquiry._id }).$
+        "
+      >
         <span id="title">{{ enquiry.title }}</span>
         <span
           id="property"
           class="ml-2"
-          [routerLink]="getPropertyRoute(enquiry.property._id)"
+          [routerLink]="
+            appRoutes.properties({}).property({ id: enquiry.property._id })
+              .$
+          "
           class="cursor-pointer"
           >{{ enquiry.property.title }}</span
         >

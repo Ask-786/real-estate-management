@@ -7,6 +7,7 @@ import { NotificationActions } from './store/actions';
 import { notificationsSelector } from './store/selectors';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-notifications',
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class NotificationsComponent implements OnInit {
   notificaions$: Observable<NotificationsModelInterface[]>;
+  appRoutes = AppRoutes;
 
   constructor(
     private store: Store<AppStateInterface>,

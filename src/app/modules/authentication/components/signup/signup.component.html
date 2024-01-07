@@ -34,7 +34,7 @@
       value="Register"
     />
     <br />
-    <a class="cursor-pointer" routerLink="/auth/login"
+    <a class="cursor-pointer" [routerLink]="appRoutes.auth({}).login({}).$"
       >Already a user? Go to login.</a
     >
   </form>

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-signup',
@@ -13,6 +14,7 @@ import { AuthActions } from '../../store/actions';
 export class SignupComponent implements OnInit {
   registerForm!: FormGroup;
   constructor(public dialog: MatDialog, private store: Store) {}
+  appRoutes = AppRoutes;
 
   ngOnInit() {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Register' }));

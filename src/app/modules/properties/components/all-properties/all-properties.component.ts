@@ -21,6 +21,7 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { PropertiesActions } from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-all-properties',
@@ -41,6 +42,7 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean | undefined;
   bottomReached: boolean | undefined;
   propertyPage = 0;
+  appRoutes = AppRoutes;
 
   constructor() {
     this.properties$ = this.store.pipe(select(propertiesSelector));

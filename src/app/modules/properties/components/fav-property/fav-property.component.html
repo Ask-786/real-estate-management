@@ -34,7 +34,9 @@
           mat-raised-button
           id="button"
           class="w-full"
-          [routerLink]="getFavPropertyUrl(property._id)"
+          [routerLink]="
+            appRoutes.properties({}).ownProperty({ id: property._id }).$
+          "
         >
           View Property
         </button>

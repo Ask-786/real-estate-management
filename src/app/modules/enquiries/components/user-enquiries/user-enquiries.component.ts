@@ -5,6 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { userEnquiriesSelector } from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-user-enquiries',
@@ -13,6 +14,7 @@ import { EnquiriesAction } from '../../store/actions';
 })
 export class UserEnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
+  appRoutes = AppRoutes;
 
   constructor(private store: Store<AppStateInterface>) {
     this.enquiries$ = this.store.pipe(

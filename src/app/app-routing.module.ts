@@ -4,11 +4,12 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 import { MapViewComponent } from './components/map-view/map-view.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppRoutes } from './shared/routes/routes';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'map', pathMatch: 'full' },
+  { path: AppRoutes.home.template, redirectTo: 'map', pathMatch: 'full' },
   {
-    path: 'auth',
+    path: AppRoutes.auth.template,
     loadChildren: () =>
       import('./modules/authentication/authentication.module').then(
         (m) => m.AuthenticationModule,
@@ -16,7 +17,7 @@ const routes: Routes = [
     canActivate: [ProtectLoginService],
   },
   {
-    path: 'enquiries',
+    path: AppRoutes.enquiries.template,
     loadChildren: () =>
       import('./modules/enquiries/enquiries.module').then(
         (m) => m.EnquiriesModule,
@@ -24,27 +25,27 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: 'properties',
+    path: AppRoutes.properties.template,
     loadChildren: () =>
       import('./modules/properties/properties.module').then(
         (m) => m.PropertiesModule,
       ),
   },
   {
-    path: 'user',
+    path: AppRoutes.user.template,
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
     canActivate: [AuthGuardService],
   },
   {
-    path: 'notifications',
+    path: AppRoutes.notification.template,
     loadChildren: () =>
       import('./modules/notifications/notifications.module').then(
         (m) => m.NotificationsModule,
       ),
     canActivate: [AuthGuardService],
   },
-  { path: 'map', component: MapViewComponent },
+  { path: AppRoutes.map.template, component: MapViewComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

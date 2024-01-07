@@ -25,7 +25,9 @@
       value="Login"
     />
     <a class="cursor-pointer mt-10">Forgot your password?</a><br />
-    <a class="cursor-pointer" routerLink="/auth/signup"
+    <a
+      class="cursor-pointer"
+      [routerLink]="appRoutes.auth({}).signup({}).$"
       >Don't have an account? Go to Sign Up</a
     >
   </form>

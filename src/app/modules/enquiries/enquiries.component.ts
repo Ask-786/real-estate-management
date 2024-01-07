@@ -6,6 +6,7 @@ import { EnquiriesAction } from './store/actions';
 import { enquiriesSelector } from './store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-enquiries',
@@ -14,23 +15,14 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 })
 export class EnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
+  appRoutes = AppRoutes;
 
   constructor(private store: Store<AppStateInterface>) {
-    this.enquiries$ = this.store.pipe(
-      select(enquiriesSelector),
-    );
+    this.enquiries$ = this.store.pipe(select(enquiriesSelector));
   }
 
   ngOnInit(): void {
     this.store.dispatch(GlobalActions.setHeader({ header: 'Enquiries' }));
     this.store.dispatch(EnquiriesAction.getEnquiries());
-  }
-
-  getPropertyRoute(id: string): string {
-    return `../properties/property/${id}`;
-  }
-
-  getEnquiryRoute(id: string): string {
-    return `enquiry/${id}`;
   }
 }

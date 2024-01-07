@@ -11,6 +11,7 @@ import {
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 import { AuthActions } from '../../modules/authentication/store/actions';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,11 +25,13 @@ export class SidebarComponent implements OnDestroy, OnInit {
   subscriptions: Subscription[] = [];
   favoritesLength$: Observable<number>;
   notificatiosCount$: Observable<number>;
+  appRoutes = AppRoutes;
 
   constructor(
     private store: Store<AppStateInterface>,
     private authServices: AuthenticationService,
   ) {
+    console.log(this.appRoutes.auth.children.login({}).$)
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
     this.favoritesLength$ = this.store.pipe(select(favoritesCountSelector));

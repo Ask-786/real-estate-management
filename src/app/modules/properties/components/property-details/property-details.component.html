@@ -168,7 +168,10 @@
   <section class="md:w-9/12">
     <div class="m-5 p-3 bg-color-dark rounded-md">
       <p class="mb-3">You have already enquired to this property</p>
-      <button mat-stroked-button routerLink="/enquiries/own-enquiries">
+      <button
+        mat-stroked-button
+        [routerLink]="appRoutes.enquiries({}).ownEnquiries({}).$"
+      >
         Go to enquiries
       </button>
     </div>

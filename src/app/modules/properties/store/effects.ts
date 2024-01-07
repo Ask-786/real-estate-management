@@ -229,7 +229,7 @@ export class PropertiesEffects {
           }),
           catchError((err) => {
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message }),
+              GlobalActions.gotError({ error: err.error?.message }),
             );
             return of(PropertiesActions.getFavoriteIdsFailure());
           }),

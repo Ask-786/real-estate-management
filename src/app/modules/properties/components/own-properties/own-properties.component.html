@@ -1,36 +1,52 @@
 <div class="w-full">
-    <div class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-        *ngIf="(ownProperties$ | async)?.length; else noItems">
-        <div *ngFor="let property of ownProperties$ | async" class="m-3">
-            <app-property>
-                <img mat-card-image [src]="property.images[0]" id="image" alt="Photo of {{property.title}}"
-                    class="h-56 w-full">
-                <h2 id="title" class="text-2xl font-medium">
-                    {{property.title}}
-                </h2>
-                <span id="createdAt" i class="text-stone-400 text-sm">
-                    {{property.createdAt | date : 'mediumDate'}}
-                </span>
-                <p id="description" class="text-stone-300 mt-2 text-ellipsis h-28 overflow-hidden">
-                    {{property.description}}
-                </p>
-                <h2 id="price" class="text-xl mt-1 mb-1 font-medium">
-                    INR: {{property.price}}
-                </h2>
-                <span id="propertyType" class="pl-2 pr-2 bg-cyan-900 rounded-xl">
-                    {{property.propertyType}}
-                </span>
-                <button mat-raised-button id="button" class="w-full" [routerLink]="getOwnPropertyUrl(property._id)">View
-                    Property</button>
-            </app-property>
-        </div>
+  <div
+    class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+    *ngIf="(ownProperties$ | async)?.length; else noItems"
+  >
+    <div *ngFor="let property of ownProperties$ | async" class="m-3">
+      <app-property>
+        <img
+          mat-card-image
+          [src]="property.images[0]"
+          id="image"
+          alt="Photo of {{ property.title }}"
+          class="h-56 w-full"
+        />
+        <h2 id="title" class="text-2xl font-medium">
+          {{ property.title }}
+        </h2>
+        <span id="createdAt" i class="text-stone-400 text-sm">
+          {{ property.createdAt | date: "mediumDate" }}
+        </span>
+        <p
+          id="description"
+          class="text-stone-300 mt-2 text-ellipsis h-28 overflow-hidden"
+        >
+          {{ property.description }}
+        </p>
+        <h2 id="price" class="text-xl mt-1 mb-1 font-medium">
+          INR: {{ property.price }}
+        </h2>
+        <span id="propertyType" class="pl-2 pr-2 bg-cyan-900 rounded-xl">
+          {{ property.propertyType }}
+        </span>
+        <button
+          mat-raised-button
+          id="button"
+          class="w-full"
+          [routerLink]="
+            appRoutes.properties({}).ownProperty({ id: property._id }).$
+          "
+        >
+          View Property
+        </button>
+      </app-property>
     </div>
+  </div>
 </div>
 
 <ng-template #noItems>
-    <div class="bg-color-dark flex items-center justify-center m-3 rounded-t-xl">
-        <p class="m-10">
-            No Own Properties Available
-        </p>
-    </div>
+  <div class="bg-color-dark flex items-center justify-center m-3 rounded-t-xl">
+    <p class="m-10">No Own Properties Available</p>
+  </div>
 </ng-template>

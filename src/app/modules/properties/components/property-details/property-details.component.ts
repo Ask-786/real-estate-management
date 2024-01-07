@@ -19,6 +19,7 @@ import {
 } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { EnquiriesAction } from '../../../enquiries/store/actions';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-property-details',
@@ -37,6 +38,7 @@ export class PropertyDetailsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   isFavorite$: Observable<boolean>;
   property!: PropertyModelInterface | null;
+  appRoutes = AppRoutes;
 
   enquiryTopics = [
     'Payment',

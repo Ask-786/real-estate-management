@@ -43,13 +43,12 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   private notificationService = inject(NotificationService);
   public dialogData: PropertyModelInterface = inject(MAT_DIALOG_DATA);
 
-  propertyData!: FormGroup<PropertyFormModelInterface>;
   isLoading$: Observable<boolean>;
-  lattitude: number | undefined;
-  longitude: number | undefined;
-  propertyTypes: string[] = ['Land', 'Residential', 'Commercial', 'Industrial'];
+  lattitude?: number;
+  longitude?: number;
+  propertyTypes = ['Land', 'Residential', 'Commercial', 'Industrial'] as const;
   subscriptions: Subscription[] = [];
-  isHidden = true as boolean;
+  isHidden = true;
   propertyId!: string;
 
   @ViewChild('imageOneDisplay') imageOneDisplay!: ElementRef;
@@ -75,6 +74,42 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   imageButtonThreeValue = 'Image 3' as string;
   imageButtonFourValue = 'Image 4' as string;
 
+  propertyData = new FormGroup<PropertyFormModelInterface>({
+    title: new FormControl(this.dialogData.title, [Validators.required]),
+    price: new FormControl(this.dialogData.price, [Validators.required]),
+    tags: new FormControl(this.dialogData.tags),
+    description: new FormControl(this.dialogData.description, [
+      Validators.required,
+      Validators.minLength(10),
+    ]),
+    lattitude: new FormControl(this.dialogData.coOrdinates.lattitude, [
+      Validators.required,
+    ]),
+    longitude: new FormControl(this.dialogData.coOrdinates.longitude, [
+      Validators.required,
+    ]),
+    propertyType: new FormControl(this.dialogData.propertyType, [
+      Validators.required,
+    ]),
+    country: new FormControl(this.dialogData.address.country, [
+      Validators.required,
+    ]),
+    state: new FormControl(this.dialogData.address.state, [
+      Validators.required,
+    ]),
+    district: new FormControl(this.dialogData.address.district, [
+      Validators.required,
+    ]),
+    city: new FormControl(this.dialogData.address.city, [Validators.required]),
+    streetAddress: new FormControl(this.dialogData.address.streetAddress, [
+      Validators.required,
+    ]),
+    zipCode: new FormControl(this.dialogData.address.zipCode, [
+      Validators.required,
+    ]),
+    images: new FormControl([]) as FormControl<string[]>,
+  });
+
   constructor() {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
   }
@@ -83,43 +118,6 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
     this.propertyId = this.dialogData._id;
     this.lattitude = this.dialogData.coOrdinates.lattitude;
     this.longitude = this.dialogData.coOrdinates.longitude;
-    this.propertyData = new FormGroup<PropertyFormModelInterface>({
-      title: new FormControl(this.dialogData.title, [Validators.required]),
-      price: new FormControl(this.dialogData.price, [Validators.required]),
-      tags: new FormControl(this.dialogData.tags),
-      description: new FormControl(this.dialogData.description, [
-        Validators.required,
-        Validators.minLength(10),
-      ]),
-      lattitude: new FormControl(this.dialogData.coOrdinates.lattitude, [
-        Validators.required,
-      ]),
-      longitude: new FormControl(this.dialogData.coOrdinates.longitude, [
-        Validators.required,
-      ]),
-      propertyType: new FormControl(this.dialogData.propertyType, [
-        Validators.required,
-      ]),
-      country: new FormControl(this.dialogData.address.country, [
-        Validators.required,
-      ]),
-      state: new FormControl(this.dialogData.address.state, [
-        Validators.required,
-      ]),
-      district: new FormControl(this.dialogData.address.district, [
-        Validators.required,
-      ]),
-      city: new FormControl(this.dialogData.address.city, [
-        Validators.required,
-      ]),
-      streetAddress: new FormControl(this.dialogData.address.streetAddress, [
-        Validators.required,
-      ]),
-      zipCode: new FormControl(this.dialogData.address.zipCode, [
-        Validators.required,
-      ]),
-      images: new FormControl([]) as FormControl<string[]>,
-    });
   }
 
   imageOneChange(event: Event) {

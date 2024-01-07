@@ -7,6 +7,7 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import { registeredUserSelector } from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
+import { AppRoutes } from 'src/app/shared/routes/routes';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   email: string | undefined;
   loginForm!: FormGroup;
   subscriptions: Subscription[] = [];
+  appRoutes = AppRoutes;
 
   constructor(private store: Store<AppStateInterface>) {
     this.registeredUser$ = this.store.pipe(

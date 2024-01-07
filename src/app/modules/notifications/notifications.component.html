@@ -8,7 +8,11 @@
       </span>
       <span id="content">{{ notification.content }}</span>
       <span
-        routerLink="/properties/own-properties/{{ notification.property._id }}"
+        [routerLink]="
+          appRoutes.properties({}).ownProperty({
+            id: notification.property._id
+          }).$
+        "
         id="property"
         class="cursor-pointer ml-2"
         >{{ notification.property.title }}</span

@@ -49,9 +49,7 @@ export class AuthenticationEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(
-              AuthActions.loginFailure({ error: err.error.message }),
-            );
+            return of(AuthActions.loginFailure({ error: err.error.message }));
           }),
         );
       }),
@@ -90,9 +88,7 @@ export class AuthenticationEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(
-              AuthActions.signupFailure({ error: err.error.message }),
-            );
+            return of(AuthActions.signupFailure({ error: err.error.message }));
           }),
         );
       }),

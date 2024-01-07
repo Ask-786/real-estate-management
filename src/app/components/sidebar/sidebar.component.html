@@ -17,15 +17,15 @@
       />
     </div>
 
-    <app-button routerLink="map">
+    <app-button [routerLink]="appRoutes.map({}).$">
       <mat-icon id="icon">map</mat-icon>
       <span id="name" class="flex items-center">Map</span>
     </app-button>
-    <app-button routerLink="properties">
+    <app-button [routerLink]="appRoutes.properties({}).home({}).$">
       <mat-icon id="icon">apartment</mat-icon>
       <span id="name" class="flex items-center">Properties</span>
     </app-button>
-    <app-button routerLink="properties/favorites">
+    <app-button [routerLink]="appRoutes.properties({}).favorites({}).$">
       <mat-icon id="icon">favorite</mat-icon>
       <span
         [matBadge]="(isLoggedIn$ | async) ? (favoritesLength$ | async) : null"
@@ -34,11 +34,11 @@
         >Favorites</span
       >
     </app-button>
-    <app-button routerLink="enquiries">
+        <app-button [routerLink]="appRoutes.enquiries({}).home({}).$">
       <mat-icon id="icon">chat</mat-icon>
       <span id="name" class="flex items-center">Enquiries</span>
     </app-button>
-    <app-button routerLink="notifications">
+    <app-button [routerLink]="appRoutes.notification({}).home({}).$">
       <mat-icon id="icon">notifications</mat-icon>
       <span
         [matBadge]="(isLoggedIn$ | async) ? (notificatiosCount$ | async) : null"
@@ -50,18 +50,21 @@
     <mat-divider
       class="justify-start w-11/12 lg:mx-3 md:mx-2.5 mx-3.5 mt-3 hover:bg-slate-800"
     ></mat-divider>
-    <app-button routerLink="user/profile">
+    <app-button [routerLink]="appRoutes.user({}).profile({}).$">
       <mat-icon id="icon">person</mat-icon>
       <span id="name" class="flex items-center">Account</span>
     </app-button>
     <app-button
-      routerLink="auth/signup"
+      [routerLink]="appRoutes.auth({}).signup({}).$"
       *ngIf="(isLoggedIn$ | async) === false"
     >
       <mat-icon id="icon">app_registration</mat-icon>
       <span id="name" class="flex items-center">Register</span>
     </app-button>
-    <app-button routerLink="auth/login" *ngIf="(isLoggedIn$ | async) === false">
+    <app-button
+      [routerLink]="appRoutes.auth({}).login({}).$"
+      *ngIf="(isLoggedIn$ | async) === false"
+    >
       <mat-icon id="icon">login</mat-icon>
       <span id="name" class="flex items-center">Login</span>
     </app-button>
