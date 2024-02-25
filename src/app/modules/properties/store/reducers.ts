@@ -4,7 +4,7 @@ import {
   PropertyStateInterface,
   SelectedPropertyInterface,
 } from './../model/propertyState.interface';
-import * as PropertyActions from './actions';
+import { PropertiesActions } from './actions';
 import { EnquiriesAction } from '../../enquiries/store/actions';
 
 const initialSelectedProperty: SelectedPropertyInterface = {
@@ -23,7 +23,7 @@ export const initialState: PropertyStateInterface = {
 
 export const reducers = createReducer(
   initialState,
-  on(PropertyActions.getPropertiesSuccess, (state, action) => {
+  on(PropertiesActions.getPropertiesSuccess, (state, action) => {
     let bottomReached = false;
     let page = 1;
     if (action.properties.length < 8) {
@@ -37,16 +37,16 @@ export const reducers = createReducer(
       mostBottomReached: bottomReached,
     };
   }),
-  on(PropertyActions.getPropertiesFailure, (state, action) => ({
+  on(PropertiesActions.getPropertiesFailure, (state, action) => ({
     ...state,
     error: action.error,
   })),
-  on(PropertyActions.addPropertySuccess, (state, action) => ({
+  on(PropertiesActions.addPropertySuccess, (state, action) => ({
     ...state,
     properties: [...state.properties, action.property],
     ownProperties: [...state.ownProperties, action.property],
   })),
-  on(PropertyActions.UpdatePropertySuccess, (state, action) => {
+  on(PropertiesActions.updatePropertySuccess, (state, action) => {
     let newProperties: PropertyModelInterface[];
     let newOwnProperties: PropertyModelInterface[];
     const allIndex = state.properties.findIndex(
@@ -78,11 +78,11 @@ export const reducers = createReducer(
       },
     };
   }),
-  on(PropertyActions.getOneProperty, (state) => ({
+  on(PropertiesActions.getOneProperty, (state) => ({
     ...state,
     isLoading: true,
   })),
-  on(PropertyActions.getOnePropertySuccess, (state, action) => {
+  on(PropertiesActions.getOnePropertySuccess, (state, action) => {
     let isFavorite = false;
     if (state.favoriteIds.includes(action.property._id)) {
       isFavorite = true;
@@ -95,11 +95,11 @@ export const reducers = createReducer(
       },
     };
   }),
-  on(PropertyActions.getOwnPropertiesSuccess, (state, action) => ({
+  on(PropertiesActions.getOwnPropertiesSuccess, (state, action) => ({
     ...state,
     ownProperties: action.ownProperties,
   })),
-  on(PropertyActions.deletePropertySuccess, (state) => {
+  on(PropertiesActions.deletePropertySuccess, (state) => {
     let newProperties: PropertyModelInterface[];
     let newOwnProperties: PropertyModelInterface[];
     const allIndex = state.properties.findIndex(
@@ -128,27 +128,27 @@ export const reducers = createReducer(
       ownProperties: newOwnProperties,
     };
   }),
-  on(PropertyActions.getFavoritesSuccess, (state, action) => ({
+  on(PropertiesActions.getFavoritesSuccess, (state, action) => ({
     ...state,
     favorites: action.favProperties,
   })),
-  on(PropertyActions.getFavoriteIdsSuccess, (state, action) => ({
+  on(PropertiesActions.getFavoriteIdsSuccess, (state, action) => ({
     ...state,
     favoriteIds: action.favoriteProperties,
   })),
-  on(PropertyActions.favourPropertySuccess, (state, action) => ({
+  on(PropertiesActions.favorPropertySuccess, (state, action) => ({
     ...state,
     selectedProperty: { ...state.selectedProperty, isFavorite: true },
     favoriteIds: [...state.favoriteIds, action.id],
   })),
-  on(PropertyActions.unFavourPropertySuccess, (state, action) => ({
+  on(PropertiesActions.unfavorPropertySuccess, (state, action) => ({
     ...state,
     selectedProperty: { ...state.selectedProperty, isFavorite: false },
     favoriteIds: state.favoriteIds.filter((el) => el !== action.id),
   })),
-  on(PropertyActions.searchPropertiesSuccess, (state, action) => ({
-    ...state,
-    properties: action.searchResult,
+  on(PropertiesActions.searchPropertiesSuccess, (state, action) => ({
+      ...state,
+      properties: action.searchResult,
   })),
   on(EnquiriesAction.createEnquirySuccess, (state, action) => {
     const modifiedProperty = JSON.parse(

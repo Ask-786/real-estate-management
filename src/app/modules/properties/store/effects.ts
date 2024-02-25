@@ -4,7 +4,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, mergeMap, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as PropertiesActions from './actions';
+import { PropertiesActions } from './actions';
 import { Store } from '@ngrx/store';
 import { GlobalActions } from 'src/app/shared/store/actions';
 
@@ -75,14 +75,14 @@ export class PropertiesEffects {
                   message: `Updated ${newProperty.title}`,
                 }),
               );
-              return PropertiesActions.UpdatePropertySuccess({ newProperty });
+              return PropertiesActions.updatePropertySuccess({ newProperty });
             }),
             catchError((err) => {
               this.store.dispatch(
                 GlobalActions.gotError({ error: err.error.message }),
               );
               return of(
-                PropertiesActions.UpdatePropertyFailure({
+                PropertiesActions.updatePropertyFailure({
                   error: err.error.message,
                 }),
               );
@@ -178,13 +178,13 @@ export class PropertiesEffects {
               GlobalActions.loadingEnd({ message: data.message }),
             );
             this.store.dispatch(GlobalActions.addFavorites());
-            return PropertiesActions.favourPropertySuccess({ id: data.id });
+            return PropertiesActions.favorPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(PropertiesActions.favourPropertyFailure());
+            return of(PropertiesActions.favorPropertyFailure());
           }),
         );
       }),
@@ -193,7 +193,7 @@ export class PropertiesEffects {
 
   unFavourProperty$ = createEffect(() =>
     this.action$.pipe(
-      ofType(PropertiesActions.unFavourProperty),
+      ofType(PropertiesActions.unfavourProperty),
       mergeMap((data) => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.unFavourProperty(data.id).pipe(
@@ -202,13 +202,13 @@ export class PropertiesEffects {
               GlobalActions.loadingEnd({ message: data.message }),
             );
             this.store.dispatch(GlobalActions.removeFavorites());
-            return PropertiesActions.unFavourPropertySuccess({ id: data.id });
+            return PropertiesActions.unfavorPropertySuccess({ id: data.id });
           }),
           catchError((err) => {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(PropertiesActions.unFavourPropertyFailure());
+            return of(PropertiesActions.unfavorPropertyFailure());
           }),
         );
       }),
@@ -217,7 +217,7 @@ export class PropertiesEffects {
 
   getFavorites$ = createEffect(() =>
     this.action$.pipe(
-      ofType(PropertiesActions.getFavorites),
+      ofType(PropertiesActions.getFavoriteIds),
       mergeMap(() => {
         this.store.dispatch(GlobalActions.loadingStart());
         return this.propertyService.getFavorites().pipe(
@@ -231,7 +231,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(PropertiesActions.getFavoritesFailure());
+            return of(PropertiesActions.getFavoriteIdsFailure());
           }),
         );
       }),
@@ -259,7 +259,7 @@ export class PropertiesEffects {
             this.store.dispatch(
               GlobalActions.gotError({ error: err.error.message }),
             );
-            return of(PropertiesActions.getFavoritesFailure());
+            return of(PropertiesActions.getFavoriteIdsFailure());
           }),
         );
       }),

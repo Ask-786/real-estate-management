@@ -5,7 +5,7 @@ import { FilterOptionDialogComponent } from './components/filter-option-dialog/f
 import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-option-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
-import * as PropertiesActions from './store/actions';
+import { PropertiesActions } from './store/actions';
 
 @Component({
   selector: 'app-properties',
@@ -21,7 +21,7 @@ export class PropertiesComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private store: Store,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class PropertiesComponent implements OnInit {
           searchValue: value.search,
           sortValue: { value: this.sortOption, desc: this.desc },
           filterValue: this.filterOptions,
-        })
+        }),
       );
     }
   }
@@ -60,7 +60,7 @@ export class PropertiesComponent implements OnInit {
               searchValue: searchValue,
               sortValue: { value: data.sortOption, desc: data.desc },
               filterValue: this.filterOptions,
-            })
+            }),
           );
         }
       });
@@ -82,7 +82,7 @@ export class PropertiesComponent implements OnInit {
             searchValue: searchValue,
             sortValue: { value: this.sortOption, desc: this.desc },
             filterValue: data,
-          })
+          }),
         );
       }
     });
@@ -94,7 +94,7 @@ export class PropertiesComponent implements OnInit {
 
   toPascalCase(string: string | undefined) {
     if (string)
-      return string.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+      return string.replace(/(\w)(\w*)/g, function (_, g1, g2) {
         return g1.toUpperCase() + g2.toLowerCase();
       });
     else return '';

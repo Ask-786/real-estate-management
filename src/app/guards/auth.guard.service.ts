@@ -3,19 +3,17 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AppStateInterface } from '../models/appState.interface';
-import * as GlobalSelectors from '../shared/store/selectors';
+import { isLoggedInSelector } from '../shared/store/selectors';
 
 @Injectable()
-export class AuthGuardService  {
+export class AuthGuardService {
   private router = inject(Router);
   private store = inject(Store<AppStateInterface>);
 
   isLoggedIn$: Observable<boolean>;
 
   constructor() {
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector),
-    );
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 
   canActivate() {

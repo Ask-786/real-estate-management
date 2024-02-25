@@ -5,7 +5,7 @@ import { PropertyModelInterface } from './../../modules/properties/model/propert
 import { CommonService } from './../common.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import * as L from 'leaflet';
+import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 export class MapViewComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];
   myControl = new FormControl('');
-  private map!: L.Map;
+  private map!: Map;
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -34,7 +34,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   }
 
   private initMap(properties: PropertyModelInterface[]): void {
-    this.map = L.map('map', {
+    this.map = map('map', {
       center: [11.151477, 76.365746],
       zoom: 15,
       minZoom: 12,
@@ -44,7 +44,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
       bounceAtZoomLimits: false,
     });
 
-    const tiles = L.tileLayer(
+    const tiles = tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         maxZoom: 18,
@@ -55,14 +55,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
     );
 
     const icon = (propertyType: string) => {
-      return L.icon({
+      return icon_1({
         iconUrl: `assets/images/markers/marker-${propertyType}.svg`,
         iconSize: [35, 35],
       });
     };
 
     properties.forEach((p) => {
-      L.marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
+      marker([p.coOrdinates.lattitude, p.coOrdinates.longitude], {
         icon: icon(p.propertyType),
       })
         .addTo(this.map)

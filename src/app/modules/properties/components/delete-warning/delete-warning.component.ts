@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
-import * as PropertiesActions from '../../store/actions';
+import { PropertiesActions} from '../../store/actions';
 
 @Component({
   selector: 'app-delete-warning',

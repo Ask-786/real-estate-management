@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as EnquiriesSelectors from '../../store/selectors';
+import { userEnquiriesSelector } from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
 
 @Component({
@@ -16,7 +16,7 @@ export class UserEnquiriesComponent implements OnInit {
 
   constructor(private store: Store<AppStateInterface>) {
     this.enquiries$ = this.store.pipe(
-      select(EnquiriesSelectors.userEnquiriesSelector),
+      select(userEnquiriesSelector),
     );
   }
 

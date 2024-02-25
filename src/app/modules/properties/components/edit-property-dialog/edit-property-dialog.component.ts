@@ -19,10 +19,10 @@ import {
   inject,
 } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as GlobalSelectors from '../../../../shared/store/selectors';
+import { isLoadingSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
-import * as PropertiesActions from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import {
   AddPropertyInterface,
   PropertyFormModelInterface,
@@ -76,9 +76,7 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   imageButtonFourValue = 'Image 4' as string;
 
   constructor() {
-    this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector),
-    );
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
   }
 
   ngOnInit() {
@@ -227,39 +225,42 @@ export class EditPropertyDialogComponent implements OnInit, OnDestroy {
 
       imagesArray.forEach((el, index) => {
         this.subscriptions.push(
-          this.propertiesService.gets3UploadUrl()
-          .pipe(finalize(() => this.store.dispatch(GlobalActions.loadingEnd({}))))
-          .subscribe({
-            next: (data) => {
-              const imgUrl = data.uploadUrl.split('?')[0];
-              images.push(imgUrl);
-              this.subscriptions.push(
-                this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
-                  next: () => {
-                    if (index === 3) {
-                      this.store.dispatch(
-                        PropertiesActions.updateProperty({
-                          id: this.propertyId,
-                          propertyData: this.propertyData
-                            .value as AddPropertyInterface,
-                          images,
-                        }),
+          this.propertiesService
+            .gets3UploadUrl()
+            .pipe(
+              finalize(() => this.store.dispatch(GlobalActions.loadingEnd({}))),
+            )
+            .subscribe({
+              next: (data) => {
+                const imgUrl = data.uploadUrl.split('?')[0];
+                images.push(imgUrl);
+                this.subscriptions.push(
+                  this.s3Service.uploadImages(data.uploadUrl, el).subscribe({
+                    next: () => {
+                      if (index === 3) {
+                        this.store.dispatch(
+                          PropertiesActions.updateProperty({
+                            id: this.propertyId,
+                            propertyData: this.propertyData
+                              .value as AddPropertyInterface,
+                            images,
+                          }),
+                        );
+                        this.dialogRef.close();
+                      }
+                    },
+                    error: (err) => {
+                      this.notificationService.warn(
+                        `Image Upload: ${err.statusText}`,
                       );
-                      this.dialogRef.close();
-                    }
-                  },
-                  error: (err) => {
-                    this.notificationService.warn(
-                      `Image Upload: ${err.statusText}`,
-                    );
-                  },
-                }),
-              );
-            },
-            error: (err) => {
-              this.notificationService.warn(err.error.message);
-            },
-          }),
+                    },
+                  }),
+                );
+              },
+              error: (err) => {
+                this.notificationService.warn(err.error.message);
+              },
+            }),
         );
       });
     } else if (this.isHidden) {

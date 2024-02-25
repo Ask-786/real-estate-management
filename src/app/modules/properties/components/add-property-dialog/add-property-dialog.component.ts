@@ -20,8 +20,8 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as PropertiesActions from '../../store/actions';
-import * as GlobalSelectors from '../../../../shared/store/selectors';
+import { PropertiesActions } from '../../store/actions';
+import { isLoadingSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -71,9 +71,7 @@ export class AddPropertyDialogComponent implements OnInit, OnDestroy {
     private s3Service: S3Service,
     private notificationService: NotificationService,
   ) {
-    this.isLoading$ = this.store.pipe(
-      select(GlobalSelectors.isLoadingSelector),
-    );
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
   }
 
   openMap() {

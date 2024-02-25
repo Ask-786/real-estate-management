@@ -4,7 +4,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import * as AuthenticationSelectors from '../../store/selectors';
+import { registeredUserSelector } from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
 
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<AppStateInterface>) {
     this.registeredUser$ = this.store.pipe(
-      select(AuthenticationSelectors.registeredUserSelector),
+      select(registeredUserSelector),
     );
   }
 

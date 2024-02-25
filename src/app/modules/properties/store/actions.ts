@@ -3,133 +3,98 @@ import {
   AddPropertyInterface,
   PropertyTypeInterface,
 } from './../model/property.model';
-import { createAction, props } from '@ngrx/store';
+import {
+  createActionGroup,
+  emptyProps,
+  props,
+} from '@ngrx/store';
 
-export const getProperties = createAction(
-  '[Properties] Get Properties',
-  props<{ page: number }>()
-);
-export const getPropertiesSuccess = createAction(
-  '[Properties] Get Properties Success',
-  props<{ properties: PropertyModelInterface[] }>()
-);
-export const getPropertiesFailure = createAction(
-  '[Properties] Get Properties Failure',
-  props<{ error: string }>()
-);
+export const PropertiesActions = createActionGroup({
+  source: '[Properties]',
+  events: {
+    'Get Properties': props<{ page: number }>(),
 
-export const addProperty = createAction(
-  '[Properties] Add Property',
-  props<{ propertyData: AddPropertyInterface }>()
-);
-export const addPropertySuccess = createAction(
-  '[Properties] Add Property Success',
-  props<{ property: PropertyModelInterface }>()
-);
-export const addPropertyFailure = createAction(
-  '[Properties] Add Property Failure',
-  props<{ error: string }>()
-);
+    'Get Properties Success': props<{ properties: PropertyModelInterface[] }>(),
 
-export const updateProperty = createAction(
-  '[Properties] Update Property',
-  props<{ id: string; propertyData: AddPropertyInterface; images?: string[] }>()
-);
-export const UpdatePropertySuccess = createAction(
-  '[Properties] Update Property Success',
-  props<{ newProperty: PropertyModelInterface }>()
-);
-export const UpdatePropertyFailure = createAction(
-  '[Properties] Update Property Failure',
-  props<{ error: string }>()
-);
+    'Get Properties Failure': props<{ error: string }>(),
 
-export const getOneProperty = createAction(
-  '[Properties] Get One Property',
-  props<{ propertyId: string }>()
-);
-export const getOnePropertySuccess = createAction(
-  '[Properties] Get One Property Success',
-  props<{ property: PropertyModelInterface }>()
-);
-export const getOnePropertyFailure = createAction(
-  '[Properties] Get One Property Failure',
-  props<{ error: string }>()
-);
+    'Add Property': props<{ propertyData: AddPropertyInterface }>(),
 
-export const getOwnProperties = createAction('[Properties] Get Own Properties');
-export const getOwnPropertiesSuccess = createAction(
-  '[Properties] Get Own Properties Success',
-  props<{ ownProperties: PropertyModelInterface[] }>()
-);
-export const getOwnPropertiesFailure = createAction(
-  '[Properties] Get Own Properties Failure'
-);
+    'Add Property Success': props<{ property: PropertyModelInterface }>(),
 
-export const deleteProperty = createAction(
-  '[Properties] Delete Property',
-  props<{ id: string }>()
-);
-export const deletePropertySuccess = createAction(
-  '[Favorites] Delete Property Success'
-);
-export const deletePropertyFailure = createAction(
-  '[properties] Delete Property Failure'
-);
+    'Add Property Failure': props<{ error: string }>(),
 
-export const favourProperty = createAction(
-  '[Properties] Favour Property',
-  props<{ id: string }>()
-);
-export const favourPropertySuccess = createAction(
-  '[Properties] Favor Property Success',
-  props<{ id: string }>()
-);
-export const favourPropertyFailure = createAction(
-  '[Properties] Favor Property Failure'
-);
+    'Update Property': props<{
+      id: string;
+      propertyData: AddPropertyInterface;
+      images?: string[];
+    }>(),
 
-export const unFavourProperty = createAction(
-  '[Properties] Unfavour Property',
-  props<{ id: string }>()
-);
-export const unFavourPropertySuccess = createAction(
-  '[Properties] Unfavor Property Success',
-  props<{ id: string }>()
-);
-export const unFavourPropertyFailure = createAction(
-  '[Properties] Unfavor Property Failure'
-);
+    'Update Property Success': props<{
+      newProperty: PropertyModelInterface;
+    }>(),
 
-export const getFavorites = createAction('[Favorites] Get Favorite Properties');
-export const getFavoritesSuccess = createAction(
-  '[Properties] Get Favorite Properties Success',
-  props<{ favProperties: PropertyModelInterface[] }>()
-);
-export const getFavoritesFailure = createAction(
-  '[Properties] Get Favorite Properties Failure'
-);
+    'Update Property Failure': props<{ error: string }>(),
 
-export const getFavoriteIds = createAction('[Favorites] Get Favorite Ids');
-export const getFavoriteIdsSuccess = createAction(
-  '[Properties] Get Favorite Ids Success',
-  props<{ user: string; favoriteProperties: string[] }>()
-);
-export const getFavoriteIdsFailure = createAction(
-  '[Properties] Get Favorite Ids Failure'
-);
-export const searchProperties = createAction(
-  '[Properties] Search Properties',
-  props<{
-    searchValue?: string;
-    sortValue?: { value: string; desc: boolean };
-    filterValue?: PropertyTypeInterface;
-  }>()
-);
-export const searchPropertiesSuccess = createAction(
-  '[Properties] Search Properties Success',
-  props<{ searchResult: PropertyModelInterface[] }>()
-);
-export const searchPropertiesFailure = createAction(
-  '[Properties] Search Properties Failure'
-);
+    'Get One Property': props<{ propertyId: string }>(),
+
+    'Get One Property Success': props<{ property: PropertyModelInterface }>(),
+
+    'Get One Property Failure': props<{ error: string }>(),
+
+    'Get Own Properties': emptyProps(),
+
+    'Get Own Properties Success': props<{
+      ownProperties: PropertyModelInterface[];
+    }>(),
+
+    'Get Own Properties Failure': emptyProps(),
+
+    'Delete Property': props<{ id: string }>(),
+
+    'Delete Property Success': emptyProps(),
+
+    'Delete Property Failure': emptyProps(),
+
+    'Favour Property': props<{ id: string }>(),
+
+    'Favor Property Success': props<{ id: string }>(),
+
+    'Favor Property Failure': emptyProps(),
+
+    'Unfavour Property': props<{ id: string }>(),
+
+    'Unfavor Property Success': props<{ id: string }>(),
+
+    'Unfavor Property Failure': emptyProps(),
+
+    'Get Favorites Properties': emptyProps(),
+
+    'Get Favorites Success': props<{
+      favProperties: PropertyModelInterface[];
+    }>(),
+
+    'Get Favorite Properties Failure': emptyProps(),
+
+    'Get Favorite Ids': emptyProps(),
+
+    'Get Favorite Ids Success': props<{
+      user: string;
+      favoriteProperties: string[];
+    }>(),
+
+    'Get Favorite Ids Failure': emptyProps(),
+
+    'Search Properties': props<{
+      searchValue?: string;
+      sortValue?: { value: string; desc: boolean };
+      filterValue?: PropertyTypeInterface;
+    }>(),
+
+    'Search Properties Success': props<{
+      searchResult: PropertyModelInterface[];
+    }>(),
+
+    'Search Properties Failure': emptyProps(),
+  },
+});

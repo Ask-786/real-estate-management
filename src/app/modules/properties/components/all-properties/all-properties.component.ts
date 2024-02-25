@@ -10,10 +10,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import * as PropertiesSelectors from '../../store/selectors';
-import * as GlobalSelectors from '../../../../shared/store/selectors';
+import {
+  propertiesSelector,
+  mostBottomReachedSelector,
+  favoriteIdsSelector,
+  propertyPageSelector,
+} from '../../store/selectors';
+import { isLoggedInSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import * as PropertiesActions from '../../store/actions';
+import { PropertiesActions } from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
@@ -38,24 +43,14 @@ export class AllPropertiesComponent implements OnInit, OnDestroy {
   propertyPage = 0;
 
   constructor() {
-    this.properties$ = this.store.pipe(
-      select(PropertiesSelectors.propertiesSelector),
-    );
+    this.properties$ = this.store.pipe(select(propertiesSelector));
     this.mostBottomReached$ = this.store.pipe(
-      select(PropertiesSelectors.mostBottomReachedSelector),
+      select(mostBottomReachedSelector),
     );
-    this.favoriteIds$ = this.store.pipe(
-      select(PropertiesSelectors.favoriteIdsSelector),
-    );
-    this.propertyPage$ = this.store.pipe(
-      select(PropertiesSelectors.propertyPageSelector),
-    );
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector),
-    );
-    this.isLoggedIn$ = this.store.pipe(
-      select(GlobalSelectors.isLoggedInSelector),
-    );
+    this.favoriteIds$ = this.store.pipe(select(favoriteIdsSelector));
+    this.propertyPage$ = this.store.pipe(select(propertyPageSelector));
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 
   ngOnInit(): void {

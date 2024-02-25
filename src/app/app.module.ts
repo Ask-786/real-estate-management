@@ -1,6 +1,5 @@
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { GlobalEffects } from './shared/store/effects';
-import { TokenInterceptor } from './token.interceptor';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { NgModule, isDevMode } from '@angular/core';
@@ -25,6 +24,7 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 import { ProtectLoginService } from './guards/protectLogin.service';
 import { AppStateInterface } from './models/appState.interface';
 import { GlobalActions } from './shared/store/actions';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
