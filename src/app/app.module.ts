@@ -51,6 +51,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
       maxAge: 25,
       logOnly: !isDevMode(),
       autoPause: true,
+      connectInZone: true,
     }),
   ],
   providers: [
