@@ -6,12 +6,13 @@ import { AppStateInterface } from '../models/appState.interface';
 import { isLoggedInSelector } from '../shared/store/selectors';
 
 @Injectable()
-export class ProtectLoginService  {
+export class ProtectLoginService {
   isLoggedIn$: Observable<boolean>;
-  constructor(private router: Router, private store: Store<AppStateInterface>) {
-    this.isLoggedIn$ = this.store.pipe(
-      select(isLoggedInSelector)
-    );
+  constructor(
+    private router: Router,
+    private store: Store<AppStateInterface>,
+  ) {
+    this.isLoggedIn$ = this.store.pipe(select(isLoggedInSelector));
   }
 
   canActivate(): Observable<boolean> {
@@ -21,7 +22,7 @@ export class ProtectLoginService  {
           this.router.navigateByUrl('map');
         }
         return !isNotLoggedIn;
-      })
+      }),
     );
   }
 }

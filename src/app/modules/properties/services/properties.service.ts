@@ -23,9 +23,7 @@ export class PropertiesService implements OnDestroy {
     private http: HttpClient,
     private store: Store<AppStateInterface>,
   ) {
-    this.propertiesPage$ = this.store.pipe(
-      select(propertyPageSelector),
-    );
+    this.propertiesPage$ = this.store.pipe(select(propertyPageSelector));
     this.subscriptions.push(
       this.propertiesPage$.subscribe({
         next: (data: number) => {

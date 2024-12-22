@@ -147,8 +147,8 @@ export const reducers = createReducer(
     favoriteIds: state.favoriteIds.filter((el) => el !== action.id),
   })),
   on(PropertiesActions.searchPropertiesSuccess, (state, action) => ({
-      ...state,
-      properties: action.searchResult,
+    ...state,
+    properties: action.searchResult,
   })),
   on(EnquiriesAction.createEnquirySuccess, (state, action) => {
     const modifiedProperty = JSON.parse(

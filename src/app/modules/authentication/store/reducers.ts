@@ -11,5 +11,5 @@ export const reducers = createReducer(
   on(AuthActions.signupSuccess, (state, action) => ({
     ...state,
     registeredUser: action.registeredUser,
-  }))
+  })),
 );

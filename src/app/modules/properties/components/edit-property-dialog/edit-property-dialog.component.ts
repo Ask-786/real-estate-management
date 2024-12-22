@@ -2,8 +2,20 @@ import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from './../../services/properties.service';
 import { NotificationService } from './../../../../shared/services/notification.service';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+} from '@angular/material/dialog';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Observable, Subscription, finalize } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import {
@@ -27,17 +39,42 @@ import {
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { MatFormField, MatLabel, MatError, MatHint } from '@angular/material/form-field';
+import {
+  MatFormField,
+  MatLabel,
+  MatError,
+  MatHint,
+} from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-edit-property-dialog',
-    templateUrl: './edit-property-dialog.component.html',
-    styleUrls: ['./edit-property-dialog.component.css'],
-    imports: [MatDialogTitle, NgIf, MatProgressBar, CdkScrollable, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatHint, MatButton, MatRadioGroup, NgFor, MatRadioButton, MatIcon, NgClass, MatDialogActions, AsyncPipe]
+  selector: 'app-edit-property-dialog',
+  templateUrl: './edit-property-dialog.component.html',
+  styleUrls: ['./edit-property-dialog.component.css'],
+  imports: [
+    MatDialogTitle,
+    NgIf,
+    MatProgressBar,
+    CdkScrollable,
+    MatDialogContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatHint,
+    MatButton,
+    MatRadioGroup,
+    NgFor,
+    MatRadioButton,
+    MatIcon,
+    NgClass,
+    MatDialogActions,
+    AsyncPipe,
+  ],
 })
 export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   private s3Service = inject(S3Service);

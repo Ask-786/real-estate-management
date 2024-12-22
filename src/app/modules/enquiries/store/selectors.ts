@@ -5,17 +5,17 @@ const selectFeature = (state: AppStateInterface) => state.enquiries;
 
 export const enquiriesSelector = createSelector(
   selectFeature,
-  (state) => state.enquiries
+  (state) => state.enquiries,
 );
 export const userEnquiriesSelector = createSelector(
   selectFeature,
-  (state) => state.userEnquiries
+  (state) => state.userEnquiries,
 );
 export const selectedEnquirySelector = createSelector(
   selectFeature,
-  (state) => state.selectedEnquiry
+  (state) => state.selectedEnquiry,
 );
 export const selectedEnquiryDiscussionsSelector = createSelector(
   selectFeature,
-  (state) => state.selectedEnquiry.discussons
+  (state) => state.selectedEnquiry.discussons,
 );

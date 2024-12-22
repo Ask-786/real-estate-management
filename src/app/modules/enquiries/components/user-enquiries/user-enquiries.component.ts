@@ -10,18 +10,16 @@ import { EnquiryComponent } from '../enquiry/enquiry.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-user-enquiries',
-    templateUrl: './user-enquiries.component.html',
-    styleUrls: ['./user-enquiries.component.css'],
-    imports: [NgIf, NgFor, EnquiryComponent, RouterLink, AsyncPipe, DatePipe]
+  selector: 'app-user-enquiries',
+  templateUrl: './user-enquiries.component.html',
+  styleUrls: ['./user-enquiries.component.css'],
+  imports: [NgIf, NgFor, EnquiryComponent, RouterLink, AsyncPipe, DatePipe],
 })
 export class UserEnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
 
   constructor(private store: Store<AppStateInterface>) {
-    this.enquiries$ = this.store.pipe(
-      select(userEnquiriesSelector),
-    );
+    this.enquiries$ = this.store.pipe(select(userEnquiriesSelector));
   }
 
   ngOnInit(): void {

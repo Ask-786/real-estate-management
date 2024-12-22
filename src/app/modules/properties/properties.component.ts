@@ -12,10 +12,17 @@ import { MatIcon } from '@angular/material/icon';
 import { MatRipple } from '@angular/material/core';
 
 @Component({
-    selector: 'app-properties',
-    templateUrl: './properties.component.html',
-    styleUrls: ['./properties.component.css'],
-    imports: [NgIf, ReactiveFormsModule, FormsModule, MatIcon, MatRipple, RouterOutlet]
+  selector: 'app-properties',
+  templateUrl: './properties.component.html',
+  styleUrls: ['./properties.component.css'],
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+    FormsModule,
+    MatIcon,
+    MatRipple,
+    RouterOutlet,
+  ],
 })
 export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;

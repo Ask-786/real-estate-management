@@ -6,7 +6,7 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root',
 })
 export class EnquiryDiscussionService {
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {}
 
   sendMessage(message: string, enquiryId: string, senderId: string): void {
     return this.socket.emit('sendMessage', { message, enquiryId, senderId });

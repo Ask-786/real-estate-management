@@ -13,10 +13,19 @@ import { NgIf, NgFor } from '@angular/common';
 import { MatOption } from '@angular/material/core';
 
 @Component({
-    selector: 'app-map-view',
-    templateUrl: './map-view.component.html',
-    styleUrls: ['./map-view.component.css'],
-    imports: [ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, NgIf, NgFor, MatOption]
+  selector: 'app-map-view',
+  templateUrl: './map-view.component.html',
+  styleUrls: ['./map-view.component.css'],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    NgIf,
+    NgFor,
+    MatOption,
+  ],
 })
 export class MapViewComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];

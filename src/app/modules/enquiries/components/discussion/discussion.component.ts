@@ -21,10 +21,21 @@ import { MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-discussion',
-    templateUrl: './discussion.component.html',
-    styleUrls: ['./discussion.component.css'],
-    imports: [NgFor, NgIf, ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, MatMiniFabButton, MatIcon, AsyncPipe]
+  selector: 'app-discussion',
+  templateUrl: './discussion.component.html',
+  styleUrls: ['./discussion.component.css'],
+  imports: [
+    NgFor,
+    NgIf,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatMiniFabButton,
+    MatIcon,
+    AsyncPipe,
+  ],
 })
 export class DiscussionComponent implements OnInit, OnDestroy {
   user$: Observable<UserModelInterface | null>;

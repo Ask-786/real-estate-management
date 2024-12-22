@@ -2,7 +2,12 @@ import { DeleteWarningComponent } from './../delete-warning/delete-warning.compo
 import { EditPropertyDialogComponent } from './../edit-property-dialog/edit-property-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
@@ -29,10 +34,27 @@ import { MatInput } from '@angular/material/input';
 import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 
 @Component({
-    selector: 'app-property-details',
-    templateUrl: './property-details.component.html',
-    styleUrls: ['./property-details.component.css'],
-    imports: [NgIf, MatButton, MatIconButton, MatIcon, MaskImageDirective, NgFor, MapComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatRadioGroup, MatRadioButton, RouterLink, AsyncPipe]
+  selector: 'app-property-details',
+  templateUrl: './property-details.component.html',
+  styleUrls: ['./property-details.component.css'],
+  imports: [
+    NgIf,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MaskImageDirective,
+    NgFor,
+    MapComponent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatRadioGroup,
+    MatRadioButton,
+    RouterLink,
+    AsyncPipe,
+  ],
 })
 export class PropertyDetailsComponent implements OnInit, OnDestroy {
   selectedImage = 0 as number;

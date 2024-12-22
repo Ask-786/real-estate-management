@@ -10,10 +10,17 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
-    imports: [MatToolbar, MatIconButton, MatIcon, NgIf, MatProgressBar, AsyncPipe]
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatIcon,
+    NgIf,
+    MatProgressBar,
+    AsyncPipe,
+  ],
 })
 export class NavbarComponent {
   @Output() toggleSide = new EventEmitter();
@@ -25,9 +32,7 @@ export class NavbarComponent {
   title!: string;
 
   constructor(private store: Store<AppStateInterface>) {
-    this.isLoading$ = this.store.pipe(
-      select(isLoadingSelector),
-    );
+    this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.header$ = this.store.pipe(select(selectHeader));
   }
 

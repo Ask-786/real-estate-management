@@ -28,10 +28,20 @@ import { MatCardImage } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-all-properties',
-    templateUrl: './all-properties.component.html',
-    styleUrls: ['./all-properties.component.css'],
-    imports: [NgIf, MatButton, RouterLink, NgFor, PropertyComponent, MatCardImage, MatIcon, AsyncPipe, DatePipe]
+  selector: 'app-all-properties',
+  templateUrl: './all-properties.component.html',
+  styleUrls: ['./all-properties.component.css'],
+  imports: [
+    NgIf,
+    MatButton,
+    RouterLink,
+    NgFor,
+    PropertyComponent,
+    MatCardImage,
+    MatIcon,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class AllPropertiesComponent implements OnInit, OnDestroy {
   private store = inject<Store<AppStateInterface>>(Store);

@@ -11,14 +11,14 @@ export class NotificationsService {
 
   getNotifications() {
     return this.http.get<{ notifications: NotificationsModelInterface[] }>(
-      `${environment.baseUrl}/notifications`
+      `${environment.baseUrl}/notifications`,
     );
   }
 
   changeReadStatus(id: string) {
     return this.http.patch<{ status: boolean }>(
       `${environment.baseUrl}/notifications/${id}`,
-      {}
+      {},
     );
   }
 }

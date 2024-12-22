@@ -12,14 +12,15 @@ import { reducers } from './store/reducers';
 import { AuthenticationEffects } from './store/effects';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     AuthenticationRoutingModule,
     ReactiveFormsModule,
     StoreModule.forFeature('authentication', reducers),
     EffectsModule.forFeature([AuthenticationEffects]),
-    LoginComponent, SignupComponent,
-],
-    providers: [],
+    LoginComponent,
+    SignupComponent,
+  ],
+  providers: [],
 })
 export class AuthenticationModule {}

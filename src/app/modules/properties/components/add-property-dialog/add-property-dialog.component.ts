@@ -4,7 +4,13 @@ import { S3Service } from './../../../../shared/services/s3.service';
 import { PropertiesService } from '../../services/properties.service';
 import { Subscription, Observable, finalize } from 'rxjs';
 import { MapDialogComponent } from './../../../../shared/components/map-dialog/map-dialog.component';
-import { MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import {
   AddPropertyInterface,
   PropertyFormModelInterface,
@@ -17,14 +23,29 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { PropertiesActions } from '../../store/actions';
 import { isLoadingSelector } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChipGrid, MatChipRow, MatChipRemove, MatChipInput } from '@angular/material/chips';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+  MatAutocomplete,
+} from '@angular/material/autocomplete';
+import {
+  MatChipInputEvent,
+  MatChipGrid,
+  MatChipRow,
+  MatChipRemove,
+  MatChipInput,
+} from '@angular/material/chips';
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -37,10 +58,37 @@ import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
 
 @Component({
-    selector: 'app-add-property-dialog',
-    templateUrl: './add-property-dialog.component.html',
-    styleUrls: ['./add-property-dialog.component.css'],
-    imports: [MatDialogTitle, NgIf, MatProgressBar, CdkScrollable, MatDialogContent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatChipGrid, NgFor, MatChipRow, MatChipRemove, MatIcon, MatChipInput, MatAutocompleteTrigger, MatAutocomplete, MatOption, MatButton, MatRadioGroup, MatRadioButton, NgClass, MatDialogActions, AsyncPipe, FilterPipe]
+  selector: 'app-add-property-dialog',
+  templateUrl: './add-property-dialog.component.html',
+  styleUrls: ['./add-property-dialog.component.css'],
+  imports: [
+    MatDialogTitle,
+    NgIf,
+    MatProgressBar,
+    CdkScrollable,
+    MatDialogContent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatChipGrid,
+    NgFor,
+    MatChipRow,
+    MatChipRemove,
+    MatIcon,
+    MatChipInput,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    MatButton,
+    MatRadioGroup,
+    MatRadioButton,
+    NgClass,
+    MatDialogActions,
+    AsyncPipe,
+    FilterPipe,
+  ],
 })
 export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   type!: PropertyTypeEnum;

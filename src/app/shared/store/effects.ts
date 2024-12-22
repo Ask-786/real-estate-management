@@ -14,7 +14,7 @@ export class GlobalEffects {
     private store: Store,
     private authService: AuthenticationService,
     private notificationService: NotificationService,
-    private globalService: GlobalService
+    private globalService: GlobalService,
   ) {}
 
   checkAuth$ = createEffect(() =>
@@ -35,17 +35,17 @@ export class GlobalEffects {
               this.authService.removeToken();
             }
             this.store.dispatch(
-              GlobalActions.gotError({ error: err.error.message })
+              GlobalActions.gotError({ error: err.error.message }),
             );
             return of(
               GlobalActions.checkAuthFailure({
                 error: err.error.message || 'something went wrong',
-              })
+              }),
             );
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   getFavorites$ = createEffect(() =>
@@ -59,11 +59,11 @@ export class GlobalEffects {
             });
           }),
           catchError((err) =>
-            of(GlobalActions.gotError({ error: err.error.message }))
-          )
-        )
-      )
-    )
+            of(GlobalActions.gotError({ error: err.error.message })),
+          ),
+        ),
+      ),
+    ),
   );
 
   getNotifications$ = createEffect(() =>
@@ -77,20 +77,20 @@ export class GlobalEffects {
             });
           }),
           catchError((err) =>
-            of(GlobalActions.gotError({ error: err.error.message }))
-          )
-        )
-      )
-    )
+            of(GlobalActions.gotError({ error: err.error.message })),
+          ),
+        ),
+      ),
+    ),
   );
 
   getError$ = createEffect(
     () =>
       this.action$.pipe(
         ofType(GlobalActions.gotError),
-        tap((data) => this.notificationService.warn(data.error))
+        tap((data) => this.notificationService.warn(data.error)),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   loadingEnd$ = createEffect(
@@ -101,8 +101,8 @@ export class GlobalEffects {
           if (data.message) {
             return this.notificationService.sucess(data.message);
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }

@@ -1,10 +1,6 @@
 import { LoginForm, SignUpForm } from './../models/authentication.model';
 import { UserModelInterface } from '../../../shared/models/user.interface';
-import {
-  createActionGroup,
-  emptyProps,
-  props,
-} from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const AuthActions = createActionGroup({
   source: '[Authentication]',

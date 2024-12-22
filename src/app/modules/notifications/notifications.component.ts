@@ -11,10 +11,17 @@ import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 import { NotificationComponent } from './components/notification/notification.component';
 
 @Component({
-    selector: 'app-notifications',
-    templateUrl: './notifications.component.html',
-    styleUrls: ['./notifications.component.css'],
-    imports: [NgIf, NgFor, NotificationComponent, RouterLink, AsyncPipe, DatePipe]
+  selector: 'app-notifications',
+  templateUrl: './notifications.component.html',
+  styleUrls: ['./notifications.component.css'],
+  imports: [
+    NgIf,
+    NgFor,
+    NotificationComponent,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class NotificationsComponent implements OnInit {
   notificaions$: Observable<NotificationsModelInterface[]>;
@@ -23,9 +30,7 @@ export class NotificationsComponent implements OnInit {
     private store: Store<AppStateInterface>,
     private router: Router,
   ) {
-    this.notificaions$ = this.store.pipe(
-      select(notificationsSelector),
-    );
+    this.notificaions$ = this.store.pipe(select(notificationsSelector));
   }
 
   ngOnInit(): void {

@@ -36,14 +36,14 @@ export class AuthenticationService {
       .post<loginRequestModelInterface>(
         `${environment.baseUrl}/auth/login`,
         userData,
-        httpOptions
+        httpOptions,
       )
       .pipe(
         tap((response: loginRequestModelInterface) => {
           if (response.status) {
             localStorage.setItem(this.TOKEN_NAME, response.access_token);
           }
-        })
+        }),
       );
   }
 
@@ -57,7 +57,7 @@ export class AuthenticationService {
 
   checkAuth() {
     return this.http.get<{ user: UserModelInterface; token: string }>(
-      `${environment.baseUrl}/auth/check-auth`
+      `${environment.baseUrl}/auth/check-auth`,
     );
   }
 }

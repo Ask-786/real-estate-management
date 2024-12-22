@@ -1,6 +1,11 @@
 import { UserModelInterface } from '../../../../shared/models/user.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  Validators,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
@@ -10,10 +15,10 @@ import { AuthActions } from '../../store/actions';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    imports: [ReactiveFormsModule, RouterLink]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [ReactiveFormsModule, RouterLink],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   registeredUser$: Observable<UserModelInterface | null>;
@@ -22,9 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(private store: Store<AppStateInterface>) {
-    this.registeredUser$ = this.store.pipe(
-      select(registeredUserSelector),
-    );
+    this.registeredUser$ = this.store.pipe(select(registeredUserSelector));
   }
 
   ngOnInit() {
@@ -42,9 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-    this.store.dispatch(
-      AuthActions.login({ loginData: this.loginForm.value }),
-    );
+    this.store.dispatch(AuthActions.login({ loginData: this.loginForm.value }));
   }
 
   ngOnDestroy() {

@@ -1,5 +1,10 @@
 import { CommonService } from './../../../components/common.service';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Map, LatLng, map, tileLayer, marker } from 'leaflet';
 import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
@@ -12,10 +17,24 @@ import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'app-map-dialog',
-    templateUrl: './map-dialog.component.html',
-    styleUrls: ['./map-dialog.component.css'],
-    imports: [CdkScrollable, MatDialogContent, ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, NgIf, NgFor, MatOption, MatDialogActions, MatButton, MatDialogClose]
+  selector: 'app-map-dialog',
+  templateUrl: './map-dialog.component.html',
+  styleUrls: ['./map-dialog.component.css'],
+  imports: [
+    CdkScrollable,
+    MatDialogContent,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    NgIf,
+    NgFor,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class MapDialogComponent implements OnInit {
   locations: MapLocationsInterface[] = [];
@@ -24,7 +43,7 @@ export class MapDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: LatLng,
-    private commonService: CommonService
+    private commonService: CommonService,
   ) {}
 
   private initMap(): void {
@@ -45,7 +64,7 @@ export class MapDialogComponent implements OnInit {
         minZoom: 3,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
+      },
     );
 
     tiles.addTo(this.map);

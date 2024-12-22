@@ -15,7 +15,7 @@ export class SignupService {
     return this.http.post(
       `${environment.baseUrl}/auth/signup`,
       userData,
-      httpOptions
+      httpOptions,
     );
   }
 }

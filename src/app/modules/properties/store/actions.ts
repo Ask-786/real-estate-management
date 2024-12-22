@@ -3,11 +3,7 @@ import {
   AddPropertyInterface,
   PropertyTypeInterface,
 } from './../model/property.model';
-import {
-  createActionGroup,
-  emptyProps,
-  props,
-} from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const PropertiesActions = createActionGroup({
   source: '[Properties]',

@@ -20,14 +20,15 @@ const config: SocketIoConfig = {
 };
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     NotificationsRoutingModule,
     SocketIoModule.forRoot(config),
     StoreModule.forFeature('notifications', reducers),
     EffectsModule.forFeature([NotificationEffects]),
-    NotificationComponent, NotificationsComponent,
-],
-    providers: [NotificationService, NotificationsSocketService],
+    NotificationComponent,
+    NotificationsComponent,
+  ],
+  providers: [NotificationService, NotificationsSocketService],
 })
 export class NotificationsModule {}

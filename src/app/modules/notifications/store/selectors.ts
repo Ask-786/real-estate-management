@@ -5,5 +5,5 @@ const selectFeatrue = (state: AppStateInterface) => state.notifications;
 
 export const notificationsSelector = createSelector(
   selectFeatrue,
-  (state) => state.notifications
+  (state) => state.notifications,
 );

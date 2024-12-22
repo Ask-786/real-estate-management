@@ -8,9 +8,8 @@ describe('AddPropertyDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AddPropertyDialogComponent]
-})
-    .compileComponents();
+      imports: [AddPropertyDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddPropertyDialogComponent);
     component = fixture.componentInstance;

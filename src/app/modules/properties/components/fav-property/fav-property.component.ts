@@ -13,10 +13,19 @@ import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-fav-property',
-    templateUrl: './fav-property.component.html',
-    styleUrls: ['./fav-property.component.css'],
-    imports: [NgIf, NgFor, PropertyComponent, MatCardImage, MatButton, RouterLink, AsyncPipe, DatePipe]
+  selector: 'app-fav-property',
+  templateUrl: './fav-property.component.html',
+  styleUrls: ['./fav-property.component.css'],
+  imports: [
+    NgIf,
+    NgFor,
+    PropertyComponent,
+    MatCardImage,
+    MatButton,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class FavPropertyComponent implements OnInit {
   favProperties$: Observable<PropertyModelInterface[]>;

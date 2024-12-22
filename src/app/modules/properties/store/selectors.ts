@@ -5,7 +5,7 @@ const selectFeature = (state: AppStateInterface) => state.properties;
 
 export const propertiesSelector = createSelector(
   selectFeature,
-  (state) => state.properties
+  (state) => state.properties,
 );
 
 export const selectedPropertySelector = createSelector(
@@ -15,23 +15,23 @@ export const selectedPropertySelector = createSelector(
 
 export const propertyPageSelector = createSelector(
   selectFeature,
-  (state) => state.page
+  (state) => state.page,
 );
 export const mostBottomReachedSelector = createSelector(
   selectFeature,
-  (state) => state.mostBottomReached
+  (state) => state.mostBottomReached,
 );
 export const ownPrpoertiesSelector = createSelector(
   selectFeature,
-  (state) => state.ownProperties
+  (state) => state.ownProperties,
 );
 
 export const favPropertiesSelector = createSelector(
   selectFeature,
-  (state) => state.favorites
+  (state) => state.favorites,
 );
 
 export const favoriteIdsSelector = createSelector(
   selectFeature,
-  (state) => state.favoriteIds
+  (state) => state.favoriteIds,
 );

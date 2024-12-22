@@ -10,12 +10,12 @@ export class GlobalService {
 
   getFavoritesCount() {
     return this.http.get<{ count: number }>(
-      `${environment.baseUrl}/favorites/get-count`
+      `${environment.baseUrl}/favorites/get-count`,
     );
   }
   getNotificationsCount() {
     return this.http.get<{ count: number }>(
-      `${environment.baseUrl}/notifications/get-count`
+      `${environment.baseUrl}/notifications/get-count`,
     );
   }
 }

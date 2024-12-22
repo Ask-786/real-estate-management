@@ -8,9 +8,8 @@ describe('DeleteWarningComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [DeleteWarningComponent]
-})
-    .compileComponents();
+      imports: [DeleteWarningComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteWarningComponent);
     component = fixture.componentInstance;

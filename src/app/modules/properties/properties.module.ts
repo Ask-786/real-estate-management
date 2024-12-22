@@ -26,7 +26,7 @@ import { MapComponent } from './components/map/map.component';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     PropertiesRoutingModule,
     ReactiveFormsModule,
@@ -48,7 +48,7 @@ import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
     SortOptionDialogComponent,
     FilterOptionDialogComponent,
     MapComponent,
-],
-    providers: [PropertiesService],
+  ],
+  providers: [PropertiesService],
 })
 export class PropertiesModule {}

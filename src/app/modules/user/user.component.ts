@@ -7,13 +7,13 @@ import { userSelector } from '../../shared/store/selectors';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.css'],
-    imports: [AsyncPipe]
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css'],
+  imports: [AsyncPipe],
 })
 export class UserComponent {
-  private store = inject(Store<AppStateInterface>)
+  private store = inject(Store<AppStateInterface>);
 
   user$: Observable<UserModelInterface | null>;
 

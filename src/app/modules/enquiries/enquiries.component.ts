@@ -12,18 +12,24 @@ import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 import { EnquiryComponent } from './components/enquiry/enquiry.component';
 
 @Component({
-    selector: 'app-enquiries',
-    templateUrl: './enquiries.component.html',
-    styleUrls: ['./enquiries.component.css'],
-    imports: [MatButton, RouterLink, NgIf, NgFor, EnquiryComponent, AsyncPipe, DatePipe]
+  selector: 'app-enquiries',
+  templateUrl: './enquiries.component.html',
+  styleUrls: ['./enquiries.component.css'],
+  imports: [
+    MatButton,
+    RouterLink,
+    NgIf,
+    NgFor,
+    EnquiryComponent,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class EnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;
 
   constructor(private store: Store<AppStateInterface>) {
-    this.enquiries$ = this.store.pipe(
-      select(enquiriesSelector),
-    );
+    this.enquiries$ = this.store.pipe(select(enquiriesSelector));
   }
 
   ngOnInit(): void {

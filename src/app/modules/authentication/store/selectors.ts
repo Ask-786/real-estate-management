@@ -5,5 +5,5 @@ export const featureSelect = (state: AppStateInterface) => state.authentication;
 
 export const registeredUserSelector = createSelector(
   featureSelect,
-  (state) => state.registeredUser
+  (state) => state.registeredUser,
 );

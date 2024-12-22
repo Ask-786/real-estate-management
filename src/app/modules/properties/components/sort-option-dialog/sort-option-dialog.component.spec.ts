@@ -8,9 +8,8 @@ describe('SortOptionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SortOptionDialogComponent]
-})
-    .compileComponents();
+      imports: [SortOptionDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SortOptionDialogComponent);
     component = fixture.componentInstance;

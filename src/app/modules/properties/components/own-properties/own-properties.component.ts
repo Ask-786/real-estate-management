@@ -13,10 +13,19 @@ import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-own-properties',
-    templateUrl: './own-properties.component.html',
-    styleUrls: ['./own-properties.component.css'],
-    imports: [NgIf, NgFor, PropertyComponent, MatCardImage, MatButton, RouterLink, AsyncPipe, DatePipe]
+  selector: 'app-own-properties',
+  templateUrl: './own-properties.component.html',
+  styleUrls: ['./own-properties.component.css'],
+  imports: [
+    NgIf,
+    NgFor,
+    PropertyComponent,
+    MatCardImage,
+    MatButton,
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class OwnPropertiesComponent implements OnInit {
   ownProperties$: Observable<PropertyModelInterface[]>;
