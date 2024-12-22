@@ -4,9 +4,10 @@ import { Component, Inject } from '@angular/core';
 import { PropertiesActions} from '../../store/actions';
 
 @Component({
-  selector: 'app-delete-warning',
-  templateUrl: './delete-warning.component.html',
-  styleUrls: ['./delete-warning.component.css'],
+    selector: 'app-delete-warning',
+    templateUrl: './delete-warning.component.html',
+    styleUrls: ['./delete-warning.component.css'],
+    standalone: false
 })
 export class DeleteWarningComponent {
   constructor(

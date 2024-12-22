@@ -27,9 +27,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
-  selector: 'app-add-property-dialog',
-  templateUrl: './add-property-dialog.component.html',
-  styleUrls: ['./add-property-dialog.component.css'],
+    selector: 'app-add-property-dialog',
+    templateUrl: './add-property-dialog.component.html',
+    styleUrls: ['./add-property-dialog.component.css'],
+    standalone: false
 })
 export class AddPropertyDialogComponent implements OnInit, OnDestroy {
   type!: PropertyTypeEnum;

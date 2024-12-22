@@ -9,9 +9,10 @@ import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-map-view',
-  templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.css'],
+    selector: 'app-map-view',
+    templateUrl: './map-view.component.html',
+    styleUrls: ['./map-view.component.css'],
+    standalone: false
 })
 export class MapViewComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];

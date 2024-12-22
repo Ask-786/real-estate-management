@@ -5,9 +5,10 @@ import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.css'],
+    standalone: false
 })
 export class MapComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];

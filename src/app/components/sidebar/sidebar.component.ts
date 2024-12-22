@@ -13,9 +13,10 @@ import { AuthenticationService } from 'src/app/modules/authentication/services/a
 import { AuthActions } from '../../modules/authentication/store/actions';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.css'],
+    standalone: false
 })
 export class SidebarComponent implements OnDestroy, OnInit {
   screenWidth: boolean = window.innerWidth > 768;

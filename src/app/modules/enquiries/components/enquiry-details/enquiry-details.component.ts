@@ -10,9 +10,10 @@ import { EnquiriesAction } from '../../store/actions';
 import { selectedEnquirySelector } from '../../store/selectors';
 
 @Component({
-  selector: 'app-enquiry-details',
-  templateUrl: './enquiry-details.component.html',
-  styleUrls: ['./enquiry-details.component.css'],
+    selector: 'app-enquiry-details',
+    templateUrl: './enquiry-details.component.html',
+    styleUrls: ['./enquiry-details.component.css'],
+    standalone: false
 })
 export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   enquiryId!: string;

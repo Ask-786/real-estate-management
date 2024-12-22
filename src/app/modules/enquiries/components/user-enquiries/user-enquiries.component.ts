@@ -7,9 +7,10 @@ import { userEnquiriesSelector } from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
 
 @Component({
-  selector: 'app-user-enquiries',
-  templateUrl: './user-enquiries.component.html',
-  styleUrls: ['./user-enquiries.component.css'],
+    selector: 'app-user-enquiries',
+    templateUrl: './user-enquiries.component.html',
+    styleUrls: ['./user-enquiries.component.css'],
+    standalone: false
 })
 export class UserEnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;

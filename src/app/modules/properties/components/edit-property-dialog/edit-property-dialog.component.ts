@@ -30,9 +30,10 @@ import {
 } from '../../model/property.model';
 
 @Component({
-  selector: 'app-edit-property-dialog',
-  templateUrl: './edit-property-dialog.component.html',
-  styleUrls: ['./edit-property-dialog.component.css'],
+    selector: 'app-edit-property-dialog',
+    templateUrl: './edit-property-dialog.component.html',
+    styleUrls: ['./edit-property-dialog.component.css'],
+    standalone: false
 })
 export class EditPropertyDialogComponent implements OnInit, OnDestroy {
   private s3Service = inject(S3Service);

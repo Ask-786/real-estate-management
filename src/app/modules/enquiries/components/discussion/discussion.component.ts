@@ -16,9 +16,10 @@ import {
 import { EnquiriesAction } from '../../store/actions';
 
 @Component({
-  selector: 'app-discussion',
-  templateUrl: './discussion.component.html',
-  styleUrls: ['./discussion.component.css'],
+    selector: 'app-discussion',
+    templateUrl: './discussion.component.html',
+    styleUrls: ['./discussion.component.css'],
+    standalone: false
 })
 export class DiscussionComponent implements OnInit, OnDestroy {
   user$: Observable<UserModelInterface | null>;

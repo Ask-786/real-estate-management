@@ -6,9 +6,10 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import { userSelector } from '../../shared/store/selectors';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css'],
+    standalone: false
 })
 export class UserComponent {
   private store = inject(Store<AppStateInterface>)

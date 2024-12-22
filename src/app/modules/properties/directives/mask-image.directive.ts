@@ -1,7 +1,8 @@
 import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appMaskImage]',
+    selector: '[appMaskImage]',
+    standalone: false
 })
 export class MaskImageDirective {
   constructor(private el: ElementRef) {

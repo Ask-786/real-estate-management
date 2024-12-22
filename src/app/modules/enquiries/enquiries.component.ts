@@ -8,9 +8,10 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Component({
-  selector: 'app-enquiries',
-  templateUrl: './enquiries.component.html',
-  styleUrls: ['./enquiries.component.css'],
+    selector: 'app-enquiries',
+    templateUrl: './enquiries.component.html',
+    styleUrls: ['./enquiries.component.css'],
+    standalone: false
 })
 export class EnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;

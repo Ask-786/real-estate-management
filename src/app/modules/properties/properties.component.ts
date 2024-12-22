@@ -8,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 import { PropertiesActions } from './store/actions';
 
 @Component({
-  selector: 'app-properties',
-  templateUrl: './properties.component.html',
-  styleUrls: ['./properties.component.css'],
+    selector: 'app-properties',
+    templateUrl: './properties.component.html',
+    styleUrls: ['./properties.component.css'],
+    standalone: false
 })
 export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;

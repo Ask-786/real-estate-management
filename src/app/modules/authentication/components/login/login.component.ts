@@ -9,9 +9,10 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit, OnDestroy {
   registeredUser$: Observable<UserModelInterface | null>;

@@ -6,9 +6,10 @@ import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-map-dialog',
-  templateUrl: './map-dialog.component.html',
-  styleUrls: ['./map-dialog.component.css'],
+    selector: 'app-map-dialog',
+    templateUrl: './map-dialog.component.html',
+    styleUrls: ['./map-dialog.component.css'],
+    standalone: false
 })
 export class MapDialogComponent implements OnInit {
   locations: MapLocationsInterface[] = [];

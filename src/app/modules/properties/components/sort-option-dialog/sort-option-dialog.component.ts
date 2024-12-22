@@ -2,9 +2,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-sort-option-dialog',
-  templateUrl: './sort-option-dialog.component.html',
-  styleUrls: ['./sort-option-dialog.component.css'],
+    selector: 'app-sort-option-dialog',
+    templateUrl: './sort-option-dialog.component.html',
+    styleUrls: ['./sort-option-dialog.component.css'],
+    standalone: false
 })
 export class SortOptionDialogComponent {
   sortOption!: string;

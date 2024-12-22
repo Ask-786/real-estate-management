@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-filter-option-dialog',
-  templateUrl: './filter-option-dialog.component.html',
-  styleUrls: ['./filter-option-dialog.component.css'],
+    selector: 'app-filter-option-dialog',
+    templateUrl: './filter-option-dialog.component.html',
+    styleUrls: ['./filter-option-dialog.component.css'],
+    standalone: false
 })
 export class FilterOptionDialogComponent implements OnInit {
   propertyType!: FormGroup;

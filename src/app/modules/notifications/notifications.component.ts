@@ -9,9 +9,10 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.css'],
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.css'],
+    standalone: false
 })
 export class NotificationsComponent implements OnInit {
   notificaions$: Observable<NotificationsModelInterface[]>;

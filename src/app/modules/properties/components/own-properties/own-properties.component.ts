@@ -8,9 +8,10 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { PropertyModelInterface } from '../../model/property.model';
 
 @Component({
-  selector: 'app-own-properties',
-  templateUrl: './own-properties.component.html',
-  styleUrls: ['./own-properties.component.css'],
+    selector: 'app-own-properties',
+    templateUrl: './own-properties.component.html',
+    styleUrls: ['./own-properties.component.css'],
+    standalone: false
 })
 export class OwnPropertiesComponent implements OnInit {
   ownProperties$: Observable<PropertyModelInterface[]>;

@@ -23,9 +23,10 @@ import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-
 import { AppStateInterface } from 'src/app/models/appState.interface';
 
 @Component({
-  selector: 'app-all-properties',
-  templateUrl: './all-properties.component.html',
-  styleUrls: ['./all-properties.component.css'],
+    selector: 'app-all-properties',
+    templateUrl: './all-properties.component.html',
+    styleUrls: ['./all-properties.component.css'],
+    standalone: false
 })
 export class AllPropertiesComponent implements OnInit, OnDestroy {
   private store = inject<Store<AppStateInterface>>(Store);

@@ -21,9 +21,10 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { EnquiriesAction } from '../../../enquiries/store/actions';
 
 @Component({
-  selector: 'app-property-details',
-  templateUrl: './property-details.component.html',
-  styleUrls: ['./property-details.component.css'],
+    selector: 'app-property-details',
+    templateUrl: './property-details.component.html',
+    styleUrls: ['./property-details.component.css'],
+    standalone: false
 })
 export class PropertyDetailsComponent implements OnInit, OnDestroy {
   selectedImage = 0 as number;

@@ -8,9 +8,10 @@ import { favPropertiesSelector } from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 
 @Component({
-  selector: 'app-fav-property',
-  templateUrl: './fav-property.component.html',
-  styleUrls: ['./fav-property.component.css'],
+    selector: 'app-fav-property',
+    templateUrl: './fav-property.component.html',
+    styleUrls: ['./fav-property.component.css'],
+    standalone: false
 })
 export class FavPropertyComponent implements OnInit {
   favProperties$: Observable<PropertyModelInterface[]>;
