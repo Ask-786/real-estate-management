@@ -6,13 +6,15 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { NotificationActions } from './store/actions';
 import { notificationsSelector } from './store/selectors';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @Component({
     selector: 'app-notifications',
     templateUrl: './notifications.component.html',
     styleUrls: ['./notifications.component.css'],
-    standalone: false
+    imports: [NgIf, NgFor, NotificationComponent, RouterLink, AsyncPipe, DatePipe]
 })
 export class NotificationsComponent implements OnInit {
   notificaions$: Observable<NotificationsModelInterface[]>;

@@ -1,18 +1,19 @@
 import { UserModelInterface } from '../../../../shared/models/user.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { registeredUserSelector } from '../../store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    standalone: false
+    imports: [ReactiveFormsModule, RouterLink]
 })
 export class LoginComponent implements OnInit, OnDestroy {
   registeredUser$: Observable<UserModelInterface | null>;

@@ -1,6 +1,6 @@
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { MaterialModule } from './../material/material.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -12,15 +12,14 @@ import { reducers } from './store/reducers';
 import { AuthenticationEffects } from './store/effects';
 
 @NgModule({
-  declarations: [LoginComponent, SignupComponent],
-  imports: [
+    imports: [
     CommonModule,
     AuthenticationRoutingModule,
-    MaterialModule,
     ReactiveFormsModule,
     StoreModule.forFeature('authentication', reducers),
     EffectsModule.forFeature([AuthenticationEffects]),
-  ],
-  providers: [],
+    LoginComponent, SignupComponent,
+],
+    providers: [],
 })
 export class AuthenticationModule {}

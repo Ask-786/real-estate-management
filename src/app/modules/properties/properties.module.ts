@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './../material/material.module';
+
 import { PropertiesService } from './services/properties.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,15 @@ import { MapComponent } from './components/map/map.component';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
 @NgModule({
-  declarations: [
+    imports: [
+    CommonModule,
+    PropertiesRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    EnquiriesModule,
+    FilterPipe,
+    StoreModule.forFeature('properties', reducers),
+    EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
     PropertiesComponent,
     PropertyComponent,
     AddPropertyDialogComponent,
@@ -40,18 +48,7 @@ import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
     SortOptionDialogComponent,
     FilterOptionDialogComponent,
     MapComponent,
-  ],
-  imports: [
-    CommonModule,
-    PropertiesRoutingModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    EnquiriesModule,
-    FilterPipe,
-    StoreModule.forFeature('properties', reducers),
-    EffectsModule.forFeature([PropertiesEffects, EnquiryEffects]),
-  ],
-  providers: [PropertiesService],
+],
+    providers: [PropertiesService],
 })
 export class PropertiesModule {}

@@ -8,8 +8,8 @@ describe('EnquiryReplayDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EnquiryReplayDialogComponent ]
-    })
+    imports: [EnquiryReplayDialogComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(EnquiryReplayDialogComponent);

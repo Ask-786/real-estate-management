@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { PropertyTypeInterface } from './model/property.model';
 import { Store } from '@ngrx/store';
 import { FilterOptionDialogComponent } from './components/filter-option-dialog/filter-option-dialog.component';
@@ -6,12 +6,16 @@ import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { PropertiesActions } from './store/actions';
+import { NgIf } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatRipple } from '@angular/material/core';
 
 @Component({
     selector: 'app-properties',
     templateUrl: './properties.component.html',
     styleUrls: ['./properties.component.css'],
-    standalone: false
+    imports: [NgIf, ReactiveFormsModule, FormsModule, MatIcon, MatRipple, RouterOutlet]
 })
 export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;

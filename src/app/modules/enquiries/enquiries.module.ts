@@ -1,6 +1,6 @@
 import { EnquiryDiscussionService } from './services/enquiry-discussion.service';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from './../material/material.module';
+
 import { EnquiryEffects } from './store/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
@@ -24,23 +24,20 @@ const config: SocketIoConfig = {
 };
 
 @NgModule({
-  declarations: [
-    EnquiriesComponent,
-    EnquiryComponent,
-    EnquiryDetailsComponent,
-    EnquiryReplayDialogComponent,
-    DiscussionComponent,
-    UserEnquiriesComponent,
-  ],
-  imports: [
-    MaterialModule,
+    imports: [
     CommonModule,
     EnquiriesRoutingModule,
     FormsModule,
     SocketIoModule.forRoot(config),
     StoreModule.forFeature('enquiries', reducers),
     EffectsModule.forFeature([EnquiryEffects]),
-  ],
-  providers: [EnquiryDiscussionService],
+    EnquiriesComponent,
+    EnquiryComponent,
+    EnquiryDetailsComponent,
+    EnquiryReplayDialogComponent,
+    DiscussionComponent,
+    UserEnquiriesComponent,
+],
+    providers: [EnquiryDiscussionService],
 })
 export class EnquiriesModule {}

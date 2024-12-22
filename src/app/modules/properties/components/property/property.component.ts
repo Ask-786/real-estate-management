@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { MatCard, MatCardContent } from '@angular/material/card';
 
 @Component({
     selector: 'app-property',
     templateUrl: './property.component.html',
     styleUrls: ['./property.component.css'],
-    standalone: false
+    imports: [MatCard, MatCardContent]
 })
 export class PropertyComponent {
   propertyUrl!: string;

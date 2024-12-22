@@ -8,8 +8,8 @@ describe('MapViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapViewComponent ]
-    })
+    imports: [MapViewComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(MapViewComponent);

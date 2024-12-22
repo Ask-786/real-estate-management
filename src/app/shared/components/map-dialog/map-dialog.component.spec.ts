@@ -8,8 +8,8 @@ describe('MapDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapDialogComponent ]
-    })
+    imports: [MapDialogComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(MapDialogComponent);

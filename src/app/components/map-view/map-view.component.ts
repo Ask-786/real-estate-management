@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MapLocationsInterface } from './../../models/mapLocations.interface';
 import { PropertyModelInterface } from './../../modules/properties/model/property.model';
 import { CommonService } from './../common.service';
@@ -7,12 +7,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Subscription } from 'rxjs';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgIf, NgFor } from '@angular/common';
+import { MatOption } from '@angular/material/core';
 
 @Component({
     selector: 'app-map-view',
     templateUrl: './map-view.component.html',
     styleUrls: ['./map-view.component.css'],
-    standalone: false
+    imports: [ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, NgIf, NgFor, MatOption]
 })
 export class MapViewComponent implements OnInit, OnDestroy {
   locations: MapLocationsInterface[] = [];

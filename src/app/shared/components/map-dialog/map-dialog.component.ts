@@ -1,15 +1,21 @@
 import { CommonService } from './../../../components/common.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Map, LatLng, map, tileLayer, marker } from 'leaflet';
 import { MapLocationsInterface } from 'src/app/models/mapLocations.interface';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgIf, NgFor } from '@angular/common';
+import { MatOption } from '@angular/material/core';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-map-dialog',
     templateUrl: './map-dialog.component.html',
     styleUrls: ['./map-dialog.component.css'],
-    standalone: false
+    imports: [CdkScrollable, MatDialogContent, ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, NgIf, NgFor, MatOption, MatDialogActions, MatButton, MatDialogClose]
 })
 export class MapDialogComponent implements OnInit {
   locations: MapLocationsInterface[] = [];

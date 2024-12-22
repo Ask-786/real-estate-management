@@ -2,7 +2,7 @@ import { NotificationEffects } from './store/effects';
 import { reducers } from './store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { MaterialModule } from './../material/material.module';
+
 import { NotificationsSocketService } from './services/notifications-socket.service';
 import { NotificationService } from './../../shared/services/notification.service';
 import { NgModule } from '@angular/core';
@@ -20,15 +20,14 @@ const config: SocketIoConfig = {
 };
 
 @NgModule({
-  declarations: [NotificationComponent, NotificationsComponent],
-  imports: [
+    imports: [
     CommonModule,
     NotificationsRoutingModule,
-    MaterialModule,
     SocketIoModule.forRoot(config),
     StoreModule.forFeature('notifications', reducers),
     EffectsModule.forFeature([NotificationEffects]),
-  ],
-  providers: [NotificationService, NotificationsSocketService],
+    NotificationComponent, NotificationsComponent,
+],
+    providers: [NotificationService, NotificationsSocketService],
 })
 export class NotificationsModule {}

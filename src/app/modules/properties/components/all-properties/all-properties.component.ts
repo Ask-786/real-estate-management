@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PropertyModelInterface } from './../../model/property.model';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -21,12 +21,17 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { PropertiesActions } from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { PropertyComponent } from '../property/property.component';
+import { MatCardImage } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-all-properties',
     templateUrl: './all-properties.component.html',
     styleUrls: ['./all-properties.component.css'],
-    standalone: false
+    imports: [NgIf, MatButton, RouterLink, NgFor, PropertyComponent, MatCardImage, MatIcon, AsyncPipe, DatePipe]
 })
 export class AllPropertiesComponent implements OnInit, OnDestroy {
   private store = inject<Store<AppStateInterface>>(Store);

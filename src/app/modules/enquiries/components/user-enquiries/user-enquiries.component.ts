@@ -5,12 +5,15 @@ import { select, Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { userEnquiriesSelector } from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { EnquiryComponent } from '../enquiry/enquiry.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-user-enquiries',
     templateUrl: './user-enquiries.component.html',
     styleUrls: ['./user-enquiries.component.css'],
-    standalone: false
+    imports: [NgIf, NgFor, EnquiryComponent, RouterLink, AsyncPipe, DatePipe]
 })
 export class UserEnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;

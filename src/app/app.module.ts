@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { MaterialModule } from './modules/material/material.module';
+
 import { MapViewComponent } from './components/map-view/map-view.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,35 +26,32 @@ import { AppStateInterface } from './models/appState.interface';
 import { GlobalActions } from './shared/store/actions';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
-@NgModule({ declarations: [
-        AppComponent,
-        SidebarComponent,
-        NavbarComponent,
-        MapViewComponent,
-        ButtonComponent,
-        DialogComponent,
-        MapDialogComponent,
-        NotFoundComponent,
-    ],
+@NgModule(/* TODO(standalone-migration): clean up removed NgModule class manually. 
+{ declarations: [AppComponent],
     bootstrap: [AppComponent], imports: [FormsModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        NotificationsModule,
-        StoreModule.forRoot({ global: reducers }),
-        EffectsModule.forRoot([GlobalEffects]),
-        StoreDevtoolsModule.instrument({
-            maxAge: 25,
-            logOnly: !isDevMode(),
-            autoPause: true,
-            connectInZone: true,
-        })], providers: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    NotificationsModule,
+    StoreModule.forRoot({ global: reducers }),
+    EffectsModule.forRoot([GlobalEffects]),
+    StoreDevtoolsModule.instrument({
+        maxAge: 25,
+        logOnly: !isDevMode(),
+        autoPause: true,
+        connectInZone: true,
+    }), SidebarComponent,
+    NavbarComponent,
+    MapViewComponent,
+    ButtonComponent,
+    DialogComponent,
+    MapDialogComponent,
+    NotFoundComponent], providers: [
         AuthGuardService,
         ProtectLoginService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
-    ] })
+    ] } */)
 export class AppModule {
   constructor(private store: Store<AppStateInterface>) {
     this.store.dispatch(GlobalActions.checkAuth());

@@ -11,12 +11,20 @@ import {
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthenticationService } from 'src/app/modules/authentication/services/authentication.service';
 import { AuthActions } from '../../modules/authentication/store/actions';
+import { MatDrawerContainer, MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { MatBadge } from '@angular/material/badge';
+import { MatDivider } from '@angular/material/divider';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
-    standalone: false
+    imports: [MatDrawerContainer, MatDrawer, ButtonComponent, RouterLink, MatIcon, MatBadge, MatDivider, NgIf, MatDrawerContent, NavbarComponent, RouterOutlet, AsyncPipe]
 })
 export class SidebarComponent implements OnDestroy, OnInit {
   screenWidth: boolean = window.innerWidth > 768;

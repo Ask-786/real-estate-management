@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogClose } from '@angular/material/dialog';
+import { MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-filter-option-dialog',
     templateUrl: './filter-option-dialog.component.html',
     styleUrls: ['./filter-option-dialog.component.css'],
-    standalone: false
+    imports: [MatCard, MatCardHeader, MatCardTitle, MatDivider, MatCardContent, ReactiveFormsModule, FormsModule, MatCheckbox, MatCardActions, MatButton, MatDialogClose]
 })
 export class FilterOptionDialogComponent implements OnInit {
   propertyType!: FormGroup;

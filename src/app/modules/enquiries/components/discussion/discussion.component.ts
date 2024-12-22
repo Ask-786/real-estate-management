@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { EnquiryDiscussionInterface } from './../../model/enquiryDiscussion.interfact';
-import { NgForm } from '@angular/forms';
+import { NgForm, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EnquiryDiscussionService } from './../../services/enquiry-discussion.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { map, Observable, Subscription } from 'rxjs';
@@ -14,12 +14,17 @@ import {
   selectedEnquiryDiscussionsSelector,
 } from '../../store/selectors';
 import { EnquiriesAction } from '../../store/actions';
+import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatMiniFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-discussion',
     templateUrl: './discussion.component.html',
     styleUrls: ['./discussion.component.css'],
-    standalone: false
+    imports: [NgFor, NgIf, ReactiveFormsModule, FormsModule, MatFormField, MatLabel, MatInput, MatMiniFabButton, MatIcon, AsyncPipe]
 })
 export class DiscussionComponent implements OnInit, OnDestroy {
   user$: Observable<UserModelInterface | null>;

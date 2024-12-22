@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { AuthActions } from '../../store/actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.css'],
-    standalone: false
+    imports: [ReactiveFormsModule, RouterLink]
 })
 export class SignupComponent implements OnInit {
   registerForm!: FormGroup;

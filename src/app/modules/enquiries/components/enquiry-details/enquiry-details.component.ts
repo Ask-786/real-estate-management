@@ -8,12 +8,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { EnquiriesAction } from '../../store/actions';
 import { selectedEnquirySelector } from '../../store/selectors';
+import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { DiscussionComponent } from '../discussion/discussion.component';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-enquiry-details',
     templateUrl: './enquiry-details.component.html',
     styleUrls: ['./enquiry-details.component.css'],
-    standalone: false
+    imports: [MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions, DiscussionComponent, AsyncPipe, DatePipe]
 })
 export class EnquiryDetailsComponent implements OnInit, OnDestroy {
   enquiryId!: string;
