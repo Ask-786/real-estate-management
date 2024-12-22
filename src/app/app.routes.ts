@@ -2,10 +2,9 @@ import { ProtectLoginService } from './guards/protectLogin.service';
 import { AuthGuardService } from './guards/auth.guard.service';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { MapViewComponent } from './components/map-view/map-view.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: 'map', pathMatch: 'full' },
   {
     path: 'auth',
@@ -33,7 +32,7 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () =>
-      import('./modules/user/user.module').then((m) => m.UserModule),
+      import('./modules/user/user.routes').then((r) => r.routes),
     canActivate: [AuthGuardService],
   },
   {
@@ -47,9 +46,3 @@ const routes: Routes = [
   { path: 'map', component: MapViewComponent },
   { path: '**', component: NotFoundComponent },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

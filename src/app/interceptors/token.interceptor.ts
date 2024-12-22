@@ -1,21 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpInterceptor } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpInterceptorFn,
+  HttpHandlerFn,
+} from '@angular/common/http';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
-  intercept(request: HttpRequest<unknown>, next: HttpHandler) {
-    const skip = request.headers.get('skip');
-    if (skip) {
-      request = request.clone({
-        headers: request.headers.delete('skip'),
-      });
-      return next.handle(request);
-    }
-    const tokenizedRequest = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
+export const tokenInterceptor: HttpInterceptorFn = (
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+) => {
+  const skip = request.headers.get('skip');
+  if (skip) {
+    request = request.clone({
+      headers: request.headers.delete('skip'),
     });
-    return next.handle(tokenizedRequest);
+    return next(request);
   }
-}
+  const tokenizedRequest = request.clone({
+    setHeaders: {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    },
+  });
+  return next(tokenizedRequest);
+};

@@ -24,7 +24,7 @@ const config: SocketIoConfig = {
 };
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     EnquiriesRoutingModule,
     FormsModule,
@@ -37,7 +37,7 @@ const config: SocketIoConfig = {
     EnquiryReplayDialogComponent,
     DiscussionComponent,
     UserEnquiriesComponent,
-],
-    providers: [EnquiryDiscussionService],
+  ],
+  providers: [EnquiryDiscussionService],
 })
 export class EnquiriesModule {}
