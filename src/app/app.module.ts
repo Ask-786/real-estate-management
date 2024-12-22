@@ -16,7 +16,7 @@ import { MapViewComponent } from './components/map-view/map-view.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { MapDialogComponent } from './shared/components/map-dialog/map-dialog.component';
 import { reducers } from './shared/store/reducers';
@@ -26,41 +26,35 @@ import { AppStateInterface } from './models/appState.interface';
 import { GlobalActions } from './shared/store/actions';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    SidebarComponent,
-    NavbarComponent,
-    MapViewComponent,
-    ButtonComponent,
-    DialogComponent,
-    MapDialogComponent,
-    NotFoundComponent,
-  ],
-  imports: [
-    FormsModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    HttpClientModule,
-    NotificationsModule,
-    StoreModule.forRoot({ global: reducers }),
-    EffectsModule.forRoot([GlobalEffects]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: !isDevMode(),
-      autoPause: true,
-      connectInZone: true,
-    }),
-  ],
-  providers: [
-    AuthGuardService,
-    ProtectLoginService,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        SidebarComponent,
+        NavbarComponent,
+        MapViewComponent,
+        ButtonComponent,
+        DialogComponent,
+        MapDialogComponent,
+        NotFoundComponent,
+    ],
+    bootstrap: [AppComponent], imports: [FormsModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        NotificationsModule,
+        StoreModule.forRoot({ global: reducers }),
+        EffectsModule.forRoot([GlobalEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+            logOnly: !isDevMode(),
+            autoPause: true,
+            connectInZone: true,
+        })], providers: [
+        AuthGuardService,
+        ProtectLoginService,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
   constructor(private store: Store<AppStateInterface>) {
     this.store.dispatch(GlobalActions.checkAuth());
