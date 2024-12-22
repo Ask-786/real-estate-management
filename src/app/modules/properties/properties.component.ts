@@ -6,7 +6,7 @@ import { SortOptionDialogComponent } from './components/sort-option-dialog/sort-
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { PropertiesActions } from './store/actions';
-import { NgIf } from '@angular/common';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatRipple } from '@angular/material/core';
@@ -15,14 +15,7 @@ import { MatRipple } from '@angular/material/core';
   selector: 'app-properties',
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-    FormsModule,
-    MatIcon,
-    MatRipple,
-    RouterOutlet,
-  ],
+  imports: [ReactiveFormsModule, FormsModule, MatIcon, MatRipple, RouterOutlet],
 })
 export class PropertiesComponent implements OnInit {
   filterOptions!: PropertyTypeInterface;

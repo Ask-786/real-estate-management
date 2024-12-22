@@ -21,7 +21,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatBadge } from '@angular/material/badge';
 import { MatDivider } from '@angular/material/divider';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
@@ -36,7 +36,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
     MatIcon,
     MatBadge,
     MatDivider,
-    NgIf,
     MatDrawerContent,
     NavbarComponent,
     RouterOutlet,

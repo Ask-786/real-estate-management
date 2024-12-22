@@ -11,12 +11,11 @@
       </div>
       <mat-radio-group [(ngModel)]="sortOption" name="sortOption">
         <div class="flex flex-col">
-          <mat-radio-button
-            *ngFor="let option of sortOptions"
-            [value]="option.toLocaleLowerCase()"
-          >
-            {{ option }}
-          </mat-radio-button>
+          @for (option of sortOptions; track option) {
+            <mat-radio-button [value]="option.toLocaleLowerCase()">
+              {{ option }}
+            </mat-radio-button>
+          }
         </div>
       </mat-radio-group>
     </form>

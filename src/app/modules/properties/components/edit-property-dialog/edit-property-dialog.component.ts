@@ -36,7 +36,7 @@ import {
   PropertyFormModelInterface,
   PropertyModelInterface,
 } from '../../model/property.model';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import {
@@ -56,7 +56,6 @@ import { MatIcon } from '@angular/material/icon';
   styleUrls: ['./edit-property-dialog.component.css'],
   imports: [
     MatDialogTitle,
-    NgIf,
     MatProgressBar,
     CdkScrollable,
     MatDialogContent,
@@ -68,7 +67,6 @@ import { MatIcon } from '@angular/material/icon';
     MatHint,
     MatButton,
     MatRadioGroup,
-    NgFor,
     MatRadioButton,
     MatIcon,
     NgClass,

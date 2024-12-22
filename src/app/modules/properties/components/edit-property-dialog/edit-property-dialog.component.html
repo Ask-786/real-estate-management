@@ -1,8 +1,7 @@
 <h2 mat-dialog-title class="bg-color-dark">Edit Property</h2>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="isLoading$ | async"
-></mat-progress-bar>
+@if (isLoading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 <mat-dialog-content class="bg-color-dark">
   <form
     (submit)="onSubmit()"
@@ -106,13 +105,14 @@
       formControlName="propertyType"
       class="flex-col flex"
     >
-      <mat-radio-button
-        class="example-radio-button"
-        *ngFor="let propertyType of propertyTypes"
-        [value]="propertyType.toLowerCase()"
-      >
-        {{ propertyType }}
-      </mat-radio-button>
+      @for (propertyType of propertyTypes; track propertyType) {
+        <mat-radio-button
+          class="example-radio-button"
+          [value]="propertyType.toLowerCase()"
+        >
+          {{ propertyType }}
+        </mat-radio-button>
+      }
     </mat-radio-group>
     <div>
       <button

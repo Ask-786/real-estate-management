@@ -46,7 +46,7 @@ import {
   MatChipRemove,
   MatChipInput,
 } from '@angular/material/chips';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { NgClass, AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
@@ -63,7 +63,6 @@ import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
   styleUrls: ['./add-property-dialog.component.css'],
   imports: [
     MatDialogTitle,
-    NgIf,
     MatProgressBar,
     CdkScrollable,
     MatDialogContent,
@@ -73,7 +72,6 @@ import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
     MatInput,
     MatError,
     MatChipGrid,
-    NgFor,
     MatChipRow,
     MatChipRemove,
     MatIcon,

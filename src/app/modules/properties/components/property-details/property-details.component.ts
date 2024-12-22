@@ -24,7 +24,7 @@ import {
 } from '../../../../shared/store/selectors';
 import { GlobalActions } from 'src/app/shared/store/actions';
 import { EnquiriesAction } from '../../../enquiries/store/actions';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MaskImageDirective } from '../../directives/mask-image.directive';
@@ -38,12 +38,10 @@ import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
   templateUrl: './property-details.component.html',
   styleUrls: ['./property-details.component.css'],
   imports: [
-    NgIf,
     MatButton,
     MatIconButton,
     MatIcon,
     MaskImageDirective,
-    NgFor,
     MapComponent,
     ReactiveFormsModule,
     MatFormField,

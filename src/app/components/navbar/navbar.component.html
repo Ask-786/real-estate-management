@@ -4,7 +4,6 @@
   </button>
   <p>{{ toPascalCase((header$ | async)?.toUpperCase()) }}</p>
 </mat-toolbar>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="isLoading$ | async"
-></mat-progress-bar>
+@if (isLoading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}

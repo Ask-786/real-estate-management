@@ -8,22 +8,14 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { EnquiryComponent } from './components/enquiry/enquiry.component';
 
 @Component({
   selector: 'app-enquiries',
   templateUrl: './enquiries.component.html',
   styleUrls: ['./enquiries.component.css'],
-  imports: [
-    MatButton,
-    RouterLink,
-    NgIf,
-    NgFor,
-    EnquiryComponent,
-    AsyncPipe,
-    DatePipe,
-  ],
+  imports: [MatButton, RouterLink, EnquiryComponent, AsyncPipe, DatePipe],
 })
 export class EnquiriesComponent implements OnInit {
   enquiries$: Observable<PropertyPopulatedEnquiryModelInterface[]>;

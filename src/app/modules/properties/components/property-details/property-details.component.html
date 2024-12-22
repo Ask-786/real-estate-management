@@ -5,49 +5,49 @@
       <span class="rounded-md bg-emerald-900 p-1 pr-2 pl-2"
         >Type: {{ (property$ | async)?.propertyType }}</span
       >
-      <button
-        *ngIf="(user$ | async)?._id === (property$ | async)?.owner"
-        mat-button
-        (click)="onEdit()"
-        class="absolute right-3 top-3"
-      >
-        Edit
-      </button>
-      <button
-        color="warn"
-        *ngIf="(user$ | async)?._id === (property$ | async)?.owner"
-        mat-button
-        class="absolute right-24 top-3"
-        (click)="onDelete()"
-      >
-        Delete
-      </button>
-      <button
-        (click)="onUnFavour()"
-        mat-icon-button
-        color="primary"
-        *ngIf="
-          (user$ | async)?._id !== (property$ | async)?.owner &&
-          (isFavorite$ | async) &&
-          (isLoggedIn$ | async)
-        "
-        class="absolute right-3 top-3"
-      >
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button
-        (click)="onFavour()"
-        mat-icon-button
-        color="primary"
-        *ngIf="
-          (user$ | async)?._id !== (property$ | async)?.owner &&
-          (isFavorite$ | async) === false &&
-          (isLoggedIn$ | async)
-        "
-        class="absolute right-3 top-3"
-      >
-        <mat-icon class="text-slate-400">favorite</mat-icon>
-      </button>
+      @if ((user$ | async)?._id === (property$ | async)?.owner) {
+        <button mat-button (click)="onEdit()" class="absolute right-3 top-3">
+          Edit
+        </button>
+      }
+      @if ((user$ | async)?._id === (property$ | async)?.owner) {
+        <button
+          color="warn"
+          mat-button
+          class="absolute right-24 top-3"
+          (click)="onDelete()"
+        >
+          Delete
+        </button>
+      }
+      @if (
+        (user$ | async)?._id !== (property$ | async)?.owner &&
+        (isFavorite$ | async) &&
+        (isLoggedIn$ | async)
+      ) {
+        <button
+          (click)="onUnFavour()"
+          mat-icon-button
+          color="primary"
+          class="absolute right-3 top-3"
+        >
+          <mat-icon>favorite</mat-icon>
+        </button>
+      }
+      @if (
+        (user$ | async)?._id !== (property$ | async)?.owner &&
+        (isFavorite$ | async) === false &&
+        (isLoggedIn$ | async)
+      ) {
+        <button
+          (click)="onFavour()"
+          mat-icon-button
+          color="primary"
+          class="absolute right-3 top-3"
+        >
+          <mat-icon class="text-slate-400">favorite</mat-icon>
+        </button>
+      }
     </div>
     <div class="m-5 p-3 rounded-md text-5xl bg-color-dark">
       <img [src]="(property$ | async)?.images?.[selectedImage]" alt="" />
@@ -84,9 +84,9 @@
       <h1>Tags</h1>
       <br />
       <div class="flex">
-        <span class="mr-3" *ngFor="let tag of (property$ | async)?.tags">{{
-          tag
-        }}</span>
+        @for (tag of (property$ | async)?.tags; track tag) {
+          <span class="mr-3">{{ tag }}</span>
+        }
       </div>
     </div>
     <div style="padding: 1rem" class="m-5 p-3 bg-color-dark rounded-md">
@@ -112,59 +112,52 @@
     </div>
   </div>
 </div>
-<section
-  *ngIf="
-    !(property$ | async)?.enquirers?.includes(userId);
-    else enquiredMessage
-  "
-  class="md:w-9/12"
->
-  <div
-    style="padding: 1rem"
-    class="m-5 p-3 bg-color-dark rounded-md"
-    *ngIf="
+@if (!(property$ | async)?.enquirers?.includes(userId)) {
+  <section class="md:w-9/12">
+    @if (
       (isLoggedIn$ | async) &&
       (user$ | async)?._id !== (property$ | async)?.owner
-    "
-  >
-    <h1>Enquire for more information:</h1>
-    <br />
-    <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="mb-0 w-full" appearance="outline">
-        <mat-label>Title</mat-label>
-        <input type="text" formControlName="title" matInput />
-        <mat-error>Title is Required</mat-error>
-      </mat-form-field>
-      <mat-form-field class="mb-0 mt-3 w-full" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input type="email" formControlName="email" matInput />
-        <mat-error>Email is Required</mat-error>
-      </mat-form-field>
-      <mat-form-field class="mb-5 mt-3 w-full" appearance="outline">
-        <mat-label>Content</mat-label>
-        <input type="text" formControlName="content" matInput />
-        <mat-error>Content is Required</mat-error>
-      </mat-form-field>
-      <label id="example-radio-group-label" class="mt-5">Topic</label>
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        formControlName="topic"
-        class="flex-col flex"
-      >
-        <mat-radio-button
-          class="example-radio-button"
-          *ngFor="let topic of enquiryTopics"
-          [value]="topic.toLowerCase().replace(' ', '-')"
-        >
-          {{ topic }}
-        </mat-radio-button>
-      </mat-radio-group>
-      <button mat-raised-button class="w-full mt-3">Submit</button>
-    </form>
-  </div>
-</section>
-
-<ng-template #enquiredMessage>
+    ) {
+      <div style="padding: 1rem" class="m-5 p-3 bg-color-dark rounded-md">
+        <h1>Enquire for more information:</h1>
+        <br />
+        <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="mb-0 w-full" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input type="text" formControlName="title" matInput />
+            <mat-error>Title is Required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mb-0 mt-3 w-full" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input type="email" formControlName="email" matInput />
+            <mat-error>Email is Required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="mb-5 mt-3 w-full" appearance="outline">
+            <mat-label>Content</mat-label>
+            <input type="text" formControlName="content" matInput />
+            <mat-error>Content is Required</mat-error>
+          </mat-form-field>
+          <label id="example-radio-group-label" class="mt-5">Topic</label>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            formControlName="topic"
+            class="flex-col flex"
+          >
+            @for (topic of enquiryTopics; track topic) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="topic.toLowerCase().replace(' ', '-')"
+              >
+                {{ topic }}
+              </mat-radio-button>
+            }
+          </mat-radio-group>
+          <button mat-raised-button class="w-full mt-3">Submit</button>
+        </form>
+      </div>
+    }
+  </section>
+} @else {
   <section class="md:w-9/12">
     <div class="m-5 p-3 bg-color-dark rounded-md">
       <p class="mb-3">You have already enquired to this property</p>
@@ -173,4 +166,4 @@
       </button>
     </div>
   </section>
-</ng-template>
+}

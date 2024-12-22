@@ -19,14 +19,15 @@
           />
         </mat-form-field>
       </form>
-      <div *ngIf="locations.length > 0">
-        <mat-option
-          (onSelectionChange)="onSelect(location.center)"
-          *ngFor="let location of locations"
-        >
-          {{ location.place_name }}
-        </mat-option>
-      </div>
+      @if (locations.length > 0) {
+        <div>
+          @for (location of locations; track location) {
+            <mat-option (onSelectionChange)="onSelect(location.center)">
+              {{ location.place_name }}
+            </mat-option>
+          }
+        </div>
+      }
     </span>
   </div>
 </div>

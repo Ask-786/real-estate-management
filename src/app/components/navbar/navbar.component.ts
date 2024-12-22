@@ -6,21 +6,14 @@ import { AppStateInterface } from 'src/app/models/appState.interface';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  imports: [
-    MatToolbar,
-    MatIconButton,
-    MatIcon,
-    NgIf,
-    MatProgressBar,
-    AsyncPipe,
-  ],
+  imports: [MatToolbar, MatIconButton, MatIcon, MatProgressBar, AsyncPipe],
 })
 export class NavbarComponent {
   @Output() toggleSide = new EventEmitter();

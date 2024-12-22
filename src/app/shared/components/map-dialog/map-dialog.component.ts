@@ -12,7 +12,7 @@ import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, NgFor } from '@angular/common';
+
 import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
 
@@ -28,8 +28,6 @@ import { MatButton } from '@angular/material/button';
     MatFormField,
     MatLabel,
     MatInput,
-    NgIf,
-    NgFor,
     MatOption,
     MatDialogActions,
     MatButton,

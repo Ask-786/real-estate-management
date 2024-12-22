@@ -1,40 +1,42 @@
-<div class="bg-color-dark p-3" *ngIf="hasRoute('/properties')">
-  <div class="bg-color-dark">
+@if (hasRoute("/properties")) {
+  <div class="bg-color-dark p-3">
     <div class="bg-color-dark">
-      <form
-        class="relative"
-        #searchForm="ngForm"
-        (ngSubmit)="propertySearch(searchForm.value)"
-      >
-        <span class="absolute top-[0.7rem]"
-          >&nbsp;&nbsp;<mat-icon>search</mat-icon></span
+      <div class="bg-color-dark">
+        <form
+          class="relative"
+          #searchForm="ngForm"
+          (ngSubmit)="propertySearch(searchForm.value)"
         >
-        <input
-          ngModel
-          name="search"
-          type="text"
-          class="w-full pl-9 bg-neutral-900 focus:outline-none h-11"
-        />
-      </form>
+          <span class="absolute top-[0.7rem]"
+            >&nbsp;&nbsp;<mat-icon>search</mat-icon></span
+          >
+          <input
+            ngModel
+            name="search"
+            type="text"
+            class="w-full pl-9 bg-neutral-900 focus:outline-none h-11"
+          />
+        </form>
+      </div>
+    </div>
+    <div class="bg-color-dark w-full grid grid-cols-2 gap-2 mt-3">
+      <div
+        matRipple
+        (click)="openSortDialog()"
+        class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5"
+      >
+        <span>Sort by:</span>
+        <span>{{ toPascalCase(sortOption) }}</span>
+      </div>
+      <div
+        matRipple
+        (click)="openFilterDialog()"
+        class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5"
+      >
+        <span>Filter by:</span>
+        <span>{{ formatFilters(filterOptions) }}</span>
+      </div>
     </div>
   </div>
-  <div class="bg-color-dark w-full grid grid-cols-2 gap-2 mt-3">
-    <div
-      matRipple
-      (click)="openSortDialog()"
-      class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5"
-    >
-      <span>Sort by:</span>
-      <span>{{ toPascalCase(sortOption) }}</span>
-    </div>
-    <div
-      matRipple
-      (click)="openFilterDialog()"
-      class="w-full pl-4 bg-neutral-900 h-10 flex justify-between items-center pr-5"
-    >
-      <span>Filter by:</span>
-      <span>{{ formatFilters(filterOptions) }}</span>
-    </div>
-  </div>
-</div>
+}
 <router-outlet></router-outlet>

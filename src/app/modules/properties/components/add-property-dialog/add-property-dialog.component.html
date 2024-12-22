@@ -1,8 +1,7 @@
 <h2 mat-dialog-title class="bg-color-dark">Add Property</h2>
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="isLoading$ | async"
-></mat-progress-bar>
+@if (isLoading$ | async) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 <mat-dialog-content class="bg-color-dark">
   <form
     (submit)="onSubmit()"
@@ -23,12 +22,14 @@
     <mat-form-field class="example-chip-list" appearance="outline">
       <mat-label>Tags...</mat-label>
       <mat-chip-grid #chipGrid>
-        <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
-          {{ tag }}
-          <button matChipRemove [attr.aria-label]="'remove ' + tag">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+        @for (tag of tags; track tag) {
+          <mat-chip-row (removed)="remove(tag)">
+            {{ tag }}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
       </mat-chip-grid>
       <input
         placeholder="Tags..."
@@ -43,12 +44,11 @@
         #auto="matAutocomplete"
         (optionSelected)="selected($event)"
       >
-        <mat-option
-          *ngFor="let tag of availableTags | filter: tagsCtrl.value ?? ''"
-          [value]="tag"
-        >
-          {{ tag }}
-        </mat-option>
+        @for (tag of availableTags | filter: tagsCtrl.value ?? ""; track tag) {
+          <mat-option [value]="tag">
+            {{ tag }}
+          </mat-option>
+        }
       </mat-autocomplete>
     </mat-form-field>
     <mat-form-field class="w-full mb-0" appearance="outline">
@@ -131,13 +131,14 @@
       formControlName="propertyType"
       class="flex-col flex"
     >
-      <mat-radio-button
-        class="example-radio-button"
-        *ngFor="let propertyType of propertyTypes"
-        [value]="propertyType.toLowerCase()"
-      >
-        {{ propertyType }}
-      </mat-radio-button>
+      @for (propertyType of propertyTypes; track propertyType) {
+        <mat-radio-button
+          class="example-radio-button"
+          [value]="propertyType.toLowerCase()"
+        >
+          {{ propertyType }}
+        </mat-radio-button>
+      }
     </mat-radio-group>
     <label id="example-radio-group-label" class="mt-5 mb-2"
       >Select Property Images</label

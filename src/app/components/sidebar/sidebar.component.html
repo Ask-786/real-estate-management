@@ -54,21 +54,24 @@
       <mat-icon id="icon">person</mat-icon>
       <span id="name" class="flex items-center">Account</span>
     </app-button>
-    <app-button
-      routerLink="auth/signup"
-      *ngIf="(isLoggedIn$ | async) === false"
-    >
-      <mat-icon id="icon">app_registration</mat-icon>
-      <span id="name" class="flex items-center">Register</span>
-    </app-button>
-    <app-button routerLink="auth/login" *ngIf="(isLoggedIn$ | async) === false">
-      <mat-icon id="icon">login</mat-icon>
-      <span id="name" class="flex items-center">Login</span>
-    </app-button>
-    <app-button *ngIf="isLoggedIn$ | async" (click)="onLogout()">
-      <mat-icon id="icon">logout</mat-icon>
-      <span id="name" class="flex items-center">Logout</span>
-    </app-button>
+    @if ((isLoggedIn$ | async) === false) {
+      <app-button routerLink="auth/signup">
+        <mat-icon id="icon">app_registration</mat-icon>
+        <span id="name" class="flex items-center">Register</span>
+      </app-button>
+    }
+    @if ((isLoggedIn$ | async) === false) {
+      <app-button routerLink="auth/login">
+        <mat-icon id="icon">login</mat-icon>
+        <span id="name" class="flex items-center">Login</span>
+      </app-button>
+    }
+    @if (isLoggedIn$ | async) {
+      <app-button (click)="onLogout()">
+        <mat-icon id="icon">logout</mat-icon>
+        <span id="name" class="flex items-center">Logout</span>
+      </app-button>
+    }
   </mat-drawer>
   <mat-drawer-content>
     <div class="h-screen">

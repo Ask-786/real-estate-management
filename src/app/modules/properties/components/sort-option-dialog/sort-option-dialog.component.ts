@@ -11,7 +11,7 @@ import { MatDivider } from '@angular/material/divider';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
-import { NgFor } from '@angular/common';
+
 import { MatButton } from '@angular/material/button';
 
 @Component({
@@ -28,7 +28,6 @@ import { MatButton } from '@angular/material/button';
     FormsModule,
     MatSlideToggle,
     MatRadioGroup,
-    NgFor,
     MatRadioButton,
     MatCardActions,
     MatButton,

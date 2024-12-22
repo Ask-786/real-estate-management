@@ -9,7 +9,7 @@ import { Map, map, tileLayer, icon as icon_1, marker } from 'leaflet';
 import { Subscription } from 'rxjs';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, NgFor } from '@angular/common';
+
 import { MatOption } from '@angular/material/core';
 
 @Component({
@@ -22,8 +22,6 @@ import { MatOption } from '@angular/material/core';
     MatFormField,
     MatLabel,
     MatInput,
-    NgIf,
-    NgFor,
     MatOption,
   ],
 })

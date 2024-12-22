@@ -1,25 +1,29 @@
-<div class="p-3" *ngIf="(notificaions$ | async)?.length; else noItems">
-  <div *ngFor="let notification of notificaions$ | async" class="mb-3">
-    <app-notification
-      (click)="onClick(notification._id, notification.enquiry._id)"
-    >
-      <span id="title"
-        >{{ notification.title }} from {{ notification.from.firstname }}
-      </span>
-      <span id="content">{{ notification.content }}</span>
-      <span
-        routerLink="/properties/own-properties/{{ notification.property._id }}"
-        id="property"
-        class="cursor-pointer ml-2"
-        >{{ notification.property.title }}</span
-      >
-      <span id="createdAt">{{ notification.createdAt | date }}</span>
-    </app-notification>
+@if ((notificaions$ | async)?.length) {
+  <div class="p-3">
+    @for (notification of notificaions$ | async; track notification) {
+      <div class="mb-3">
+        <app-notification
+          (click)="onClick(notification._id, notification.enquiry._id)"
+        >
+          <span id="title"
+            >{{ notification.title }} from {{ notification.from.firstname }}
+          </span>
+          <span id="content">{{ notification.content }}</span>
+          <span
+            routerLink="/properties/own-properties/{{
+              notification.property._id
+            }}"
+            id="property"
+            class="cursor-pointer ml-2"
+            >{{ notification.property.title }}</span
+          >
+          <span id="createdAt">{{ notification.createdAt | date }}</span>
+        </app-notification>
+      </div>
+    }
   </div>
-</div>
-
-<ng-template #noItems>
+} @else {
   <div class="bg-color-dark rounded-xl m-3 flex items-center justify-center">
     <p class="m-10">No Notifications Available</p>
   </div>
-</ng-template>
+}

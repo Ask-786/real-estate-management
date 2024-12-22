@@ -21,7 +21,7 @@ import { GlobalActions } from 'src/app/shared/store/actions';
 import { PropertiesActions } from '../../store/actions';
 import { AddPropertyDialogComponent } from '../add-property-dialog/add-property-dialog.component';
 import { AppStateInterface } from 'src/app/models/appState.interface';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { PropertyComponent } from '../property/property.component';
 import { MatCardImage } from '@angular/material/card';
@@ -32,10 +32,8 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './all-properties.component.html',
   styleUrls: ['./all-properties.component.css'],
   imports: [
-    NgIf,
     MatButton,
     RouterLink,
-    NgFor,
     PropertyComponent,
     MatCardImage,
     MatIcon,
